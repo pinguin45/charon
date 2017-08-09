@@ -1,4 +1,4 @@
-# Charon
+# Charon (/ˈkɛərɒn/)
 
 ProcessEngineJS Admin Panel
 
