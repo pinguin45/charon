@@ -2,14 +2,20 @@
   "name": "charon",
   "description": "An Aurelia client application.",
   "version": "0.1.0",
+  "scripts": {
+    "start": "au run --watch",
+    "build": "au build --prod",
+    "deploy": "npm run build && npm publish"
+  },
   "repository": {
     "type": "???",
     "url": "???"
   },
   "license": "MIT",
   "dependencies": {
-    "aurelia-bootstrapper": "^2.1.1",
     "aurelia-animator-css": "^1.0.2",
+    "aurelia-bootstrapper": "^2.1.1",
+    "aurelia-http-client": "^1.1.1",
     "bluebird": "^3.4.1",
     "requirejs": "^2.3.2",
     "text": "github:requirejs/text#latest"
