@@ -1,10 +1,10 @@
 import {autoinject} from 'aurelia-framework';
 import {HttpClient} from 'aurelia-fetch-client';
 import environment from '../../environment';
-import {ProcessDef, ProcessDefPagination} from '../../contracts';
+import {ProcessDef, ProcessDefPagination, IProcessEngineRepository} from '../../contracts';
 
 @autoinject
-export class ProcessEngineRepository {
+export class ProcessEngineRepository implements IProcessEngineRepository {
 
   private http: HttpClient;
 

@@ -1,15 +1,12 @@
 import {autoinject, inject} from 'aurelia-framework';
+import {ProcessDef, IProcessEngineService} from '../../contracts';
 
-@inject('ProcessEngineRepository')
+@inject('ProcessEngineService')
 export class Processlist {
 
-  private repo;
+  private processEngineService: IProcessEngineService;
 
-  public constructor(repo: any) {
-    this.repo = repo;
-    repo.getProcesses().then((processes) => {
-        console.log(processes);
-    });
-    // console.log(repo);
+  public constructor(processEngineService: IProcessEngineService) {
+    this.processEngineService = processEngineService;
   }
 }

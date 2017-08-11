@@ -1,3 +1,11 @@
+export interface IProcessEngineRepository {
+  getProcesses(): Promise<Array<ProcessDef>>;
+}
+
+export interface IProcessEngineService {
+  getProcesses(): Promise<Array<ProcessDef>>;
+}
+
 export interface Pagination<T> {
   count: number;
   offset: number;
