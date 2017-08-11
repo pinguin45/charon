@@ -36,4 +36,7 @@ export class Processlist {
   public get processes(): Array<ProcessDef> {
     return this._processes;
   }
+
+  public startProcess(process: ProcessDef): void {
+  }
 }

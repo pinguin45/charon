@@ -9,7 +9,9 @@
     <tr repeat.for="process of processes">
         <td>${process.name}</td>
         <td>${process.id}</td>
-        <td><button type="button" class="btn btn-primary">Start</button></td>
+        <td>
+          <button type="button" class="btn btn-primary" click.delegate="startProcess(process)">Start</button>
+        </td>
     </tr>
   </table>
 </template>
