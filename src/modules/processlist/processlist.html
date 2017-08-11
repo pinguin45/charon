@@ -1,3 +1,6 @@
 <template>
   <require from="./processlist.css"></require>
+  <ul> 
+      <li repeat.for="process of processes">${process.name} ${process.id}</li>
+  </ul>  
 </template>
