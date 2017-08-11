@@ -15,10 +15,13 @@
   "dependencies": {
     "aurelia-animator-css": "^1.0.2",
     "aurelia-bootstrapper": "^2.1.1",
-    "aurelia-http-client": "^1.1.1",
+    "aurelia-fetch-client": "^1.1.2",
     "bluebird": "^3.4.1",
+    "bootstrap": "^3.3.7",
+    "jquery": "^2.2.4",
     "requirejs": "^2.3.2",
-    "text": "github:requirejs/text#latest"
+    "text": "github:requirejs/text#latest",
+    "tslint-config-5minds": "^1.0.5"
   },
   "peerDependencies": {},
   "devDependencies": {
@@ -42,7 +45,7 @@
     "event-stream": "^3.3.3",
     "gulp-typescript": "^3.1.4",
     "gulp-tslint": "^5.0.0",
-    "tslint": "^3.11.0",
+    "tslint": "^5.1.0 ",
     "typescript": ">=1.9.0-dev || ^2.0.0",
     "@types/node": "^6.0.45",
     "gulp-sass": "^2.3.2",
