@@ -4,7 +4,7 @@ export default {
   debug: false,
   testing: false,
   processengine: {
-    poolingInterval: 5000,
+    poolingInterval: 30000,
     routes: {
       processes: `${baseRoute}/datastore/ProcessDef`,
       startProcess: `${baseRoute}/processengine/start`,
