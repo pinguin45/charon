@@ -13,4 +13,8 @@ export class ProcessEngineService implements IProcessEngineService {
   getProcesses(): Promise<Array<ProcessDef>> {
     return this.repository.getProcesses();
   }
+
+  startProcess(process: ProcessDef): Promise<any> {
+    return this.repository.startProcess(process);
+  }
 }

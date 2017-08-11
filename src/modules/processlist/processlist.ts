@@ -38,5 +38,6 @@ export class Processlist {
   }
 
   public startProcess(process: ProcessDef): void {
+    this.processEngineService.startProcess(process);
   }
 }

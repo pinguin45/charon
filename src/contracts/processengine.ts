@@ -1,9 +1,11 @@
 export interface IProcessEngineRepository {
   getProcesses(): Promise<Array<ProcessDef>>;
+  startProcess(process: ProcessDef): Promise<any>;
 }
 
 export interface IProcessEngineService {
   getProcesses(): Promise<Array<ProcessDef>>;
+  startProcess(process: ProcessDef): Promise<any>;
 }
 
 export interface Pagination<T> {

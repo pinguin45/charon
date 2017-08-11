@@ -21,4 +21,24 @@ export class ProcessEngineRepository implements IProcessEngineRepository {
         return list.data;
       });
   }
+
+  startProcess(process: ProcessDef): Promise<any> {
+    const options: RequestInit = {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        msg: {
+          key: process.key,
+        }
+      })
+    };
+
+    return this.http
+      .fetch(environment.processengine.routes.startProcess, options)
+      .then((response: Response) => {
+        return response.json();
+      });
+  }
 }
