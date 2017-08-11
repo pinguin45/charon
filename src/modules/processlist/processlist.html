@@ -1,6 +1,15 @@
 <template>
   <require from="./processlist.css"></require>
-  <ul> 
-      <li repeat.for="process of processes">${process.name} ${process.id}</li>
-  </ul>  
+  <table class="table table-striped table-bordered">
+    <tr>
+        <th>Name</th>
+        <th>ID</th>
+        <th>#</th>
+    </tr>
+    <tr repeat.for="process of processes">
+        <td>${process.name}</td>
+        <td>${process.id}</td>
+        <td><button type="button" class="btn btn-primary">Start</button></td>
+    </tr>
+  </table>
 </template>
