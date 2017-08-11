@@ -45,7 +45,7 @@
     "event-stream": "^3.3.3",
     "gulp-typescript": "^3.1.4",
     "gulp-tslint": "^5.0.0",
-    "tslint": "^3.11.0",
+    "tslint": "^5.1.0 ",
     "typescript": ">=1.9.0-dev || ^2.0.0",
     "@types/node": "^6.0.45",
     "gulp-sass": "^2.3.2",
