@@ -24,6 +24,3 @@ export interface ProcessDef {
   readonly?: boolean;
   version: string;
 }
-
-export interface ProcessDefPagination extends Pagination<ProcessDef> {
-}

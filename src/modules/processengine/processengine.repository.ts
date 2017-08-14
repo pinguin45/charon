@@ -1,7 +1,7 @@
-import {autoinject} from 'aurelia-framework';
 import {HttpClient} from 'aurelia-fetch-client';
+import {autoinject} from 'aurelia-framework';
+import {IProcessEngineRepository, Pagination, ProcessDef} from '../../contracts';
 import environment from '../../environment';
-import {ProcessDef, ProcessDefPagination, IProcessEngineRepository} from '../../contracts';
 
 @autoinject
 export class ProcessEngineRepository implements IProcessEngineRepository {
@@ -12,27 +12,27 @@ export class ProcessEngineRepository implements IProcessEngineRepository {
     this.http = http;
   }
 
-  getProcesses(): Promise<Array<ProcessDef>> {
+  public getProcesses(): Promise<Array<ProcessDef>> {
     return this.http
       .fetch(environment.processengine.routes.processes, {method: 'get'})
       .then((response: Response) => {
         return response.json();
-      }).then((list: ProcessDefPagination) => {
+      }).then((list: Pagination<ProcessDef>) => {
         return list.data;
       });
   }
 
-  startProcess(process: ProcessDef): Promise<any> {
+  public startProcess(process: ProcessDef): Promise<any> {
     const options: RequestInit = {
       method: 'post',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         msg: {
           key: process.key,
-        }
-      })
+        },
+      }),
     };
 
     return this.http
