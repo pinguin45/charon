@@ -1,5 +1,5 @@
-import {inject, computedFrom} from 'aurelia-framework';
-import {ProcessDef, IProcessEngineService} from '../../contracts';
+import {computedFrom, inject} from 'aurelia-framework';
+import {IProcessEngineService, ProcessDef} from '../../contracts';
 import environment from '../../environment';
 
 @inject('ProcessEngineService')
