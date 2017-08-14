@@ -1,0 +1,21 @@
+{
+  "name": "charon",
+  "description": "An Aurelia client application.",
+  "main": "",
+  "authors": [
+    "Alexander Kasten <alexander.kasten@5minds.de>"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/5minds/charon",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bpmn-js": "^0.21.0"
+  }
+}
