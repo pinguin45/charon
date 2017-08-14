@@ -21,6 +21,7 @@ Thumbs.db
 
 # Dependencies
 node_modules
+bower_components
 
 # Compiled files
 scripts
