@@ -1,7 +1,7 @@
 import {Aurelia} from 'aurelia-framework'
 import environment from './environment';
 
-export function configure(aurelia: Aurelia) {
+export function configure(aurelia: Aurelia): void {
   aurelia.use
     .standardConfiguration()
     .feature('modules/processengine')
