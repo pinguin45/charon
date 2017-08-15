@@ -152,7 +152,16 @@
               "css/bootstrap.css"
             ]
           },
-          "jquery"
+          "jquery",
+          {
+            "name": "@process-engine-js/bpmn-js-custom-bundle",
+            "path": "../node_modules/@process-engine-js/bpmn-js-custom-bundle/dist",
+            "main": "bpmn-modeler-custom.js",
+            "resources": [
+              "bpmn-modeler-custom.css",
+              "bpmn-modeler-custom.js"
+            ]
+          }
         ]
       }
     ]
