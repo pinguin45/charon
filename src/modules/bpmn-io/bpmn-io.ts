@@ -9,7 +9,7 @@ export class BpmnIo {
     const modeler: IBpmnModeler = new BpmnModeler({
       container: '#canvas',
       propertiesPanel: {
-        parent: '#properties'
+        parent: '#js-properties-panel'
       },
     });
     modeler.importXML(startdiagram, (err: Error) => {
