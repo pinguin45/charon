@@ -1,5 +1,6 @@
+import {IProcessDefEntity} from '@process-engine-js/process_engine_contracts';
 import {inject} from 'aurelia-framework';
-import {IProcessEngineRepository, IProcessEngineService, ProcessDef} from '../../contracts';
+import {IProcessEngineRepository, IProcessEngineService} from '../../contracts';
 
 @inject('ProcessEngineRepository')
 export class ProcessEngineService implements IProcessEngineService {
@@ -10,11 +11,11 @@ export class ProcessEngineService implements IProcessEngineService {
     this.repository = repository;
   }
 
-  public getProcesses(): Promise<Array<ProcessDef>> {
+  public getProcesses(): Promise<Array<IProcessDefEntity>> {
     return this.repository.getProcesses();
   }
 
-  public startProcess(process: ProcessDef): Promise<any> {
+  public startProcess(process: IProcessDefEntity): Promise<any> {
     return this.repository.startProcess(process);
   }
 }

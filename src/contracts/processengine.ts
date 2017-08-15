@@ -1,11 +1,13 @@
+import {IProcessDefEntity} from '@process-engine-js/process_engine_contracts';
+
 export interface IProcessEngineRepository {
-  getProcesses(): Promise<Array<ProcessDef>>;
-  startProcess(process: ProcessDef): Promise<any>;
+  getProcesses(): Promise<Array<IProcessDefEntity>>;
+  startProcess(process: IProcessDefEntity): Promise<any>;
 }
 
 export interface IProcessEngineService {
-  getProcesses(): Promise<Array<ProcessDef>>;
-  startProcess(process: ProcessDef): Promise<any>;
+  getProcesses(): Promise<Array<IProcessDefEntity>>;
+  startProcess(process: IProcessDefEntity): Promise<any>;
 }
 
 export interface Pagination<T> {
@@ -13,14 +15,4 @@ export interface Pagination<T> {
   offset: number;
   limit: number;
   data: Array<T>;
-}
-
-export interface ProcessDef {
-  id: string;
-  name: string;
-  key: string;
-  defID: string;
-  xml: string;
-  readonly?: boolean;
-  version: string;
 }
