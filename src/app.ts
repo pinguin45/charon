@@ -9,7 +9,7 @@ export class App {
     config.title = 'Aurelia';
     config.map([
       { route: ['', 'processlist'], title: 'Process Liste', name: 'processlist', moduleId: 'modules/processlist/processlist', nav: true },
-      { route: ['processdetail'], title: 'Process Details', name: 'processdetail', moduleId: 'modules/processdetail/processdetail', nav: false },
+      { route: 'processdetail/:processId', title: 'Process Details', name: 'processdetail', moduleId: 'modules/processdetail/processdetail' },
     ]);
   }
 }
