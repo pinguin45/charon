@@ -1,12 +1,13 @@
+import {IProcessDefEntity} from '@process-engine-js/process_engine_contracts';
 import {computedFrom, inject} from 'aurelia-framework';
-import {IProcessEngineService, ProcessDef} from '../../contracts';
+import {IProcessEngineService} from '../../contracts';
 import environment from '../../environment';
 
 @inject('ProcessEngineService')
 export class Processlist {
 
   private processEngineService: IProcessEngineService;
-  private _processes: Array<ProcessDef> = [];
+  private _processes: Array<IProcessDefEntity> = [];
   private getProcessesIntervalId: number;
 
   constructor(processEngineService: IProcessEngineService) {
@@ -15,7 +16,7 @@ export class Processlist {
 
   public getProcessesFromService(): void {
     this.processEngineService.getProcesses()
-      .then((result: Array<ProcessDef>) => {
+      .then((result: Array<IProcessDefEntity>) => {
         this._processes = result;
       });
   }
@@ -33,11 +34,11 @@ export class Processlist {
   }
 
   @computedFrom('_processes')
-  public get processes(): Array<ProcessDef> {
+  public get processes(): Array<IProcessDefEntity> {
     return this._processes;
   }
 
-  public startProcess(process: ProcessDef): void {
+  public startProcess(process: IProcessDefEntity): void {
     this.processEngineService.startProcess(process);
   }
 }
