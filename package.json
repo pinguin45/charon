@@ -13,7 +13,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@process-engine-js/bpmn-js-custom-bundle": "0.0.1",
+    "@process-engine-js/bpmn-js-custom-bundle": "1.0.0",
     "@process-engine-js/core_contracts": "^1.0.51",
     "@process-engine-js/process_engine_contracts": "^2.0.0",
     "aurelia-animator-css": "^1.0.2",

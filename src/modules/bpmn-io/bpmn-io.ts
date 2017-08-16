@@ -1,4 +1,4 @@
-import * as x from '@process-engine-js/bpmn-js-custom-bundle';
+import * as bundle from '@process-engine-js/bpmn-js-custom-bundle';
 import {bindable} from 'aurelia-framework';
 import {IBpmnModeler, IBpmnModelerConstructor} from '../../contracts';
 
@@ -9,12 +9,14 @@ export class BpmnIo {
   private modeler: IBpmnModeler;
 
   private attached(): void {
-    // bundle exposes the viewer / modeler via the BpmnJS variable
-    const BpmnModeler: IBpmnModelerConstructor = x;
-    this.modeler = new BpmnModeler({
+    const modeler: IBpmnModeler = new bundle.modeler({
       container: '#canvas',
       propertiesPanel: {
-        parent: '#js-properties-panel'
+        parent: '#js-properties-panel',
+      },
+      additionalModules: bundle.additionalModules,
+      moddleExtensions: {
+        camunda: bundle.camundaModdleDescriptor,
       },
     });
 
