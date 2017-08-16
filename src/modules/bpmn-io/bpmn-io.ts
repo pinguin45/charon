@@ -9,7 +9,7 @@ export class BpmnIo {
   private modeler: IBpmnModeler;
 
   private attached(): void {
-    const modeler: IBpmnModeler = new bundle.modeler({
+    this.modeler = new bundle.modeler({
       container: '#canvas',
       propertiesPanel: {
         parent: '#js-properties-panel',
