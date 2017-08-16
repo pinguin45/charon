@@ -42,4 +42,34 @@ export class ProcessEngineRepository implements IProcessEngineRepository {
         return response.json();
       });
   }
+
+  public getInstances(processKey: string): Promise<Array<IProcessDefEntity>> {
+    const query = {
+      attribute: 'processDef',
+      operator: '=',
+      value: processKey,
+    };
+    return this.http
+      .fetch(`${environment.processengine.routes.processInstances}?query=${JSON.stringify(query)}`, {method: 'get'})
+      .then((response: Response) => {
+        return response.json();
+      }).then((list: Pagination<IProcessDefEntity>) => {
+        return list.data;
+      });
+  }
+
+  public getProcessbyID(processKey: string): Promise<Array<IProcessDefEntity>> {
+    const query = {
+      attribute: 'id',
+      operator: '=',
+      value: processKey,
+    };
+    return this.http
+      .fetch(`${environment.processengine.routes.processes}?query=${JSON.stringify(query)}`, {method: 'get'})
+      .then((response: Response) => {
+        return response.json();
+      }).then((list: Pagination<IProcessDefEntity>) => {
+        return list.data;
+      });
+  }
 }
