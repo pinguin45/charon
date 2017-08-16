@@ -13,7 +13,9 @@ export interface IDependencyHook {
 
 export interface IBpmnModeler {
   moddle: {
-    toXML(definitions: any, unknown: any, callback: (error: Error, result: String) => void): void;
+    toXML(definitions: any,
+          unknown: any,
+          callback: (error: Error, result: String) => void): void;
   };
   definitions: any;
   attachTo(wrapper: HTMLElement): void;
