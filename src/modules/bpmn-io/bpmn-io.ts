@@ -35,4 +35,16 @@ export class BpmnIo {
     }
   }
 
+  public getXML(): Promise<string> {
+    return new Promise((resolve: Function, reject: Function): void => {
+      this.modeler.moddle.toXML(this.modeler.definitions, null, (err: Error, result: string) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(result);
+        }
+      });
+    });
+  }
+
 }
