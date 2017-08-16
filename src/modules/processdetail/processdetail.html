@@ -1,5 +1,6 @@
 <template>
   <require from="./processdetail.css"></require>
   <require from="../bpmn-io/bpmn-io"></require>
+  <button id="saveBtn" type="button" class="btn btn-primary" click.delegate="saveDiagram()">Save</button>
   <bpmn-io xml.bind="process.xml"></bpmn-io>
 </template>
