@@ -23,7 +23,7 @@ export class ProcessEngineService implements IProcessEngineService {
     return this.repository.getInstances(processKey);
   }
 
-  public getProcessbyID(processKey: string): Promise<Array<IProcessDefEntity>> {
+  public getProcessbyID(processKey: string): Promise<IProcessDefEntity> {
     return this.repository.getProcessbyID(processKey);
   }
 }

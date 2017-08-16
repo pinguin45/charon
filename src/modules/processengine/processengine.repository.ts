@@ -58,7 +58,7 @@ export class ProcessEngineRepository implements IProcessEngineRepository {
       });
   }
 
-  public getProcessbyID(processKey: string): Promise<Array<IProcessDefEntity>> {
+  public getProcessbyID(processKey: string): Promise<IProcessDefEntity> {
     const query = {
       attribute: 'id',
       operator: '=',
@@ -69,7 +69,7 @@ export class ProcessEngineRepository implements IProcessEngineRepository {
       .then((response: Response) => {
         return response.json();
       }).then((list: Pagination<IProcessDefEntity>) => {
-        return list.data;
+        return list.data[0];
       });
   }
 }

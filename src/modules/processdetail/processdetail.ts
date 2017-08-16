@@ -7,7 +7,7 @@ import environment from '../../environment';
 export class Processdetail {
 
   private processEngineService: IProcessEngineService;
-  private _process: Array<IProcessDefEntity> = [];
+  private _process: IProcessDefEntity;
 
   constructor(processEngineService: IProcessEngineService) {
     this.processEngineService = processEngineService;
@@ -15,8 +15,14 @@ export class Processdetail {
 
   private activate(routeParameters: {processId: string}): void {
     this.processEngineService.getProcessbyID(routeParameters.processId)
-      .then((result: Array<IProcessDefEntity>) => {
+      .then((result: IProcessDefEntity) => {
       this._process = result;
     });
   }
+
+  @computedFrom('_process')
+  public get process(): IProcessDefEntity {
+    return this._process;
+  }
+
 }
