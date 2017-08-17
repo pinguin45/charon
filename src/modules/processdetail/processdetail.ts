@@ -2,12 +2,14 @@ import {IProcessDefEntity} from '@process-engine-js/process_engine_contracts';
 import {computedFrom, inject} from 'aurelia-framework';
 import {IProcessEngineService} from '../../contracts';
 import environment from '../../environment';
+import {BpmnIo} from '../bpmn-io/bpmn-io';
 
 @inject('ProcessEngineService')
 export class Processdetail {
 
   private processEngineService: IProcessEngineService;
   private _process: IProcessDefEntity;
+  private bpmn: BpmnIo;
 
   constructor(processEngineService: IProcessEngineService) {
     this.processEngineService = processEngineService;
@@ -25,4 +27,11 @@ export class Processdetail {
     return this._process;
   }
 
+  public saveDiagram(): void {
+    this.bpmn.getXML().then((xml: string) => {
+      return this.processEngineService.updateProcessDef(this.process, xml);
+    }).then(() => {
+      alert('success');
+    });
+  }
 }

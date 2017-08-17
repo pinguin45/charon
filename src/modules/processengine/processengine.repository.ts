@@ -44,6 +44,24 @@ export class ProcessEngineRepository implements IProcessEngineRepository {
       });
   }
 
+  public updateProcessDef(processDef: IProcessDefEntity, xml: string): Promise<any> {
+    const options: RequestInit = {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+          xml: xml,
+      }),
+    };
+
+    return this.http
+      .fetch(`${environment.processengine.routes.processes}/${processDef.id}/updateBpmn`, options)
+      .then((response: Response) => {
+        return response.json();
+      });
+  }
+
   public getInstances(processKey: string): Promise<Array<IProcessDefEntity>> {
     const query: IQueryClause = {
       attribute: 'processDef',

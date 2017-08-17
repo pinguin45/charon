@@ -26,4 +26,8 @@ export class ProcessEngineService implements IProcessEngineService {
   public getProcessbyID(processKey: string): Promise<IProcessDefEntity> {
     return this.repository.getProcessbyID(processKey);
   }
+
+  public updateProcessDef(processDef: IProcessDefEntity, xml: string): Promise<any> {
+    return this.repository.updateProcessDef(processDef, xml);
+  }
 }

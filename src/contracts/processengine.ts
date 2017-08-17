@@ -5,6 +5,7 @@ export interface IProcessEngineRepository {
   startProcess(process: IProcessDefEntity): Promise<any>;
   getInstances(processKey: string): Promise<Array<IProcessDefEntity>>;
   getProcessbyID(processKey: string): Promise<IProcessDefEntity>;
+  updateProcessDef(processDef: IProcessDefEntity, xml: string): Promise<any>;
 }
 
 export interface IProcessEngineService {
@@ -12,6 +13,7 @@ export interface IProcessEngineService {
   startProcess(process: IProcessDefEntity): Promise<any>;
   getInstances(processKey: string): Promise<Array<IProcessDefEntity>>;
   getProcessbyID(processKey: string): Promise<IProcessDefEntity>;
+  updateProcessDef(processDef: IProcessDefEntity, xml: string): Promise<any>;
 }
 
 export interface Pagination<T> {
