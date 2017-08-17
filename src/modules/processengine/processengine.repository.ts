@@ -1,3 +1,4 @@
+import {IQueryClause} from '@process-engine-js/core_contracts';
 import {IProcessDefEntity} from '@process-engine-js/process_engine_contracts';
 import {HttpClient} from 'aurelia-fetch-client';
 import {autoinject} from 'aurelia-framework';
@@ -44,7 +45,7 @@ export class ProcessEngineRepository implements IProcessEngineRepository {
   }
 
   public getInstances(processKey: string): Promise<Array<IProcessDefEntity>> {
-    const query = {
+    const query: IQueryClause = {
       attribute: 'processDef',
       operator: '=',
       value: processKey,
@@ -59,7 +60,7 @@ export class ProcessEngineRepository implements IProcessEngineRepository {
   }
 
   public getProcessbyID(processKey: string): Promise<IProcessDefEntity> {
-    const query = {
+    const query: IQueryClause = {
       attribute: 'id',
       operator: '=',
       value: processKey,
