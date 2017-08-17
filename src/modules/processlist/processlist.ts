@@ -1,5 +1,5 @@
 import {IProcessDefEntity} from '@process-engine-js/process_engine_contracts';
-import {computedFrom, inject} from 'aurelia-framework';
+import {inject} from 'aurelia-framework';
 import {IPagination, IProcessEngineService} from '../../contracts';
 import environment from '../../environment';
 
@@ -40,7 +40,6 @@ export class Processlist {
     clearInterval(this.getProcessesIntervalId);
   }
 
-  @computedFrom('_processes', 'offset')
   public get limit(): number {
     if (this._processes === undefined) {
       return 0;
@@ -48,7 +47,6 @@ export class Processlist {
     return this._processes.limit;
   }
 
-  @computedFrom('_processes', 'offset')
   public get maxPages(): number {
     if (this._processes === undefined) {
       return 0;
@@ -56,7 +54,6 @@ export class Processlist {
     return Math.ceil(this._processes.count / this._processes.limit);
   }
 
-  @computedFrom('_processes', 'offset')
   public get currentPage(): number {
     if (this._processes === undefined) {
       return 0;
@@ -64,7 +61,6 @@ export class Processlist {
     return this._processes.offset / this._processes.limit + 1;
   }
 
-  @computedFrom('_processes', 'offset')
   public get processes(): Array<IProcessDefEntity> {
     if (this._processes === undefined) {
       return [];
