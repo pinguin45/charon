@@ -1,7 +1,10 @@
 #canvas {
   position: absolute;
-  height: 90%;
-  width: 100%;
+  left: 20px;
+  top: 51px;
+  left: 0px;
+  right: 350px;
+  bottom: 0px;
 }
 
 #js-properties-panel {
@@ -27,4 +30,9 @@
 
 .modeler .label {
   color: black;
+}
+
+.bpp-properties-panel button,
+.bpp-properties-panel [contenteditable] {
+  min-height: 2em;
 }
