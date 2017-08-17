@@ -15,8 +15,9 @@ export class ProcessEngineRepository implements IProcessEngineRepository {
   }
 
   public getProcesses(limit: number, offset: number): Promise<IPagination<IProcessDefEntity>> {
+    const url: string = environment.processengine.routes.processes + '?limit=' + limit + '&offset=' + offset;
     return this.http
-      .fetch(`${environment.processengine.routes.processes}?limit=${limit}&offset=${offset}`, {method: 'get'})
+      .fetch(url, {method: 'get'})
       .then((response: Response) => {
         return response.json();
       }).then((list: IPagination<IProcessDefEntity>) => {
@@ -54,9 +55,9 @@ export class ProcessEngineRepository implements IProcessEngineRepository {
           xml: xml,
       }),
     };
-
+    const url: string = environment.processengine.routes.processes + '/' + processDef.id + '/updateBpmn';
     return this.http
-      .fetch(`${environment.processengine.routes.processes}/${processDef.id}/updateBpmn`, options)
+      .fetch(url, options)
       .then((response: Response) => {
         return response.json();
       });
@@ -68,8 +69,9 @@ export class ProcessEngineRepository implements IProcessEngineRepository {
       operator: '=',
       value: processKey,
     };
+    const url: string = environment.processengine.routes.processInstances + '?query=' + JSON.stringify(query);
     return this.http
-      .fetch(`${environment.processengine.routes.processInstances}?query=${JSON.stringify(query)}`, {method: 'get'})
+      .fetch(url, {method: 'get'})
       .then((response: Response) => {
         return response.json();
       }).then((list: IPagination<IProcessDefEntity>) => {
@@ -78,8 +80,9 @@ export class ProcessEngineRepository implements IProcessEngineRepository {
   }
 
   public getProcessbyID(processKey: string): Promise<IProcessDefEntity> {
+    const url: string = environment.processengine.routes.processes + '/' + processKey;
     return this.http
-      .fetch(`${environment.processengine.routes.processes}/${processKey}`, {method: 'get'})
+      .fetch(url, {method: 'get'})
       .then((response: Response) => {
         return response.json();
       }).then((processDef: IProcessDefEntity) => {

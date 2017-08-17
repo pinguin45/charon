@@ -4,8 +4,7 @@ import {IBpmnModeler, IBpmnModelerConstructor} from '../../contracts';
 
 export class BpmnIo {
 
-  @bindable
-  private xml: string;
+  @bindable() private xml: string;
   private modeler: IBpmnModeler;
 
   private attached(): void {
