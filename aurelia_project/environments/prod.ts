@@ -4,6 +4,9 @@ const baseRoute: string = 'http://localhost:8000';
 export default {
   debug: false,
   testing: false,
+  processlist: {
+    pageLimit: 10,
+  },
   processengine: {
     poolingInterval: 30000,
     routes: {

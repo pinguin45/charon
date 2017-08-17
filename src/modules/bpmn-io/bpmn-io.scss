@@ -1,0 +1,38 @@
+#canvas {
+  position: absolute;
+  left: 20px;
+  top: 51px;
+  left: 0px;
+  right: 350px;
+  bottom: 0px;
+}
+
+#js-properties-panel {
+  position: absolute;
+  top: 51px;
+  bottom: 0;
+  right: 0;
+  width: 350px;
+  z-index: 10;
+  border-left: 1px solid #ccc;
+  overflow: auto;
+  background-color: #f8f8f8;
+}
+
+#js-properties-panel:empty {
+  display: none;
+}
+
+#js-properties-panel > .djs-properties-panel {
+  padding-bottom: 70px;
+  min-height: 100%;
+}
+
+.modeler .label {
+  color: black;
+}
+
+.bpp-properties-panel button,
+.bpp-properties-panel [contenteditable] {
+  min-height: 2em;
+}
