@@ -1,6 +1,6 @@
 import {IProcessDefEntity} from '@process-engine-js/process_engine_contracts';
 import {inject} from 'aurelia-framework';
-import {IProcessEngineRepository, IProcessEngineService} from '../../contracts';
+import {IPagination, IProcessEngineRepository, IProcessEngineService} from '../../contracts';
 
 @inject('ProcessEngineRepository')
 export class ProcessEngineService implements IProcessEngineService {
@@ -11,8 +11,8 @@ export class ProcessEngineService implements IProcessEngineService {
     this.repository = repository;
   }
 
-  public getProcesses(): Promise<Array<IProcessDefEntity>> {
-    return this.repository.getProcesses();
+  public getProcesses(limit: number, offset: number): Promise<IPagination<IProcessDefEntity>> {
+    return this.repository.getProcesses(limit, offset);
   }
 
   public startProcess(process: IProcessDefEntity): Promise<any> {

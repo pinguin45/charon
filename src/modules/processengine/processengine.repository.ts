@@ -2,7 +2,7 @@ import {IQueryClause} from '@process-engine-js/core_contracts';
 import {IProcessDefEntity} from '@process-engine-js/process_engine_contracts';
 import {HttpClient} from 'aurelia-fetch-client';
 import {autoinject} from 'aurelia-framework';
-import {IProcessEngineRepository, Pagination} from '../../contracts';
+import {IPagination, IProcessEngineRepository} from '../../contracts';
 import environment from '../../environment';
 
 @autoinject
@@ -14,13 +14,13 @@ export class ProcessEngineRepository implements IProcessEngineRepository {
     this.http = http;
   }
 
-  public getProcesses(): Promise<Array<IProcessDefEntity>> {
+  public getProcesses(limit: number, offset: number): Promise<IPagination<IProcessDefEntity>> {
     return this.http
-      .fetch(environment.processengine.routes.processes, {method: 'get'})
+      .fetch(`${environment.processengine.routes.processes}?limit=${limit}&offset=${offset}`, {method: 'get'})
       .then((response: Response) => {
         return response.json();
-      }).then((list: Pagination<IProcessDefEntity>) => {
-        return list.data;
+      }).then((list: IPagination<IProcessDefEntity>) => {
+        return list;
       });
   }
 
@@ -72,7 +72,7 @@ export class ProcessEngineRepository implements IProcessEngineRepository {
       .fetch(`${environment.processengine.routes.processInstances}?query=${JSON.stringify(query)}`, {method: 'get'})
       .then((response: Response) => {
         return response.json();
-      }).then((list: Pagination<IProcessDefEntity>) => {
+      }).then((list: IPagination<IProcessDefEntity>) => {
         return list.data;
       });
   }

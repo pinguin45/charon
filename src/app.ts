@@ -1,4 +1,4 @@
-import {Router, RouterConfiguration} from 'aurelia-router';
+import { Router, RouterConfiguration } from 'aurelia-router';
 
 export class App {
 
@@ -8,8 +8,19 @@ export class App {
     this.router = router;
     config.title = 'Aurelia';
     config.map([
-      { route: ['', 'processlist'], title: 'Process Liste', name: 'processlist', moduleId: 'modules/processlist/processlist', nav: true },
-      { route: 'processdetail/:processId', title: 'Process Details', name: 'processdetail', moduleId: 'modules/processdetail/processdetail' },
+      {
+        route: ['', 'processlist', 'processlist/:page'],
+        title: 'Process Liste',
+        name: 'processlist',
+        moduleId: 'modules/processlist/processlist',
+        nav: true,
+      },
+      {
+        route: 'processdetail/:processId',
+        title: 'Process Details',
+        name: 'processdetail',
+        moduleId: 'modules/processdetail/processdetail',
+      },
     ]);
   }
 }
