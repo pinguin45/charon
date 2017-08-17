@@ -9,10 +9,11 @@
   top: 51px;
   bottom: 0;
   right: 0;
-  width: 260px;
+  width: 350px;
   z-index: 10;
   border-left: 1px solid #ccc;
   overflow: auto;
+  background-color: #f8f8f8;
 }
 
 #js-properties-panel:empty {
@@ -22,4 +23,8 @@
 #js-properties-panel > .djs-properties-panel {
   padding-bottom: 70px;
   min-height: 100%;
+}
+
+.modeler .label {
+  color: black;
 }
