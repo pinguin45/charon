@@ -78,17 +78,12 @@ export class ProcessEngineRepository implements IProcessEngineRepository {
   }
 
   public getProcessbyID(processKey: string): Promise<IProcessDefEntity> {
-    const query: IQueryClause = {
-      attribute: 'id',
-      operator: '=',
-      value: processKey,
-    };
     return this.http
-      .fetch(`${environment.processengine.routes.processes}?query=${JSON.stringify(query)}`, {method: 'get'})
+      .fetch(`${environment.processengine.routes.processes}/${processKey}`, {method: 'get'})
       .then((response: Response) => {
         return response.json();
-      }).then((list: Pagination<IProcessDefEntity>) => {
-        return list.data[0];
+      }).then((processDef: IProcessDefEntity) => {
+        return processDef;
       });
   }
 }
