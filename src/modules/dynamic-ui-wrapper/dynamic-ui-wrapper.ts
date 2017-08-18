@@ -3,7 +3,7 @@ import {IMessageBusService} from '../../contracts';
 import environment from '../../environment';
 
 @inject('MessageBusService')
-export class DynamicUi {
+export class DynamicUiWrapper {
 
   // private messageBusService: IMessageBusService;
 
