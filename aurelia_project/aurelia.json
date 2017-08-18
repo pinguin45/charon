@@ -165,9 +165,9 @@
           {
             "name": "faye",
             "path": "../node_modules/faye",
-            "resources": [
-              "client/faye-browser-min.js"
-            ]
+            "main": "client/faye-browser-min",
+            "resources": [],
+            "exports": "Faye"
           }
         ]
       }
