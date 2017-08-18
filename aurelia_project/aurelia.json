@@ -161,6 +161,13 @@
               "bpmn-modeler-custom.css",
               "bpmn-modeler-custom.js"
             ]
+          },
+          {
+            "name": "faye",
+            "path": "../node_modules/faye",
+            "resources": [
+              "client/faye-browser-min.js"
+            ]
           }
         ]
       }
