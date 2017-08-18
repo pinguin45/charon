@@ -22,3 +22,6 @@ export interface IPagination<T> {
   limit: number;
   data: Array<T>;
 }
+
+export interface IMessageBusService {
+}

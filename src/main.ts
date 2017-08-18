@@ -5,6 +5,7 @@ export function configure(aurelia: Aurelia): void {
   aurelia.use
     .standardConfiguration()
     .feature('modules/processengine')
+    .feature('modules/messagebus')
     .feature('resources');
 
   if (environment.debug) {

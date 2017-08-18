@@ -21,6 +21,13 @@ export class App {
         name: 'processdetail',
         moduleId: 'modules/processdetail/processdetail',
       },
+      {
+        route: 'dynamicui',
+        title: 'Dynamic UI',
+        name: 'dynamic-ui',
+        moduleId: 'modules/dynamic-ui/dynamic-ui',
+        nav: true,
+      },
     ]);
   }
 }
