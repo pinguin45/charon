@@ -1,12 +1,10 @@
-import { Router, RouterConfiguration } from 'aurelia-router';
-import { Client, NodeAdapter, Scheduler } from 'faye';
+import {Router, RouterConfiguration} from 'aurelia-router';
 
 export class App {
 
   public router: Router;
 
   public configureRouter(config: RouterConfiguration, router: Router): void {
-    console.log(Client);
     this.router = router;
     config.title = 'Aurelia';
     config.map([
