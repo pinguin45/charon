@@ -25,3 +25,31 @@ export interface IPagination<T> {
 
 export interface IMessageBusService {
 }
+
+// process engine does not provide an interface
+export interface IUserTaskEntityExtensions {
+  formFields: Array<{
+    id: string;
+    label: string;
+    type: 'long' | 'boolean' | 'date' | 'enum' | 'string' | 'custom_type';
+  }>;
+}
+
+export type WidgetType = 'textbox' | 'checkbox' | 'dropdown' | 'label' | 'form';
+export type FormFieldType = 'textbox' | 'checkbox' | 'dropdown';
+
+export interface IWidget {
+  uiName: string;
+  type: WidgetType;
+}
+
+export interface IFormWidget extends IWidget {
+  fields: Array<IFormField>;
+}
+
+export interface IFormField {
+  id: string;
+  label: string;
+  type: FormFieldType;
+  defaultValue: string;
+}

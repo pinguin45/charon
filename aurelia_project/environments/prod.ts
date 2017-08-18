@@ -13,6 +13,7 @@ export default {
       processes: `${baseRoute}/datastore/ProcessDef`,
       startProcess: `${baseRoute}/processengine/start`,
       processInstances: `${baseRoute}/datastore/Process`,
+      messageBus: `${baseRoute}/mb`,
     },
   },
 };
