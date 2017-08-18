@@ -1,3 +1,13 @@
 <template>
   <require from="./dynamic-ui.css"></require>
+  <require from="../dynamic-ui-checkbox-element/dynamic-ui-checkbox-element"></require>
+  <require from="../dynamic-ui-dropdown-element/dynamic-ui-dropdown-element"></require>
+  <require from="../dynamic-ui-textbox-element/dynamic-ui-textbox-element"></require>
+  <ul>
+    <li repeat.for="field of formWidget.fields">
+      <dynamic-ui-checkbox-element if.bind="field.type === 'checkbox'"></dynamic-ui-checkbox-element>
+      <dynamic-ui-dropdown-element if.bind="field.type === 'dropdown'"></dynamic-ui-dropdown-element>
+      <dynamic-ui-textbox-element if.bind="field.type === 'textbox'"></dynamic-ui-textbox-element>
+    </li>
+  </ul>
 </template>

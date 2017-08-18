@@ -14,7 +14,7 @@ export class DynamicUiWrapper {
     this.messageBusService = messageBusService;
 
     eventAggregator.subscribe('render-dynamic-ui', (message: any) => {
-      console.log(message);
+      console.log(JSON.stringify(message));
     });
   }
 }
