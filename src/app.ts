@@ -22,10 +22,10 @@ export class App {
         moduleId: 'modules/processdetail/processdetail',
       },
       {
-        route: 'dynamicui',
-        title: 'Dynamic UI',
-        name: 'dynamic-ui',
-        moduleId: 'modules/dynamic-ui/dynamic-ui',
+        route: 'dynamicuiwrapper',
+        title: 'Dynamic UI Wrapper',
+        name: 'dynamic-ui-wrapper',
+        moduleId: 'modules/dynamic-ui-wrapper/dynamic-ui-wrapper',
         nav: true,
       },
     ]);
