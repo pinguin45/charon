@@ -1,13 +1,11 @@
+import {bindable} from 'aurelia-framework';
+
 export class DynamicUiTextboxElement {
-  private label: string;
-  private defaultValue: string;
-  private id: string;
-  private placeholder: string;
+
+  @bindable()
+  private model: any;
 
   private activate(model: any): void {
-    this.label = model.label;
-    this.defaultValue = model.defaultValue;
-    this.id = model.id;
-    this.placeholder = model.placeholder;
+    this.model = model;
   }
 }

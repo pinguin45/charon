@@ -2,8 +2,8 @@
   <require from="./dynamic-ui-checkbox-element.css"></require>
   <div class="checkbox">
     <label for="checkb">
-      <input type="checkbox" id="dynamic-${id}" checked.bind="isChecked">
-      ${label}
+      <input type="checkbox" id="dynamic-${model.id}" checked.bind="model.value">
+      ${model.label}
     </label>
   </div>
 </template>

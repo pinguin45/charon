@@ -4,6 +4,6 @@
       <div repeat.for="field of widget.fields">
         <compose view-model="../dynamic-ui-${field.type}-element/dynamic-ui-${field.type}-element" model.bind="field"></compose>        
       </div>
-      <button id="submitBtn" type="submit" class="btn btn-primary">Submit</button>      
+      <button id="submitBtn" type="submit" class="btn btn-primary" click.delegate="go()">Submit</button>      
     </div>          
 </template>

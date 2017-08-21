@@ -15,6 +15,7 @@ export interface IFormField {
   label: string;
   type: FormFieldType;
   defaultValue: string | boolean;
+  value: string | boolean;
 }
 
 export interface IDropDownField extends IFormField {

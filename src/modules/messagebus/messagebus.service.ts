@@ -86,6 +86,7 @@ export class MessageBusService implements IMessageBusService {
       id: field.id,
       label: field.label,
       defaultValue: field.defaultValue || '',
+      value: field.defaultValue || '',
       type: type,
     };
 
