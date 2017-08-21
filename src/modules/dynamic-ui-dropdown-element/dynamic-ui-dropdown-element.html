@@ -2,6 +2,6 @@
   <require from="./dynamic-ui-dropdown-element.css"></require>
   <label for="drop">${label}:</label>
   <select class="form-control" id="dynamic-${id}">
-    <option repeat.for="value of values" model.bind="value">${value.title}</option>
+    <option repeat.for="value of values" model.bind="value">${value.name}</option>
   </select>
 </template>

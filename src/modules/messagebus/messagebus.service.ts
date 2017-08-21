@@ -64,6 +64,7 @@ export class MessageBusService implements IMessageBusService {
 
     for (const field of extensions.formFields) {
       const formField: IFormField = this.mapField(field);
+      fields.push(formField);
     }
 
     const formWiget: IFormWidget = {
