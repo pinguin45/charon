@@ -20,6 +20,12 @@ export class DynamicUi {
         defaultValue: '',
       },
       {
+        id: 'chechch',
+        label: 'Checkbox',
+        type: 'checkbox',
+        defaultValue: true,
+      },
+      {
         id: 'lol',
         label: 'save',
         type: 'dropdown',
