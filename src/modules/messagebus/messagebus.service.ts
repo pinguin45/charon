@@ -96,6 +96,9 @@ export class MessageBusService implements IMessageBusService {
         values.push(value);
       }
       (formField as IDropDownField).values = values;
+    } else if (formField.type === 'checkbox') {
+      formField.value = formField.value === 'true';
+      formField.defaultValue = formField.defaultValue === 'true';
     }
     return formField;
   }
