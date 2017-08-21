@@ -29,6 +29,18 @@ export class MessageBusService implements IMessageBusService {
     });
   }
 
+  public sendProceed(taskEntityId: string, messageToken: any): void {
+    this.eventAggregator.publish('publishMessage', {
+      channel: `/processengine/node/${taskEntityId}`,
+      message: {
+        data: {
+          action: 'proceed',
+          token: messageToken,
+        },
+      },
+    });
+  }
+
   private handleIncommingMessage(channel: string, message: any): void {
     if (message.data && message.data.action === 'userTask') {
       const task: IUserTaskMessageData = message.data.data;
