@@ -25,8 +25,14 @@ export class DynamicUi {
         type: 'dropdown',
         defaultValue: '',
         values: [
-          'Test',
-          'Test2',
+          {
+            name: 'test',
+            title: 'Test',
+          },
+          {
+            name: 'test-value2',
+            title: 'Fuu',
+          },
         ],
       },
     ],
