@@ -24,7 +24,7 @@ export interface IPagination<T> {
 }
 
 export interface IMessageBusService {
-  procced(taskEntityId: string, messageToken: any): void;
+  sendProceed(taskEntityId: string, messageToken: any): void;
 }
 
 // process engine does not provide an interface
