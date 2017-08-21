@@ -49,10 +49,8 @@ export class MessageBusService implements IMessageBusService {
         type: widgetType,
       };
     } else {
-      widget = {
-        name: 'Unbekannter Widget Typ',
-        type: 'label',
-      };
+      alert(`Unbekannter Widget Typ ${task.uiName}`);
+      return;
     }
 
     this.eventAggregator.publish('render-dynamic-ui', widget);
