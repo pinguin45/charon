@@ -22,8 +22,12 @@ export class DynamicUi {
       {
         id: 'lol',
         label: 'save',
-        type: 'checkbox',
+        type: 'dropdown',
         defaultValue: '',
+        values: [
+          'Test',
+          'Test2',
+        ],
       },
     ],
   };

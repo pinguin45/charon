@@ -34,22 +34,3 @@ export interface IUserTaskEntityExtensions {
     type: 'long' | 'boolean' | 'date' | 'enum' | 'string' | 'custom_type';
   }>;
 }
-
-export type WidgetType = 'textbox' | 'checkbox' | 'dropdown' | 'label' | 'form';
-export type FormFieldType = 'textbox' | 'checkbox' | 'dropdown';
-
-export interface IWidget {
-  uiName: string;
-  type: WidgetType;
-}
-
-export interface IFormWidget extends IWidget {
-  fields: Array<IFormField>;
-}
-
-export interface IFormField {
-  id: string;
-  label: string;
-  type: FormFieldType;
-  defaultValue: string;
-}
