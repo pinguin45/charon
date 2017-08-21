@@ -1,7 +1,7 @@
 <template>
   <require from="./dynamic-ui.css"></require>
-  <ul>
-    <li repeat.for="field of formWidget.fields">
+  <ul if.bind="widget">
+    <li repeat.for="field of widget.fields">
       <compose view-model="../dynamic-ui-${field.type}-element/dynamic-ui-${field.type}-element" model.bind="field"></compose>
     </li>
   </ul>
