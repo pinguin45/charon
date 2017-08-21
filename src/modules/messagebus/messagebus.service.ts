@@ -3,10 +3,13 @@ import {EventAggregator} from 'aurelia-event-aggregator';
 import {inject} from 'aurelia-framework';
 import {
   FormFieldType,
+  IDropDownField,
+  IDropDownFieldValue,
   IFormField,
   IFormWidget,
   IMessageBusService,
   IUserTaskEntityExtensions,
+  IUserTaskFormField,
   IWidget,
   WidgetType,
 } from '../../contracts';
@@ -29,39 +32,73 @@ export class MessageBusService implements IMessageBusService {
   private handleIncommingMessage(channel: string, message: any): void {
     if (message.data && message.data.action === 'userTask') {
       const task: IUserTaskMessageData = message.data.data;
-      const widgetType: WidgetType = this.getWidetType(task);
 
-      if (widgetType === 'form') {
-        const extensions: IUserTaskEntityExtensions = task.userTaskEntity.nodeDef.extensions;
-        const fields: Array<IFormField> = [];
-
-        for (const field of extensions.formFields) {
-          fields.push({
-            id: field.id,
-            label: field.label,
-            type: this.mapTypeToFormType(field.type),
-            defaultValue: '',
-          });
-        }
-
-        const formWiget: IFormWidget = {
-          uiName: task.uiName,
-          type: widgetType,
-          fields: fields,
-        };
-
-        this.eventAggregator.publish('render-dynamic-ui', formWiget);
-      } else {
-        const widget: IWidget = {
-          uiName: task.uiName,
-          type: widgetType,
-        };
-        this.eventAggregator.publish('render-dynamic-ui', widget);
-      }
+      this.handleUserTask(task);
     }
   }
 
-  private mapTypeToFormType(type: string): FormFieldType {
+  private handleUserTask(task: IUserTaskMessageData): void {
+    const widgetType: WidgetType = this.getWidetType(task);
+    let widget: IWidget;
+
+    if (widgetType === 'form') {
+      widget = this.mapFormWidget(task);
+    } else if (widgetType !== null) {
+      widget = {
+        name: task.userTaskEntity.name,
+        type: widgetType,
+      };
+    } else {
+      widget = {
+        name: 'Unbekannter Widget Typ',
+        type: 'label',
+      };
+    }
+
+    this.eventAggregator.publish('render-dynamic-ui', widget);
+  }
+
+  private mapFormWidget(task: IUserTaskMessageData): IFormWidget {
+    const extensions: IUserTaskEntityExtensions = task.userTaskEntity.nodeDef.extensions;
+    const fields: Array<IFormField> = [];
+
+    for (const field of extensions.formFields) {
+      const formField: IFormField = this.mapField(field);
+    }
+
+    const formWiget: IFormWidget = {
+      name: task.userTaskEntity.name,
+      type: 'form',
+      fields: fields,
+    };
+
+    return formWiget;
+  }
+
+  private mapField(field: IUserTaskFormField): IFormField {
+    const type: FormFieldType = this.mapFieldType(field.type);
+    if (type === null) {
+      return null;
+    }
+
+    const formField: any = {
+      id: field.id,
+      label: field.label,
+      defaultValue: field.defaultValue || '',
+      type: type,
+    };
+
+    if (formField.type === 'dropdown') {
+      const values: Array<IDropDownFieldValue> = [];
+      for (const value of field.formValues) {
+        values.push(value);
+      }
+      (formField as IDropDownField).values = values;
+    }
+    return formField;
+  }
+
+  private mapFieldType(type: string): FormFieldType {
     if (type === 'string' || type === 'long' || type === 'date') {
       return 'textbox';
     } else if (type === 'boolean') {
@@ -74,6 +111,6 @@ export class MessageBusService implements IMessageBusService {
   }
 
   private getWidetType(task: IUserTaskMessageData): WidgetType {
-    return task.uiName.toLowerCase() as WidgetType;
+    return task.uiName ? task.uiName.toLowerCase() as WidgetType : null;
   }
 }

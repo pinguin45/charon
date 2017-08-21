@@ -28,9 +28,18 @@ export interface IMessageBusService {
 
 // process engine does not provide an interface
 export interface IUserTaskEntityExtensions {
-  formFields: Array<{
-    id: string;
-    label: string;
-    type: 'long' | 'boolean' | 'date' | 'enum' | 'string' | 'custom_type';
-  }>;
+  formFields: Array<IUserTaskFormField>;
+}
+
+export interface IUserTaskFormField {
+  id: string;
+  label: string;
+  type: 'long' | 'boolean' | 'date' | 'enum' | 'string' | 'custom_type';
+  defaultValue?: string | boolean;
+  formValues: Array<IUserTaskFormFieldValue>;
+}
+
+export interface IUserTaskFormFieldValue {
+  id: string;
+  name: string;
 }

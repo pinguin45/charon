@@ -2,7 +2,7 @@ export type WidgetType = 'textbox' | 'checkbox' | 'dropdown' | 'label' | 'form';
 export type FormFieldType = 'textbox' | 'checkbox' | 'dropdown';
 
 export interface IWidget {
-  uiName: string;
+  name: string;
   type: WidgetType;
 }
 
@@ -18,5 +18,10 @@ export interface IFormField {
 }
 
 export interface IDropDownField extends IFormField {
-  values: Array<string>;
+  values: Array<IDropDownFieldValue>;
+}
+
+export interface IDropDownFieldValue {
+  id: string;
+  name: string;
 }
