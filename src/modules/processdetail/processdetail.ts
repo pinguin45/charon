@@ -1,5 +1,5 @@
 import {IProcessDefEntity} from '@process-engine-js/process_engine_contracts';
-import {computedFrom, inject} from 'aurelia-framework';
+import {bindable, computedFrom, inject} from 'aurelia-framework';
 import {IProcessEngineService} from '../../contracts';
 import environment from '../../environment';
 import {BpmnIo} from '../bpmn-io/bpmn-io';
@@ -10,9 +10,15 @@ export class Processdetail {
   private processEngineService: IProcessEngineService;
   private _process: IProcessDefEntity;
   private bpmn: BpmnIo;
+  public reader: FileReader = new FileReader();
+
+  @bindable() public selectedFiles: FileList;
 
   constructor(processEngineService: IProcessEngineService) {
     this.processEngineService = processEngineService;
+    this.reader.onload = (x: any): void => {
+      this.bpmn.xml = x.target.result;
+    };
   }
 
   private activate(routeParameters: {processId: string}): void {
@@ -39,5 +45,9 @@ export class Processdetail {
         alert(`Unbekannter Status: ${JSON.stringify(response)}`);
       }
     });
+  }
+
+  public selectedFilesChanged(): void {
+    this.reader.readAsText(this.selectedFiles[0]);
   }
 }
