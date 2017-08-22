@@ -7,7 +7,7 @@ import {BpmnIo} from '../bpmn-io/bpmn-io';
 
 @inject('ProcessEngineService', EventAggregator)
 export class Processdetail {
-  private test: string = 'DASISTEINTEST';
+  // private test: string = 'DASISTEINTEST';
   private processEngineService: IProcessEngineService;
   private _process: IProcessDefEntity;
   private bpmn: BpmnIo;
@@ -17,7 +17,6 @@ export class Processdetail {
   public reader: FileReader = new FileReader();
   @bindable() public uri: string;
   @bindable() public name: string;
-
   @bindable() public selectedFiles: FileList;
 
   constructor(processEngineService: IProcessEngineService, eventAggregator: EventAggregator) {
@@ -33,7 +32,7 @@ export class Processdetail {
      console.log('message received');
       this.bpmn.getXML().then((xml: any) => {
         this.uri = 'data:application/bpmn20-xml;charset=UTF-8,' + encodeURI(xml);
-        this.name = 'xml.xml';
+        this.name = 'Diagram.xml';
       });
     });
   }
@@ -49,6 +48,11 @@ export class Processdetail {
     });
   }
 
+  public attached(): void {
+      this.uri = 'data:application/bpmn20-xml;charset=UTF-8,' + encodeURI(this.bpmn.xml);
+      this.name = 'Diagram.xml';
+  }
+
   @computedFrom('_process')
   public get process(): IProcessDefEntity {
     return this._process;
@@ -56,6 +60,7 @@ export class Processdetail {
 
   public saveDiagram(): void {
     this.bpmn.getXML().then((xml: string) => {
+      this.uri = 'data:application/bpmn20-xml;charset=UTF-8,' + encodeURI(xml);
       return this.processEngineService.updateProcessDef(this.process, xml);
     }).then((response: any) => {
       if (response.error) {
@@ -73,6 +78,11 @@ export class Processdetail {
   }
 
   public exportDiagram(): void {
+
+    // this.bpmn.getXML().then((xml: any) => {
+    //   this.uri = 'data:application/bpmn20-xml;charset=UTF-8,' + encodeURI(xml);
+    //   this.name = 'Diagram.xml';
+    // });
     // this.bpmn.getXML().then((xml: any) => {
     //   this.uri = 'data:application/bpmn20-xml;charset=UTF-8,' + encodeURI(xml);
     //   this.name = 'xml.xml';

@@ -35,9 +35,9 @@ export class BpmnIo {
   }
 
   public xmlChanged(newValue: string, oldValue: string): void {
-    // this.eventAggregator.publish(environment.events.xmlChanged);
     if (this.modeler !== undefined && this.modeler !== null) {
       this.modeler.importXML(this.xml, (err: Error) => {
+        this.eventAggregator.publish(environment.events.xmlChanged);
         return 0;
       });
     }
