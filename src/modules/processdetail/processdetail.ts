@@ -30,8 +30,14 @@ export class Processdetail {
   public saveDiagram(): void {
     this.bpmn.getXML().then((xml: string) => {
       return this.processEngineService.updateProcessDef(this.process, xml);
-    }).then(() => {
-      alert('success');
+    }).then((response: any) => {
+      if (response.error) {
+        alert(`Fehler: ${response.error}`);
+      } else if (response.result) {
+        alert('Gespeichert.');
+      } else {
+        alert(`Unbekannter Status: ${JSON.stringify(response)}`);
+      }
     });
   }
 }
