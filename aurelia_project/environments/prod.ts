@@ -16,4 +16,7 @@ export default {
       messageBus: `${baseRoute}/mb`,
     },
   },
+  events: {
+    xmlChanged: 'xmlChanged',
+  },
 };
