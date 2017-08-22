@@ -1,5 +1,5 @@
 import {EventAggregator} from 'aurelia-event-aggregator';
-import {inject} from 'aurelia-framework';
+import {bindable, inject} from 'aurelia-framework';
 import {IMessageBusService, IWidget} from '../../contracts';
 import environment from '../../environment';
 
@@ -8,7 +8,9 @@ export class DynamicUiWrapper {
 
   private messageBusService: IMessageBusService;
   private eventAggregator: EventAggregator;
+  @bindable()
   private currentWidget: IWidget;
+  private dynamicUi: any;
 
   constructor(eventAggregator: EventAggregator, messageBusService: IMessageBusService) {
     this.eventAggregator = eventAggregator;
@@ -18,5 +20,10 @@ export class DynamicUiWrapper {
       console.log(JSON.stringify(message));
       this.currentWidget = message;
     });
+  }
+
+  public proceed(): void {
+    const tokenData: any = this.dynamicUi.getTokenData();
+    this.messageBusService.sendProceed(this.currentWidget.taskEntityId, tokenData);
   }
 }

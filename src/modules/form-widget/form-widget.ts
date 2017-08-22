@@ -1,15 +1,16 @@
 import {bindable} from 'aurelia-framework';
-import {IWidget} from '../../contracts';
+import {IFormWidget} from '../../contracts';
 
-export class DynamicUi {
+export class FormWidget {
 
   @bindable()
-  private widget: IWidget;
+  private widget: IFormWidget;
 
-  public go(): void {
+  public getTokenData(): any {
+    const formData: any = {};
     for (const field of this.widget.fields) {
-      console.log(field.value);
+      formData[field.id] = field.value;
     }
-
+    return formData;
   }
 }

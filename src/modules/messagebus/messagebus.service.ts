@@ -30,13 +30,11 @@ export class MessageBusService implements IMessageBusService {
   }
 
   public sendProceed(taskEntityId: string, messageToken: any): void {
-    this.eventAggregator.publish('publishMessage', {
-      channel: `/processengine/node/${taskEntityId}`,
-      message: {
-        data: {
-          action: 'proceed',
-          token: messageToken,
-        },
+    console.log('proceed: ', taskEntityId, messageToken);
+    this.fayeClient.publish(`/processengine/node/${taskEntityId}`, {
+      data: {
+        action: 'proceed',
+        token: messageToken,
       },
     });
   }
@@ -45,6 +43,7 @@ export class MessageBusService implements IMessageBusService {
     if (message.data && message.data.action === 'userTask') {
       const task: IUserTaskMessageData = message.data.data;
 
+      console.log('incomming task: ', task);
       this.handleUserTask(task);
     }
   }
@@ -57,6 +56,7 @@ export class MessageBusService implements IMessageBusService {
       widget = this.mapFormWidget(task);
     } else if (widgetType !== null) {
       widget = {
+        taskEntityId: task.userTaskEntity.id,
         name: task.userTaskEntity.name,
         type: widgetType,
       };
@@ -78,6 +78,7 @@ export class MessageBusService implements IMessageBusService {
     }
 
     const formWiget: IFormWidget = {
+      taskEntityId: task.userTaskEntity.id,
       name: task.userTaskEntity.name,
       type: 'form',
       fields: fields,

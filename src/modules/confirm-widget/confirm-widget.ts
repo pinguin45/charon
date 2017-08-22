@@ -1,11 +1,12 @@
 import {bindable} from 'aurelia-framework';
 
-export class DynamicUiTextboxElement {
+export class ConfirmWidget {
 
   @bindable()
-  private model: any;
+  private widget: any;
 
-  private activate(model: any): void {
-    this.model = model;
+  private activate(widget: any): void {
+    this.widget = widget;
+    console.log('asda', widget);
   }
 }

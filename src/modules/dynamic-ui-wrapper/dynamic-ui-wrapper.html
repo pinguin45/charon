@@ -1,5 +1,9 @@
 <template>
   <require from="./dynamic-ui-wrapper.css"></require>
   <require from="../form-widget/form-widget"></require>
-  <dynamic-ui widget.bind="currentWidget"></dynamic-ui>
+  <require from="../confirm-widget/confirm-widget"></require>
+
+  <form-widget if.bind="currentWidget.type === 'form'" view-model.ref="dynamicUi" widget.bind="currentWidget"></form-widget>
+  <confirm-widget if.bind="currentWidget.type === 'confirm'" view-model.ref="dynamicUi" widget.bind="currentWidget"></confirm-widget>
+  <button id="submitBtn" type="submit" class="btn btn-primary" click.delegate="proceed()">Submit</button>
 </template>

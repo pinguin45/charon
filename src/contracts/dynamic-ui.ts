@@ -2,6 +2,7 @@ export type WidgetType = 'textbox' | 'checkbox' | 'dropdown' | 'label' | 'form';
 export type FormFieldType = 'textbox' | 'checkbox' | 'dropdown';
 
 export interface IWidget {
+  taskEntityId: string;
   name: string;
   type: WidgetType;
 }
