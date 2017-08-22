@@ -29,9 +29,10 @@ export class MessageBusService implements IMessageBusService {
     });
   }
 
-  public sendProceed(taskEntityId: string, messageToken: any): void {
-    console.log('proceed: ', taskEntityId, messageToken);
-    this.fayeClient.publish(`/processengine/node/${taskEntityId}`, {
+  public sendProceedAction(action: string, widget: IWidget): void {
+    console.log('proceed: ', action, widget.taskEntityId, widget);
+    const messageToken: any = this.getMessageToken(widget);
+    this.fayeClient.publish(`/processengine/node/${widget.taskEntityId}`, {
       data: {
         action: 'proceed',
         token: messageToken,
@@ -39,11 +40,20 @@ export class MessageBusService implements IMessageBusService {
     });
   }
 
+  private getMessageToken(widget: IWidget): any {
+    const messageToken: any = {};
+    if (widget.type === 'form') {
+      for (const field of (widget as IFormWidget).fields) {
+        messageToken[field.id] = field.value;
+      }
+    }
+    // TODO: handle other widget types
+    return messageToken;
+  }
+
   private handleIncommingMessage(channel: string, message: any): void {
     if (message.data && message.data.action === 'userTask') {
       const task: IUserTaskMessageData = message.data.data;
-
-      console.log('incomming task: ', task);
       this.handleUserTask(task);
     }
   }

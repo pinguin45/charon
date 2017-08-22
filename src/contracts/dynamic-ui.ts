@@ -1,4 +1,4 @@
-export type WidgetType = 'textbox' | 'checkbox' | 'dropdown' | 'label' | 'form';
+export type WidgetType = 'textbox' | 'checkbox' | 'dropdown' | 'label' | 'form' | 'confirm';
 export type FormFieldType = 'textbox' | 'checkbox' | 'dropdown';
 
 export interface IWidget {

@@ -1,9 +1,8 @@
 <template>
-    <require from="./form-widget.css"></require>
-    <div class="container" if.bind="widget">
-      <div repeat.for="field of widget.fields">
-        <compose view-model="../dynamic-ui-${field.type}-element/dynamic-ui-${field.type}-element" model.bind="field"></compose>
-      </div>  
-    </div>          
-  </template>
-  
+  <require from="./form-widget.css"></require>
+  <div if.bind="widget">
+    <div repeat.for="field of widget.fields">
+      <compose view-model="../dynamic-ui-${field.type}-element/dynamic-ui-${field.type}-element" model.bind="field"></compose>
+    </div>  
+  </div>          
+</template>

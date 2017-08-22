@@ -3,7 +3,15 @@
   <require from="../form-widget/form-widget"></require>
   <require from="../confirm-widget/confirm-widget"></require>
 
-  <form-widget if.bind="currentWidget.type === 'form'" view-model.ref="dynamicUi" widget.bind="currentWidget"></form-widget>
-  <confirm-widget if.bind="currentWidget.type === 'confirm'" view-model.ref="dynamicUi" widget.bind="currentWidget"></confirm-widget>
-  <button id="submitBtn" type="submit" class="btn btn-primary" click.delegate="proceed()">Submit</button>
+  <div class="container">
+    <form-widget if.bind="currentWidget.type === 'form'" widget.bind="currentWidget"></form-widget>
+    <confirm-widget if.bind="currentWidget.type === 'confirm'" widget.bind="currentWidget"></confirm-widget>
+
+    <div if.bind="currentWidget" class="btn-group" role="group">
+      <button class="btn btn-danger" click.delegate="handleButtonClick('abort')">Abbrechen</button>
+      <button class="btn btn-success" click.delegate="handleButtonClick('proceed')">Weiter</button>
+    </div>
+
+  </div>
+
 </template>
