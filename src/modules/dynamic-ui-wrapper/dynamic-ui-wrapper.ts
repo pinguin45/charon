@@ -9,21 +9,25 @@ export class DynamicUiWrapper {
   private messageBusService: IMessageBusService;
   private eventAggregator: EventAggregator;
   @bindable()
-  private currentWidget: IWidget;
+  private _currentWidget: IWidget;
 
   constructor(eventAggregator: EventAggregator, messageBusService: IMessageBusService) {
     this.eventAggregator = eventAggregator;
     this.messageBusService = messageBusService;
 
     eventAggregator.subscribe('render-dynamic-ui', (message: any) => {
-      this.currentWidget = message;
+      this._currentWidget = message;
     });
   }
 
   public handleButtonClick(action: string): void {
-    if (this.currentWidget) {
-      this.messageBusService.sendProceedAction(action, this.currentWidget);
-      this.currentWidget = null;
+    if (this._currentWidget) {
+      this.messageBusService.sendProceedAction(action, this._currentWidget);
+      this._currentWidget = null;
     }
+  }
+
+  public get currentWidget(): IWidget {
+    return this._currentWidget;
   }
 }

@@ -3,7 +3,7 @@
   <require from="../form-widget/form-widget"></require>
   <require from="../confirm-widget/confirm-widget"></require>
 
-  <div class="container">
+  <div>
     <form-widget if.bind="currentWidget.type === 'form'" widget.bind="currentWidget"></form-widget>
     <confirm-widget if.bind="currentWidget.type === 'confirm'" widget.bind="currentWidget"></confirm-widget>
 

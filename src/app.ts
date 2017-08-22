@@ -22,11 +22,10 @@ export class App {
         moduleId: 'modules/processdetail/processdetail',
       },
       {
-        route: 'dynamicuiwrapper',
-        title: 'Dynamic UI Wrapper',
-        name: 'dynamic-ui-wrapper',
-        moduleId: 'modules/dynamic-ui-wrapper/dynamic-ui-wrapper',
-        nav: true,
+        route: 'start/:processId',
+        title: 'Start Prozess',
+        name: 'processstart',
+        moduleId: 'modules/processstart/processstart',
       },
     ]);
   }

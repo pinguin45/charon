@@ -67,8 +67,4 @@ export class Processlist {
     }
     return this._processes.data;
   }
-
-  public startProcess(process: IProcessDefEntity): void {
-    this.processEngineService.startProcess(process);
-  }
 }
