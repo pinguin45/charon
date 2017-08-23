@@ -23,6 +23,7 @@
     "bootstrap": "^3.3.7",
     "bpmn-js": "^0.21.0",
     "faye": "^1.2.4",
+    "font-awesome": "^4.7.0",
     "jquery": "^2.2.4",
     "requirejs": "^2.3.2",
     "text": "github:requirejs/text#latest",

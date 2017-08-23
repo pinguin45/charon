@@ -168,9 +168,22 @@
             "main": "client/faye-browser-min",
             "resources": [],
             "exports": "Faye"
+          },
+          {
+            "name": "font-awesome",
+            "path": "../node_modules/font-awesome",
+            "main": "css/font-awesome.min.css",
+            "resources": [
+              "css/font-awesome.min.css"
+            ]
           }
         ]
       }
-    ]
+    ],
+    "copyFiles": {
+      "node_modules/bootstrap/dist/fonts/glyphicons-halflings-regular.woff2": "bootstrap/fonts",
+      "node_modules/bootstrap/dist/fonts/glyphicons-halflings-regular.woff": "bootstrap/fonts",
+      "node_modules/bootstrap/dist/fonts/glyphicons-halflings-regular.ttf": "bootstrap/fonts"
+    }
   }
 }
