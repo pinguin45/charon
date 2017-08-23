@@ -1,19 +1,12 @@
 import * as bundle from '@process-engine-js/bpmn-js-custom-bundle';
-import {EventAggregator} from 'aurelia-event-aggregator';
 import {bindable, inject} from 'aurelia-framework';
 import {IBpmnModeler, IBpmnModelerConstructor} from '../../contracts';
 import environment from '../../environment';
 
-@inject(EventAggregator)
 export class BpmnIo {
 
   @bindable() public xml: string;
   private modeler: IBpmnModeler;
-  private eventAggregator: EventAggregator;
-
-  constructor(eventAggregator: EventAggregator) {
-    this.eventAggregator = eventAggregator;
-  }
 
   public attached(): void {
     this.modeler = new bundle.modeler({
@@ -37,7 +30,6 @@ export class BpmnIo {
   public xmlChanged(newValue: string, oldValue: string): void {
     if (this.modeler !== undefined && this.modeler !== null) {
       this.modeler.importXML(this.xml, (err: Error) => {
-        this.eventAggregator.publish(environment.events.xmlChanged);
         return 0;
       });
     }
