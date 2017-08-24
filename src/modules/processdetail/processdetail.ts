@@ -1,6 +1,6 @@
 import {IProcessDefEntity} from '@process-engine-js/process_engine_contracts';
 import {bindable, computedFrom, inject} from 'aurelia-framework';
-import {IProcessEngineService} from '../../contracts';
+import {IChooseDialogOption, IProcessEngineService} from '../../contracts';
 import environment from '../../environment';
 import {BpmnIo} from '../bpmn-io/bpmn-io';
 
@@ -9,29 +9,28 @@ export class Processdetail {
   private processEngineService: IProcessEngineService;
   private _process: IProcessDefEntity;
   private bpmn: BpmnIo;
-
-  public reader: FileReader = new FileReader();
   @bindable() public uri: string;
   @bindable() public name: string;
-  @bindable() public selectedFiles: FileList;
 
   constructor(processEngineService: IProcessEngineService) {
     this.processEngineService = processEngineService;
-    this.reader.onload = (x: any): void => {
-      this.bpmn.xml = x.target.result;
-    };
   }
 
-  public activate(routeParameters: {processId: string}): void {
+  public activate(routeParameters: { processId: string }): void {
     this.processEngineService.getProcessbyID(routeParameters.processId)
       .then((result: IProcessDefEntity) => {
-      this._process = result;
-    });
+        this._process = result;
+      });
   }
 
   @computedFrom('_process')
   public get process(): IProcessDefEntity {
     return this._process;
+  }
+
+  public onModdlelImported(moddle: any, xml: string): void {
+    console.log('callback!');
+    this.bpmn.xml = xml;
   }
 
   public saveDiagram(): void {
@@ -46,10 +45,6 @@ export class Processdetail {
         alert(`Unbekannter Status: ${JSON.stringify(response)}`);
       }
     });
-  }
-
-  public selectedFilesChanged(): void {
-    this.reader.readAsText(this.selectedFiles[0]);
   }
 
   public exportDiagram(): void {

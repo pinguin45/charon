@@ -1,9 +1,11 @@
 <template>
-  <require from="./processdetail.css"></require>
   <require from="../bpmn-io/bpmn-io"></require>
-  <input id="ul" type="file" accept=".xml,.bpmn" files.bind="selectedFiles" style="display:none;">
-  <button id="ulbtn" type="button" class="btn btn-primary" onclick="document.getElementById('ul').click();">Import Diagram</button>
+  <require from="../import-process-button/import-process-button"></require>  
+  <require from="./processdetail.css"></require>
+  
   <button id="idexport" type="button" class="btn btn-primary" click.delegate="exportDiagram()"><i id="spinner" style="display: none;" class="glyphicon glyphicon-repeat fa-spin"></i> Export Diagram</button>
   <button id="saveBtn" type="button" class="btn btn-primary" click.delegate="saveDiagram()">Save</button>
   <bpmn-io view-model.ref="bpmn" xml.bind="process.xml"></bpmn-io>
+
+  <import-process-button desired-key.bind="process.key" callback.bind="onModdlelImported.bind($this)"></import-process-button>
 </template>
