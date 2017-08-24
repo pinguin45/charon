@@ -72,6 +72,7 @@ export class MessageBusService implements IMessageBusService {
       };
     } else {
       alert(`Unbekannter Widget Typ ${task.uiName}`);
+      console.error('Unbekannter Widget Type: ', task);
       return;
     }
 
