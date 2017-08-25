@@ -30,14 +30,14 @@ export class MessageBusService implements IMessageBusService {
   }
 
   public sendProceedAction(action: string, widget: IWidget): void {
-    console.log('proceed: ', action, widget.taskEntityId, widget);
     const messageToken: any = this.getMessageToken(widget);
-    this.fayeClient.publish(`/processengine/node/${widget.taskEntityId}`, {
+    const message: any = {
       data: {
         action: 'proceed',
         token: messageToken,
       },
-    });
+    };
+    this.fayeClient.publish(`/processengine/node/${widget.taskEntityId}`, message);
   }
 
   private getMessageToken(widget: IWidget): any {
