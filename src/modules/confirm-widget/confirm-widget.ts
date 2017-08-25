@@ -7,6 +7,5 @@ export class ConfirmWidget {
 
   private activate(widget: any): void {
     this.widget = widget;
-    console.log('asda', widget);
   }
 }

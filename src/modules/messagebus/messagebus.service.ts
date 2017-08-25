@@ -37,7 +37,6 @@ export class MessageBusService implements IMessageBusService {
         token: messageToken,
       },
     };
-    console.log('proceed: ', action, widget.taskEntityId, widget, JSON.stringify(message));
     this.fayeClient.publish(`/processengine/node/${widget.taskEntityId}`, message);
   }
 
@@ -48,7 +47,6 @@ export class MessageBusService implements IMessageBusService {
         messageToken[field.id] = field.value;
       }
     }
-    console.log('messagetoken:', messageToken);
     // TODO: handle other widget types
     return messageToken;
   }
