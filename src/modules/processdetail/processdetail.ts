@@ -29,7 +29,6 @@ export class Processdetail {
   }
 
   public onModdlelImported(moddle: any, xml: string): void {
-    console.log('callback!');
     this.bpmn.xml = xml;
   }
 
