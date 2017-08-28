@@ -1,0 +1,18 @@
+<template>
+  <require from="./processstart.css"></require>
+  <require from="../dynamic-ui-wrapper/dynamic-ui-wrapper"></require>  
+
+  <div class="container">
+    <div if.bind="process">
+      <h3>Prozess starten: ${process.name}</h3>
+
+      <button if.bind="!dynamicUiWrapper.currentWidget" class="btn btn-success" click.delegate="startProcess()">Start</button>
+      <dynamic-ui-wrapper view-model.ref="dynamicUiWrapper"></dynamic-ui-wrapper>
+    </div>
+
+    <div if.bind="!process">
+      <h3>Prozess nicht gefunden</h3>
+    </div>
+  </div>
+  
+</template>

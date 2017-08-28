@@ -1,4 +1,4 @@
-import { Router, RouterConfiguration } from 'aurelia-router';
+import {Router, RouterConfiguration} from 'aurelia-router';
 
 export class App {
 
@@ -20,6 +20,12 @@ export class App {
         title: 'Process Details',
         name: 'processdetail',
         moduleId: 'modules/processdetail/processdetail',
+      },
+      {
+        route: 'start/:processId',
+        title: 'Start Prozess',
+        name: 'processstart',
+        moduleId: 'modules/processstart/processstart',
       },
     ]);
   }

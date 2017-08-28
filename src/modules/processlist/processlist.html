@@ -1,6 +1,8 @@
 <template>
   <require from="./processlist.css"></require>
+
   <div class="container">
+    <a class="btn btn-success create-process" href="${createProcess}">Create Process</a>
     <table class="table table-striped table-bordered">
       <tr>
         <th>Name</th>
@@ -11,7 +13,7 @@
         <td>${process.name}</td>
         <td>${process.id}</td>
         <td>
-          <button type="button" class="btn btn-success" click.delegate="startProcess(process)">Starten</button>
+          <a class="btn btn-success" href="#/start/${process.id}">Starten</a>
           <a class="btn btn-primary" href="#/processdetail/${process.id}">Details</a>
         </td>
       </tr>

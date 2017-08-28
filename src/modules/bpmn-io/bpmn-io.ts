@@ -1,13 +1,14 @@
 import * as bundle from '@process-engine-js/bpmn-js-custom-bundle';
 import {bindable} from 'aurelia-framework';
 import {IBpmnModeler, IBpmnModelerConstructor} from '../../contracts';
+import environment from '../../environment';
 
 export class BpmnIo {
 
-  @bindable() private xml: string;
+  @bindable() public xml: string;
   private modeler: IBpmnModeler;
 
-  private attached(): void {
+  public attached(): void {
     this.modeler = new bundle.modeler({
       container: '#canvas',
       propertiesPanel: {

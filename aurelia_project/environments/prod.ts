@@ -13,6 +13,11 @@ export default {
       processes: `${baseRoute}/datastore/ProcessDef`,
       startProcess: `${baseRoute}/processengine/start`,
       processInstances: `${baseRoute}/datastore/Process`,
+      messageBus: `${baseRoute}/mb`,
     },
   },
+  events: {
+    xmlChanged: 'xmlChanged',
+  },
+  createProcess: `/#/start/cc8c62d0-051e-4245-a3eb-02c3f2b9e94a`,
 };

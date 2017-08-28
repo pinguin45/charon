@@ -22,3 +22,28 @@ export interface IPagination<T> {
   limit: number;
   data: Array<T>;
 }
+
+export interface IMessageBusService {
+  createMessage(): any;
+  sendMessage(channel: string, message: any): Promise<any>;
+  registerMessageHandler(handler: (channel: string, message: any) => void): void;
+  removeMessageHandler(handler: (channel: string, message: any) => void): void;
+}
+
+// process engine does not provide an interface
+export interface IUserTaskEntityExtensions {
+  formFields: Array<IUserTaskFormField>;
+}
+
+export interface IUserTaskFormField {
+  id: string;
+  label: string;
+  type: 'long' | 'boolean' | 'date' | 'enum' | 'string' | 'custom_type';
+  defaultValue?: string | boolean;
+  formValues: Array<IUserTaskFormFieldValue>;
+}
+
+export interface IUserTaskFormFieldValue {
+  id: string;
+  name: string;
+}

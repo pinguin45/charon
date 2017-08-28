@@ -10,6 +10,7 @@ export class Processlist {
   private processEngineService: IProcessEngineService;
   private _processes: IPagination<IProcessDefEntity>;
   private getProcessesIntervalId: number;
+  private createProcess: string = environment.createProcess;
 
   constructor(processEngineService: IProcessEngineService) {
     this.processEngineService = processEngineService;
@@ -66,9 +67,5 @@ export class Processlist {
       return [];
     }
     return this._processes.data;
-  }
-
-  public startProcess(process: IProcessDefEntity): void {
-    this.processEngineService.startProcess(process);
   }
 }

@@ -1,0 +1,6 @@
+<template>
+  <require from="./choose-dialog.css"></require>
+  <div class="btn-group">
+    <button class="btn btn-default" repeat.for="option of options" click.delegate="onSelect(option)">${option.title}</button>
+  </div>
+</template>
