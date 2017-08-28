@@ -9,10 +9,8 @@ export class ImportProcessButton {
   private reader: FileReader = new FileReader();
   private model: any;
 
-  // key under which the process will
-  // be imported
   @bindable()
-  private desiredKey: string;
+  private desiredProcessImportKey: string;
   @bindable()
   private callback: (moddle: any, xml: string) => void;
   @bindable()
@@ -86,7 +84,7 @@ export class ImportProcessButton {
    * Renames the given moddle of a process to fit the process.
    */
   private renameProcessModdle(targetProcess: any): void {
-    targetProcess.id = this.desiredKey;
+    targetProcess.id = this.desiredProcessImportKey;
 
     let duplicates: number = 0;
     for (const process of this.processes) {

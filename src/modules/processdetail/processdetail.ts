@@ -4,6 +4,10 @@ import {IChooseDialogOption, IProcessEngineService} from '../../contracts';
 import environment from '../../environment';
 import {BpmnIo} from '../bpmn-io/bpmn-io';
 
+interface RouteParameters {
+  processId: string;
+}
+
 @inject('ProcessEngineService')
 export class Processdetail {
   private processEngineService: IProcessEngineService;
@@ -16,7 +20,7 @@ export class Processdetail {
     this.processEngineService = processEngineService;
   }
 
-  public activate(routeParameters: { processId: string }): void {
+  public activate(routeParameters: RouteParameters): void {
     this.processEngineService.getProcessbyID(routeParameters.processId)
       .then((result: IProcessDefEntity) => {
         this._process = result;
