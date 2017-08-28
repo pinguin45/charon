@@ -1,19 +1,19 @@
 import {EventAggregator} from 'aurelia-event-aggregator';
 import {bindable, inject} from 'aurelia-framework';
-import {IMessageBusService, IWidget} from '../../contracts';
+import {IDynamicUiService, IWidget} from '../../contracts';
 import environment from '../../environment';
 
-@inject(EventAggregator, 'MessageBusService')
+@inject(EventAggregator, 'DynamicUiService')
 export class DynamicUiWrapper {
 
-  private messageBusService: IMessageBusService;
+  private dynamicUiService: IDynamicUiService;
   private eventAggregator: EventAggregator;
   @bindable()
   private _currentWidget: IWidget;
 
-  constructor(eventAggregator: EventAggregator, messageBusService: IMessageBusService) {
+  constructor(eventAggregator: EventAggregator, dynamicUiService: IDynamicUiService) {
     this.eventAggregator = eventAggregator;
-    this.messageBusService = messageBusService;
+    this.dynamicUiService = dynamicUiService;
 
     eventAggregator.subscribe('render-dynamic-ui', (message: any) => {
       this._currentWidget = message;
@@ -22,7 +22,7 @@ export class DynamicUiWrapper {
 
   public handleButtonClick(action: string): void {
     if (this._currentWidget) {
-      this.messageBusService.sendProceedAction(action, this._currentWidget);
+      this.dynamicUiService.sendProceedAction(action, this._currentWidget);
       this._currentWidget = null;
     }
   }

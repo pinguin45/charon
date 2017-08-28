@@ -4,6 +4,7 @@ import environment from './environment';
 export function configure(aurelia: Aurelia): void {
   aurelia.use
     .standardConfiguration()
+    .feature('modules/dynamic-ui')
     .feature('modules/processengine')
     .feature('modules/messagebus')
     .feature('resources');

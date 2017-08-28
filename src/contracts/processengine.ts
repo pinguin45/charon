@@ -24,7 +24,10 @@ export interface IPagination<T> {
 }
 
 export interface IMessageBusService {
-  sendProceedAction(action: string, widget: any): void;
+  createMessage(): any;
+  sendMessage(channel: string, message: any): Promise<any>;
+  registerMessageHandler(handler: (channel: string, message: any) => void): void;
+  removeMessageHandler(handler: (channel: string, message: any) => void): void;
 }
 
 // process engine does not provide an interface

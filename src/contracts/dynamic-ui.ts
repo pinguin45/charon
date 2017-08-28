@@ -1,6 +1,10 @@
 export type WidgetType = 'textbox' | 'checkbox' | 'dropdown' | 'label' | 'form' | 'confirm';
 export type FormFieldType = 'textbox' | 'checkbox' | 'dropdown';
 
+export interface IDynamicUiService {
+  sendProceedAction(action: string, widget: IWidget): void;
+}
+
 export interface IWidget {
   taskEntityId: string;
   name: string;
