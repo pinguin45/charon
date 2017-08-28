@@ -10,7 +10,8 @@ export class Processlist {
   private processEngineService: IProcessEngineService;
   private _processes: IPagination<IProcessDefEntity>;
   private getProcessesIntervalId: number;
-
+  private createProcess: string = environment.createProcess;
+  
   constructor(processEngineService: IProcessEngineService) {
     this.processEngineService = processEngineService;
   }
