@@ -13,6 +13,9 @@ export class Processdetail {
   private processEngineService: IProcessEngineService;
   private _process: IProcessDefEntity;
   private bpmn: BpmnIo;
+  private exportButton: HTMLButtonElement;
+  private exportButtonSpinner: HTMLButtonElement;
+
   @bindable() public uri: string;
   @bindable() public name: string;
 
@@ -51,8 +54,8 @@ export class Processdetail {
   }
 
   public exportDiagram(): void {
-    document.getElementById('idexport').setAttribute('disabled', 'true');
-    document.getElementById('spinner').setAttribute('style', 'display: run-in;');
+    this.exportButton.setAttribute('disabled', 'true');
+    this.exportButtonSpinner.setAttribute('style', 'display: run-in;');
     this.bpmn.getXML().then((xml: any) => {
       this.uri = 'data:application/bpmn20-xml;charset=UTF-8,' + encodeURI(xml);
       this.name = 'Diagram.xml';
@@ -65,8 +68,8 @@ export class Processdetail {
       document.getElementById('exportxml').click();
       const del: HTMLElement = document.getElementById('exportxml');
       del.parentNode.removeChild(del);
-      document.getElementById('idexport').removeAttribute('disabled');
-      document.getElementById('spinner').setAttribute('style', 'display: none;');
+      this.exportButton.removeAttribute('disabled');
+      this.exportButtonSpinner.setAttribute('style', 'display: none;');
     });
   }
 
