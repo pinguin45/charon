@@ -14,7 +14,7 @@ export class Processdetail {
   private _process: IProcessDefEntity;
   private bpmn: BpmnIo;
   private exportButton: HTMLButtonElement;
-  private exportSpinner: HTMLButtonElement;
+  private exportSpinner: HTMLElement;
 
   @bindable() public uri: string;
   @bindable() public name: string;
