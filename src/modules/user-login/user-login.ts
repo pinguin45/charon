@@ -1,5 +1,5 @@
 import {bindable, computedFrom, inject} from 'aurelia-framework';
-import {IAuthenticationService, IIdentity} from '../../contracts/index';
+import {IAuthenticationService, IIdentity, ILoginResult} from '../../contracts/index';
 
 @inject('AuthenticationService')
 export class UserLogin {
@@ -21,7 +21,12 @@ export class UserLogin {
   }
 
   public login(): void {
-    this.authenticationService.login(this.username, this.password);
+    this.authenticationService.login(this.username, this.password)
+      .then((result: ILoginResult): void => {
+        if (result.error) {
+          alert(result.error);
+        }
+      });
   }
 
   public logout(): void {

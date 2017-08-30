@@ -5,6 +5,7 @@ import {
   IAuthenticationRepository,
   IAuthenticationService,
   IIdentity,
+  ILoginResult,
 } from '../../contracts/index';
 
 @inject(EventAggregator, 'AuthenticationRepository')
@@ -28,7 +29,7 @@ export class AuthenticationService implements IAuthenticationService {
     return this.identity;
   }
 
-  public login(username: string, password: string): Promise<IIdentity> {
+  public login(username: string, password: string): Promise<ILoginResult> {
     return this.authenticationRepository.login(username, password)
       .then((result: any) => {
         if (result.token) {
@@ -37,11 +38,13 @@ export class AuthenticationService implements IAuthenticationService {
         if (result.identity) {
           this.identity = result.identity;
         }
-        return result.identity;
+        return result;
       })
-      .then((identity: IIdentity) => {
-        this.eventAggregator.publish(AuthenticationStateEvent.LOGIN, identity);
-        return identity;
+      .then((result: ILoginResult) => {
+        if (result.identity && !result.error) {
+          this.eventAggregator.publish(AuthenticationStateEvent.LOGIN, result);
+        }
+        return result;
       });
   }
 
