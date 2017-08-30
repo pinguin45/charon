@@ -13,6 +13,9 @@ export class Processdetail {
   private processEngineService: IProcessEngineService;
   private _process: IProcessDefEntity;
   private bpmn: BpmnIo;
+  private exportButton: HTMLButtonElement;
+  private exportSpinner: HTMLElement;
+
   @bindable() public uri: string;
   @bindable() public name: string;
 
@@ -51,8 +54,8 @@ export class Processdetail {
   }
 
   public exportDiagram(): void {
-    document.getElementById('idexport').setAttribute('disabled', 'true');
-    document.getElementById('spinner').setAttribute('style', 'display: run-in;');
+    this.exportButton.setAttribute('disabled', '');
+    this.exportSpinner.classList.remove('hidden');
     this.bpmn.getXML().then((xml: any) => {
       this.uri = 'data:application/bpmn20-xml;charset=UTF-8,' + encodeURI(xml);
       this.name = 'Diagram.xml';
@@ -61,12 +64,11 @@ export class Processdetail {
       atag.setAttribute('id', 'exportxml');
       atag.setAttribute('download', this.name);
       atag.setAttribute('hidden', 'true');
-      document.body.appendChild(atag);
-      document.getElementById('exportxml').click();
-      const del: HTMLElement = document.getElementById('exportxml');
-      del.parentNode.removeChild(del);
-      document.getElementById('idexport').removeAttribute('disabled');
-      document.getElementById('spinner').setAttribute('style', 'display: none;');
+      const appendedATag: HTMLAnchorElement = document.body.appendChild(atag);
+      appendedATag.click();
+      appendedATag.parentNode.removeChild(appendedATag);
+      this.exportButton.removeAttribute('disabled');
+      this.exportSpinner.classList.add('hidden');
     });
   }
 

@@ -3,7 +3,7 @@
   <require from="../import-process-button/import-process-button"></require>  
   <require from="./processdetail.css"></require>
   
-  <button type="button" class="btn btn-primary export-button" click.delegate="exportDiagram()"><i id="spinner" style="display: none;" class="glyphicon glyphicon-repeat fa-spin"></i> Export Diagram</button>
+  <button ref="exportButton" type="button" class="btn btn-primary export-button" click.delegate="exportDiagram()"><i ref="exportSpinner" class="glyphicon glyphicon-repeat fa-spin hidden"></i> Export Diagram</button>
   <button type="button" class="btn btn-primary save-button" click.delegate="saveDiagram()">Save</button>
   <bpmn-io view-model.ref="bpmn" xml.bind="process.xml"></bpmn-io>
 
