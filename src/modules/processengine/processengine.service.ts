@@ -30,4 +30,8 @@ export class ProcessEngineService implements IProcessEngineService {
   public updateProcessDef(processDef: IProcessDefEntity, xml: string): Promise<any> {
     return this.repository.updateProcessDef(processDef, xml);
   }
+
+  public getIdentity(): Promise<any> {
+    return this.repository.getIdentity();
+  }
 }

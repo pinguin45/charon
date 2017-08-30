@@ -3,9 +3,15 @@
   <require from="../import-process-button/import-process-button"></require>  
   <require from="./processdetail.css"></require>
   
-  <button type="button" class="btn btn-primary export-button" click.delegate="exportDiagram()"><i id="spinner" style="display: none;" class="glyphicon glyphicon-repeat fa-spin"></i> Export Diagram</button>
-  <button type="button" class="btn btn-primary save-button" click.delegate="saveDiagram()">Save</button>
-  <bpmn-io view-model.ref="bpmn" xml.bind="process.xml"></bpmn-io>
+  <div if.bind="process">
+    <button type="button" class="btn btn-primary export-button" click.delegate="exportDiagram()"><i id="spinner" style="display: none;" class="glyphicon glyphicon-repeat fa-spin"></i> Export Diagram</button>
+    <button type="button" class="btn btn-primary save-button" click.delegate="saveDiagram()">Save</button>
+    <bpmn-io view-model.ref="bpmn" xml.bind="process.xml"></bpmn-io>
 
-  <import-process-button desired-key.bind="process.key" callback.bind="onModdlelImported.bind($this)"></import-process-button>
+    <import-process-button desired-key.bind="process.key" callback.bind="onModdlelImported.bind($this)"></import-process-button>
+  </div>
+
+  <div class="container" if.bind="!process">
+    <h3>Prozess nicht gefunden</h3>
+  </div>
 </template>

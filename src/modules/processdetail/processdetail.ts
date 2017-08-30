@@ -1,6 +1,7 @@
 import {IProcessDefEntity} from '@process-engine-js/process_engine_contracts';
+import {EventAggregator, Subscription} from 'aurelia-event-aggregator';
 import {bindable, computedFrom, inject} from 'aurelia-framework';
-import {IChooseDialogOption, IProcessEngineService} from '../../contracts';
+import {AuthenticationStateEvent, IChooseDialogOption, IProcessEngineService} from '../../contracts/index';
 import environment from '../../environment';
 import {BpmnIo} from '../bpmn-io/bpmn-io';
 
@@ -8,23 +9,47 @@ interface RouteParameters {
   processId: string;
 }
 
-@inject('ProcessEngineService')
+@inject('ProcessEngineService', EventAggregator)
 export class Processdetail {
   private processEngineService: IProcessEngineService;
+  private eventAggregator: EventAggregator;
+  private subscriptions: Array<Subscription>;
+  private processId: string;
   private _process: IProcessDefEntity;
   private bpmn: BpmnIo;
   @bindable() public uri: string;
   @bindable() public name: string;
 
-  constructor(processEngineService: IProcessEngineService) {
+  constructor(processEngineService: IProcessEngineService, eventAggregator: EventAggregator) {
     this.processEngineService = processEngineService;
+    this.eventAggregator = eventAggregator;
   }
 
   public activate(routeParameters: RouteParameters): void {
-    this.processEngineService.getProcessbyID(routeParameters.processId)
-      .then((result: IProcessDefEntity) => {
-        this._process = result;
-      });
+    this.processId = routeParameters.processId;
+    this.refreshProcess();
+  }
+
+  public attached(): void {
+    this.subscriptions = [
+      this.eventAggregator.subscribe(AuthenticationStateEvent.LOGIN, this.refreshProcess.bind(this)),
+      this.eventAggregator.subscribe(AuthenticationStateEvent.LOGOUT, this.refreshProcess.bind(this)),
+    ];
+  }
+
+  public detached(): void {
+    this.subscriptions.forEach((x: Subscription) => x.dispose);
+  }
+
+  private refreshProcess(): void {
+    this.processEngineService.getProcessbyID(this.processId)
+      .then((result: any) => {
+        if (result && !result.error) {
+          this._process = result;
+        } else {
+          this._process = null;
+        }
+    });
   }
 
   @computedFrom('_process')

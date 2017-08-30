@@ -1,19 +1,24 @@
 import {IProcessDefEntity} from '@process-engine-js/process_engine_contracts';
+import {EventAggregator, Subscription} from 'aurelia-event-aggregator';
 import {inject} from 'aurelia-framework';
-import {IPagination, IProcessEngineService} from '../../contracts';
+import {AuthenticationStateEvent, IPagination, IProcessEngineService} from '../../contracts/index';
 import environment from '../../environment';
 
-@inject('ProcessEngineService')
+@inject('ProcessEngineService', EventAggregator)
 export class Processlist {
 
-  private offset: number;
   private processEngineService: IProcessEngineService;
+  private eventAggregator: EventAggregator;
+
+  private offset: number;
   private _processes: IPagination<IProcessDefEntity>;
   private getProcessesIntervalId: number;
   private createProcess: string = environment.createProcess;
+  private subscriptions: Array<Subscription>;
 
-  constructor(processEngineService: IProcessEngineService) {
+  constructor(processEngineService: IProcessEngineService, eventAggregator: EventAggregator) {
     this.processEngineService = processEngineService;
+    this.eventAggregator = eventAggregator;
   }
 
   public getProcessesFromService(offset: number): void {
@@ -23,22 +28,32 @@ export class Processlist {
       });
   }
 
-  private activate(routeParameters: {page: number}): void {
+  public activate(routeParameters: {page: number}): void {
     const page: number = routeParameters.page || 1;
     this.offset = (page - 1) * environment.processlist.pageLimit;
     this.getProcessesFromService(this.offset);
   }
 
-  private attached(): void {
+  public attached(): void {
     this.getProcessesFromService(this.offset);
     this.getProcessesIntervalId = window.setInterval(() => {
-      this.getProcessesFromService(this._processes.offset);
+      this.getProcessesFromService(this.offset);
       // tslint:disable-next-line
     }, environment.processengine.poolingInterval);
+
+    this.subscriptions = [
+      this.eventAggregator.subscribe(AuthenticationStateEvent.LOGIN, this.refreshProcesslist.bind(this)),
+      this.eventAggregator.subscribe(AuthenticationStateEvent.LOGOUT, this.refreshProcesslist.bind(this)),
+    ];
   }
 
-  private detached(): void {
+  public detached(): void {
     clearInterval(this.getProcessesIntervalId);
+    this.subscriptions.forEach((x: Subscription) => x.dispose);
+  }
+
+  private refreshProcesslist(): void {
+    this.getProcessesFromService(this.offset);
   }
 
   public get limit(): number {
@@ -59,7 +74,7 @@ export class Processlist {
     if (this._processes === undefined) {
       return 0;
     }
-    return this._processes.offset / this._processes.limit + 1;
+    return this.offset / this._processes.limit + 1;
   }
 
   public get processes(): Array<IProcessDefEntity> {

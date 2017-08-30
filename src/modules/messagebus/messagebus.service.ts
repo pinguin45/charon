@@ -1,12 +1,16 @@
-import {IMessageBusService} from '../../contracts';
+import {inject} from 'aurelia-framework';
+import {IAuthenticationService, IMessageBusService} from '../../contracts';
 import environment from '../../environment';
 
+@inject('AuthenticationService')
 export class MessageBusService implements IMessageBusService {
 
+  private authenticationService: IAuthenticationService;
   private fayeClient: any;
   private messageHandlers: Array<(channel: string, message: any) => void> = new Array();
 
-  constructor() {
+  constructor(authenticationService: IAuthenticationService) {
+    this.authenticationService = authenticationService;
     this.fayeClient = new (<any> window).Faye.Client(environment.processengine.routes.messageBus);
     this.fayeClient.subscribe('/**').withChannel((channel: string, message: any) => {
       this.handleIncommingMessage(channel, message);
@@ -20,7 +24,13 @@ export class MessageBusService implements IMessageBusService {
   }
 
   public createMessage(): any {
-    return {};
+    const message: any = {};
+    if (this.authenticationService.hasToken()) {
+      message.metadata = {
+        token: this.authenticationService.getToken(),
+      };
+    }
+    return message;
   }
 
   public sendMessage(channel: string, message: any): Promise<any> {
