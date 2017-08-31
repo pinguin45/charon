@@ -1,20 +1,22 @@
-.save-button {
-  position: absolute;
-  bottom: 10px;
-  right: 10px;
-  z-index: 100;
+.bpmn-toolbar {
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
-import-process-button a {
+.bpmn-toolbar-holder {
+  border-bottom: 1px solid #ccc;
+  background-color: #f8f8f8;
+  margin-top: -20px;
   position: absolute;
-  bottom: 10px;
-  right: 72px;
-  z-index: 100;
+  left: 0px;
+  right: 0px;
+  z-index: 110;
 }
 
-.export-button {
+bpmn-io {
   position: absolute;
-  bottom: 10px;
-  right: 201px;
-  z-index: 100;
+  top: 105px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
 }

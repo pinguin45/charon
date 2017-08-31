@@ -3,7 +3,9 @@
   <require from="../choose-dialog/choose-dialog"></require>  
 
   <input type="file" ref="fileInput" accept=".xml,.bpmn" files.bind="selectedFiles" class="hidden">
-  <a class="btn btn-primary" click.delegate="fileInput.click()">Import Diagram</a>
+  <a class="btn btn-primary" click.delegate="fileInput.click()">
+    <i class="glyphicon glyphicon-import"></i> Import Diagram
+  </a>
 
   <div if.bind="chooseOptions">
     <div class="modal fade in show" tabindex="-1" role="dialog">
