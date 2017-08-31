@@ -31,21 +31,9 @@ export class AuthenticationService implements IAuthenticationService {
   public login(username: string, password: string): Promise<IIdentity> {
     return this.authenticationRepository.login(username, password)
       .then((result: any) => {
-        if (result.token) {
-          this.token = result.token;
-        }
-        if (result.identity) {
-          this.identity = result.identity;
-        }
-        return result;
-      })
-      .then((result: any) => {
-        if (result.error) {
-          throw new Error(result.error);
-        }
-        if (result.identity) {
-          this.eventAggregator.publish(AuthenticationStateEvent.LOGIN, result.identity);
-        }
+        this.token = result.token;
+        this.identity = result.identity;
+        this.eventAggregator.publish(AuthenticationStateEvent.LOGIN, result.identity);
         return result;
       });
   }

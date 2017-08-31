@@ -7,8 +7,13 @@ export interface IAuthenticationService {
 }
 
 export interface IAuthenticationRepository {
-  login(username: string, password: string): Promise<any>;
+  login(username: string, password: string): Promise<ILoginResult>;
   logout(): Promise<void>;
+}
+
+export interface ILoginResult {
+  identity: IIdentity;
+  token: string;
 }
 
 export interface IIdentity {
