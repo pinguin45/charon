@@ -1,6 +1,6 @@
 export interface IAuthenticationService {
-  login(username: string, password: string): Promise<ILoginResult>;
-  logout(): Promise<any>;
+  login(username: string, password: string): Promise<IIdentity>;
+  logout(): Promise<void>;
   getToken(): string;
   hasToken(): boolean;
   getIdentity(): IIdentity;
@@ -8,12 +8,7 @@ export interface IAuthenticationService {
 
 export interface IAuthenticationRepository {
   login(username: string, password: string): Promise<any>;
-  logout(): Promise<any>;
-}
-
-export interface ILoginResult {
-  identity?: IIdentity;
-  error?: string;
+  logout(): Promise<void>;
 }
 
 export interface IIdentity {

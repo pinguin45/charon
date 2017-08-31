@@ -13,7 +13,7 @@ export class AuthenticationRepository implements IAuthenticationRepository {
     this.http = http;
   }
 
-  public login(username: string, password: string): Promise<IIdentity> {
+  public login(username: string, password: string): Promise<any> {
     return this.http
       .fetch('http://localhost:8000/iam/login', {
         method: 'post',
