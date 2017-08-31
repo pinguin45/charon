@@ -1,0 +1,56 @@
+import {EventAggregator} from 'aurelia-event-aggregator';
+import {inject} from 'aurelia-framework';
+import {
+  AuthenticationStateEvent,
+  IAuthenticationRepository,
+  IAuthenticationService,
+  IIdentity,
+} from '../../contracts/index';
+
+@inject(EventAggregator, 'AuthenticationRepository')
+export class AuthenticationService implements IAuthenticationService {
+
+  private eventAggregator: EventAggregator;
+  private authenticationRepository: IAuthenticationRepository;
+  private token: string;
+  private identity: IIdentity;
+
+  constructor(eventAggregator: EventAggregator, authenticationRepository: IAuthenticationRepository) {
+    this.eventAggregator = eventAggregator;
+    this.authenticationRepository = authenticationRepository;
+  }
+
+  public getToken(): string {
+    return this.token;
+  }
+
+  public getIdentity(): IIdentity {
+    return this.identity;
+  }
+
+  public login(username: string, password: string): Promise<IIdentity> {
+    return this.authenticationRepository.login(username, password)
+      .then((result: any) => {
+        this.token = result.token;
+        this.identity = result.identity;
+        this.eventAggregator.publish(AuthenticationStateEvent.LOGIN, result.identity);
+        return result;
+      });
+  }
+
+  public logout(): Promise<void> {
+    return this.authenticationRepository.logout()
+      .then((result: any) => {
+        this.token = null;
+        return result;
+      })
+      .then((result: any) => {
+        this.eventAggregator.publish(AuthenticationStateEvent.LOGOUT);
+        return result;
+      });
+  }
+
+  public hasToken(): boolean {
+    return this.token !== null && this.token !== undefined && this.token !== '';
+  }
+}

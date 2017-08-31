@@ -1,6 +1,8 @@
 <template>
   <require from="bootstrap/css/bootstrap.css"></require>
   <require from="font-awesome/css/font-awesome.min.css"></require>  
+  <require from="./modules/user-login/user-login"></require>
+
   <nav class="navbar navbar-inverse navbar-static-top">
     <div class="container">
       <div class="navbar-header">
@@ -17,6 +19,9 @@
             <a href.bind="row.href">${row.title}</a>
           </li>
         </ul>
+        <div class="navbar-form navbar-right">
+          <user-login></user-login>
+        </div>
       </div>
     </div>
   </nav>
