@@ -16,7 +16,7 @@
           <i ref="exportSpinner" class="glyphicon glyphicon-repeat fa-spin hidden"></i>
           <i class="glyphicon glyphicon-export"></i> Export Diagram
         </a>
-        <import-process-button desired-key.bind="process.key" callback.bind="onModdlelImported.bind($this)"></import-process-button>
+        <import-process-button desired-process-import-key.bind="process.key" callback.bind="onModdlelImported.bind($this)"></import-process-button>
       </div>
     </div>
     <bpmn-io view-model.ref="bpmn" xml.bind="process.xml"></bpmn-io>
