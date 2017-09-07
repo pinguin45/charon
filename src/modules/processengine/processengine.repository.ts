@@ -45,6 +45,28 @@ export class ProcessEngineRepository implements IProcessEngineRepository {
       .fetch(environment.processengine.routes.getIdentity, {method: 'get'})
       .then((response: Response) => {
         return response.json();
+      })
+      .then((result: any) => {
+        const responseFailed: boolean = result.error || !result.result;
+        if (responseFailed) {
+          throw new Error(result.error);
+        }
+      });
+  }
+
+  public deleteProcessDef(processId: string): Promise<void> {
+    const url: string = environment.processengine.routes.processes + '/' + processId;
+    return this.http
+      .fetch(url, {
+        method: 'delete',
+      })
+      .then((response: Response) => {
+        return response.json();
+      }).then((result: any) => {
+        const responseFailed: boolean = result.error || !result.result;
+        if (responseFailed) {
+          throw new Error(result.error);
+        }
       });
   }
 

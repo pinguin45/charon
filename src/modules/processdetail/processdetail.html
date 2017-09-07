@@ -2,16 +2,28 @@
   <require from="../bpmn-io/bpmn-io"></require>
   <require from="../import-process-button/import-process-button"></require>  
   <require from="./processdetail.css"></require>
-  
-  <div if.bind="process">
-    <button ref="exportButton" type="button" class="btn btn-primary export-button" click.delegate="exportDiagram()"><i ref="exportSpinner" class="glyphicon glyphicon-repeat fa-spin hidden"></i> Export Diagram</button>
-    <button type="button" class="btn btn-primary save-button" click.delegate="saveDiagram()">Save</button>
-    <bpmn-io view-model.ref="bpmn" xml.bind="process.xml"></bpmn-io>
 
-    <import-process-button desired-key.bind="process.key" callback.bind="onModdlelImported.bind($this)"></import-process-button>
+  <div if.bind="process">
+    <div class="bpmn-toolbar-holder">
+      <div class="container bpmn-toolbar">
+        <a class="btn btn-success save-button" click.delegate="saveDiagram()">
+          <i class="glyphicon glyphicon-floppy-disk"></i> Save
+        </a>
+        <a class="btn btn-danger" click.delegate="deleteProcess()">
+          <i class="glyphicon glyphicon-trash"></i> Delete Process
+        </a>
+        <a ref="exportButton" class="btn btn-primary export-button" click.delegate="exportDiagram()">
+          <i ref="exportSpinner" class="glyphicon glyphicon-repeat fa-spin hidden"></i>
+          <i class="glyphicon glyphicon-export"></i> Export Diagram
+        </a>
+        <import-process-button desired-process-import-key.bind="process.key" callback.bind="onModdlelImported.bind($this)"></import-process-button>
+      </div>
+    </div>
+    <bpmn-io view-model.ref="bpmn" xml.bind="process.xml"></bpmn-io>
   </div>
 
   <div class="container" if.bind="!process">
     <h3>Prozess nicht gefunden</h3>
   </div>
+
 </template>

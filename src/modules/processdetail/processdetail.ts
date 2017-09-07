@@ -55,6 +55,20 @@ export class Processdetail {
     });
   }
 
+  public deleteProcess(): void {
+    const deleteForReal: boolean = confirm('Soll der Prozess wirklich gelöscht werden?');
+    if (!deleteForReal) {
+      return;
+    }
+    this.processEngineService.deleteProcessDef(this.process.id)
+      .then(() => {
+        this._process = null;
+      })
+      .catch((error: Error) => {
+        alert(error.message);
+      });
+  }
+
   @computedFrom('_process')
   public get process(): IProcessDefEntity {
     return this._process;
