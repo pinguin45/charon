@@ -45,8 +45,10 @@ export class ProcessEngineRepository implements IProcessEngineRepository {
       .fetch(environment.processengine.routes.getIdentity, {method: 'get'})
       .then((response: Response) => {
         return response.json();
-      }).then((result: any) => {
-        if (result.error || !result.result) {
+      })
+      .then((result: any) => {
+        const responseFailed: boolean = result.error || !result.result;
+        if (responseFailed) {
           throw new Error(result.error);
         }
       });
@@ -61,7 +63,8 @@ export class ProcessEngineRepository implements IProcessEngineRepository {
       .then((response: Response) => {
         return response.json();
       }).then((result: any) => {
-        if (result.error || !result.result) {
+        const responseFailed: boolean = result.error || !result.result;
+        if (responseFailed) {
           throw new Error(result.error);
         }
       });

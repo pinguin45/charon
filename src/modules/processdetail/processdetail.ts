@@ -60,12 +60,13 @@ export class Processdetail {
     if (!deleteForReal) {
       return;
     }
-    this.processEngineService.deleteProcessDef(this._process.id).then(() => {
-      this._process = null;
-    })
-    .catch((error: Error) => {
-      alert(error.message);
-    });
+    this.processEngineService.deleteProcessDef(this.process.id)
+      .then(() => {
+        this._process = null;
+      })
+      .catch((error: Error) => {
+        alert(error.message);
+      });
   }
 
   @computedFrom('_process')
