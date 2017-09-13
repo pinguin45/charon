@@ -176,6 +176,13 @@
             "resources": [
               "css/font-awesome.min.css"
             ]
+          },
+          {
+            "name": "nanomsg-browser",
+            "path": "../node_modules/nanomsg-browser",
+            "main": "src/nanomsg.js",
+            "resources": [],
+            "exports": "nanomsg"
           }
         ]
       }

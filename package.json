@@ -25,6 +25,7 @@
     "faye": "^1.2.4",
     "font-awesome": "^4.7.0",
     "jquery": "^2.2.4",
+    "nanomsg-browser": "^0.1.4",
     "requirejs": "^2.3.2",
     "text": "github:requirejs/text#latest",
     "tslint-config-5minds": "^1.0.5"
