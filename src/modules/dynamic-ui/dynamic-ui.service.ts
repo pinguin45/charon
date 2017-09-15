@@ -9,6 +9,7 @@ import {
   IFormField,
   IFormWidget,
   IMessageBusService,
+  INanomsgService,
   IUserTaskEntityExtensions,
   IUserTaskFormField,
   IWidget,
@@ -16,15 +17,19 @@ import {
 } from '../../contracts';
 import environment from '../../environment';
 
-@inject('MessageBusService', EventAggregator)
+@inject('MessageBusService', EventAggregator, 'NanomsgService')
 export class DynamicUiService implements IDynamicUiService {
 
   private messageBusService: IMessageBusService;
   private eventAggregator: EventAggregator;
+  private nanomessage: INanomsgService;
 
-  constructor(messageBusService: IMessageBusService, eventAggregator: EventAggregator)  {
+  constructor(messageBusService: IMessageBusService, eventAggregator: EventAggregator, nanomessage: INanomsgService) {
     this.messageBusService = messageBusService;
     this.eventAggregator = eventAggregator;
+    this.nanomessage = nanomessage;
+    this.nanomessage.activate();
+    // this.nanomessage.sendMessage();
     this.messageBusService.registerMessageHandler(this.handleIncommingMessage.bind(this));
   }
 

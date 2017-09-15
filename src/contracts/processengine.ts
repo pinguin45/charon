@@ -34,6 +34,11 @@ export interface IMessageBusService {
   removeMessageHandler(handler: (channel: string, message: any) => void): void;
 }
 
+export interface INanomsgService {
+   activate(): any;
+   sendMessage(): void;
+}
+
 // process engine does not provide an interface
 export interface IUserTaskEntityExtensions {
   formFields: Array<IUserTaskFormField>;
