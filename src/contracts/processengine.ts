@@ -35,8 +35,10 @@ export interface IMessageBusService {
 }
 
 export interface INanomsgService {
-   activate(): any;
-   sendMessage(): void;
+  createMessage(): any;
+  sendMessage(channel: string, message: any): Promise<any>;
+  registerMessageHandler(handler: (channel: string, message: any) => void): void;
+  removeMessageHandler(handler: (channel: string, message: any) => void): void;
 }
 
 // process engine does not provide an interface

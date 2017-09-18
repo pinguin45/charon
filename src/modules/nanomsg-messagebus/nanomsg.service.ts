@@ -6,22 +6,23 @@ import environment from '../../environment';
 export class NanomsgService implements INanomsgService {
 
     private authenticationService: IAuthenticationService;
-    // public message: string = 'sdhd';
+    private messageHandlers: Array<(channel: string, message: any) => void> = new Array();
     private sock: any;
 
     constructor(authenticationService: IAuthenticationService) {
       this.authenticationService = authenticationService;
-      this.sock = new nanomsg.Socket(nanomsg.REQ);
+      this.sock = new nanomsg.Socket(nanomsg.PAIR);
       this.sock.connect(environment.processengine.routes.nanomsgBus);
-      // this.pub.connect('ws://192.168.161.230:49000');
-      // this.start();
-    }
-
-    public activate(): any {
       this.sock.on('data', (msg: any) => {
-        console.log(msg);
+        console.log('data: ' + msg.message);
       });
     }
+
+    // public activate(): any {
+    //   this.sock.on('data', (msg: any) => {
+    //     console.log('data: ' + msg.message);
+    //   });
+    // }
 
     public createMessage(): any {
       const message: any = {};
@@ -33,10 +34,30 @@ export class NanomsgService implements INanomsgService {
       return message;
     }
 
-    public sendMessage(): void {
-      setInterval(() => {
-       this.sock.send('Dasiststeintetsts');
-      },          environment.processengine.poolingInterval);
+    public sendMessage(channel: string, message: any): Promise<any> {
+      return this.sock.send(channel, message);
     }
+
+    public registerMessageHandler(handler: (channel: string, message: any) => void): void {
+      this.messageHandlers.push(handler);
+    }
+
+    public removeMessageHandler(handler: (channel: string, message: any) => void): void {
+      const index: number = this.messageHandlers.indexOf(handler);
+      if (index >= 0) {
+        this.messageHandlers.slice(index, 1);
+      }
+    }
+
+    // public sendMessage(): void {
+    //   const message: any = {};
+    //   message.metadata = {
+    //     channel: 'testchannel',
+    //   };
+    //   message.message = 'Testnachricht';
+    //   setInterval( () => {
+    //     this.sock.send(message);
+    //   }, 1000);
+    // }
 
 }

@@ -28,9 +28,10 @@ export class DynamicUiService implements IDynamicUiService {
     this.messageBusService = messageBusService;
     this.eventAggregator = eventAggregator;
     this.nanomessage = nanomessage;
-    this.nanomessage.activate();
+    // this.nanomessage.activate();
     // this.nanomessage.sendMessage();
     this.messageBusService.registerMessageHandler(this.handleIncommingMessage.bind(this));
+    this.nanomessage.registerMessageHandler(this.handleIncommingMessage.bind(this));
   }
 
   public sendProceedAction(action: string, widget: IWidget): void {
@@ -41,6 +42,7 @@ export class DynamicUiService implements IDynamicUiService {
       token: messageToken,
     };
     this.messageBusService.sendMessage(`/processengine/node/${widget.taskEntityId}`, message);
+    this.nanomessage.sendMessage(`/processengine/node/${widget.taskEntityId}`, message);
   }
 
   private getMessageToken(widget: IWidget): any {
