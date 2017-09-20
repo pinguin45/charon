@@ -14,28 +14,35 @@ export class NanomsgService implements INanomsgService {
       this.sock = new nanomsg.Socket(nanomsg.PAIR);
       this.sock.connect(environment.processengine.routes.nanomsgBus);
       this.sock.on('data', (msg: any) => {
-        console.log('data: ' + msg.message);
+        msg = JSON.parse(msg);
+        this.handleIncommingMessage(msg.metadata.channel, msg.data);
+        // console.log(JSON.stringify(msg));
       });
     }
 
-    // public activate(): any {
-    //   this.sock.on('data', (msg: any) => {
-    //     console.log('data: ' + msg.message);
-    //   });
-    // }
+    private handleIncommingMessage(channel: string, message: any): void {
+      for (const handler of this.messageHandlers) {
+        handler(channel, message);
+      }
+    }
 
-    public createMessage(): any {
+    public createMessage(channel: string): any {
       const message: any = {};
       if (this.authenticationService.hasToken()) {
         message.metadata = {
           token: this.authenticationService.getToken(),
+          channel: channel,
+        };
+      }else {
+        message.metadata = {
+          channel: channel,
         };
       }
       return message;
     }
 
-    public sendMessage(channel: string, message: any): Promise<any> {
-      return this.sock.send(channel, message);
+    public sendMessage(message: any): Promise<any> {
+      return this.sock.send(JSON.stringify(message));
     }
 
     public registerMessageHandler(handler: (channel: string, message: any) => void): void {
@@ -48,16 +55,5 @@ export class NanomsgService implements INanomsgService {
         this.messageHandlers.slice(index, 1);
       }
     }
-
-    // public sendMessage(): void {
-    //   const message: any = {};
-    //   message.metadata = {
-    //     channel: 'testchannel',
-    //   };
-    //   message.message = 'Testnachricht';
-    //   setInterval( () => {
-    //     this.sock.send(message);
-    //   }, 1000);
-    // }
 
 }
