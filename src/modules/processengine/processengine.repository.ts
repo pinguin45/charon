@@ -70,7 +70,7 @@ export class ProcessEngineRepository implements IProcessEngineRepository {
       });
   }
 
-  public startProcess(process: IProcessDefEntity): Promise<any> {
+  public startProcess(process: IProcessDefEntity, participantID: string): Promise<any> {
     const options: RequestInit = {
       method: 'post',
       headers: {
@@ -79,6 +79,7 @@ export class ProcessEngineRepository implements IProcessEngineRepository {
       body: JSON.stringify({
         msg: {
           key: process.key,
+          participant: participantID,
         },
       }),
     };
