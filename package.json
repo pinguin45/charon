@@ -28,8 +28,7 @@
     "nanomsg-browser": "^0.1.4",
     "requirejs": "^2.3.2",
     "text": "github:requirejs/text#latest",
-    "tslint-config-5minds": "^1.0.5",
-    "uuid": "^3.1.0"
+    "tslint-config-5minds": "^1.0.5"
   },
   "peerDependencies": {},
   "devDependencies": {
