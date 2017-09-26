@@ -10,6 +10,7 @@ import {
   IFormWidget,
   IMessageBusService,
   INanomsgService,
+  ISocketioService,
   IUserTaskEntityExtensions,
   IUserTaskFormField,
   IWidget,
@@ -17,34 +18,38 @@ import {
 } from '../../contracts';
 import environment from '../../environment';
 
-@inject('MessageBusService', EventAggregator, 'NanomsgService')
+@inject('MessageBusService', EventAggregator, 'NanomsgService', 'SocketioService')
 export class DynamicUiService implements IDynamicUiService {
 
   private messageBusService: IMessageBusService;
   private eventAggregator: EventAggregator;
   private nanomessage: INanomsgService;
+  private socketio: ISocketioService;
 
-  constructor(messageBusService: IMessageBusService, eventAggregator: EventAggregator, nanomessage: INanomsgService) {
+  constructor(messageBusService: IMessageBusService, eventAggregator: EventAggregator, nanomessage: INanomsgService, socketio: ISocketioService) {
     this.messageBusService = messageBusService;
     this.eventAggregator = eventAggregator;
     this.nanomessage = nanomessage;
+    this.socketio = socketio;
     this.messageBusService.registerMessageHandler(this.handleIncommingMessage.bind(this));
+    // this.socketio.registerMessageHandler(this.handleIncommingMessage.bind(this));
     // this.nanomessage.registerMessageHandler(this.handleIncommingMessage.bind(this));
   }
 
   public sendProceedAction(action: string, widget: IWidget): void {
     const message: any = this.messageBusService.createMessage();
-    const messagenano: any = this.nanomessage.createMessage(`/processengine/node/${widget.taskEntityId}`);
+    // const messagenano: any = this.nanomessage.createMessage(`/processengine/node/${widget.taskEntityId}`);
     const messageToken: any = this.getMessageToken(widget);
     message.data = {
       action: 'proceed',
       token: messageToken,
     };
-    messagenano.data = {
-      action: 'proceed',
-      token: messageToken,
-    };
+    // messagenano.data = {
+    //   action: 'proceed',
+    //   token: messageToken,
+    // };
     this.messageBusService.sendMessage(`/processengine/node/${widget.taskEntityId}`, message);
+    // this.socketio.sendMessage(`/processengine/node/${widget.taskEntityId}`, message);
     // this.nanomessage.sendMessage(messagenano);
   }
 

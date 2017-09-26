@@ -13,7 +13,7 @@ export class MessageBusService implements IMessageBusService {
     this.authenticationService = authenticationService;
     this.fayeClient = new (<any> window).Faye.Client(environment.processengine.routes.messageBus);
     this.fayeClient.subscribe('/**').withChannel((channel: string, message: any) => {
-      console.log(channel, message);
+      // console.log(channel, message);
       this.handleIncommingMessage(channel, message);
     });
   }

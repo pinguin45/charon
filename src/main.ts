@@ -8,6 +8,7 @@ export function configure(aurelia: Aurelia): void {
     .feature('modules/processengine')
     .feature('modules/faye-messagebus')
     // .feature('modules/nanomsg-messagebus')
+    // .feature('modules/socketio-messagebus')
     .feature('modules/authentication')
     .feature('resources');
 

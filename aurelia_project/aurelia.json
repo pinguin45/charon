@@ -183,6 +183,10 @@
             "main": "src/nanomsg.js",
             "resources": [],
             "exports": "nanomsg"
+          },
+          {
+            "name": "socket.io-client",
+            "path": "../node_modules/socket.io-client/socket.io.min"
           }
         ]
       }

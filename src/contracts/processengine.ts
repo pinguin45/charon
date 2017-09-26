@@ -41,6 +41,13 @@ export interface INanomsgService {
   removeMessageHandler(handler: (channel: string, message: any) => void): void;
 }
 
+export interface ISocketioService {
+  createMessage(channel: string): any;
+  sendMessage(channel: string, message: any): Promise<any>;
+  registerMessageHandler(handler: (channel: string, message: any) => void): void;
+  removeMessageHandler(handler: (channel: string, message: any) => void): void;
+}
+
 // process engine does not provide an interface
 export interface IUserTaskEntityExtensions {
   formFields: Array<IUserTaskFormField>;
