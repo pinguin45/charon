@@ -115,11 +115,14 @@ export class ProcessEngineRepository implements IProcessEngineRepository {
       value: processKey,
     };
     const url: string = environment.processengine.routes.processInstances + '?query=' + JSON.stringify(query);
+    // console.log(JSON.stringify(query));
     return this.http
       .fetch(url, {method: 'get'})
       .then((response: Response) => {
+        // console.log(response);
         return response.json();
       }).then((list: IPagination<IProcessDefEntity>) => {
+        // console.log(list.data);
         return list.data;
       });
   }

@@ -27,6 +27,13 @@ export class App {
         name: 'processstart',
         moduleId: 'modules/processstart/processstart',
       },
+      {
+        route: ['processinstances', 'processinstances/:page'],
+        title: 'Processinstances',
+        name: 'processinstances',
+        moduleId: 'modules/processinstances/processinstances',
+        nav: true,
+      },
     ]);
   }
 }
