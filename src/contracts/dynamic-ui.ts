@@ -15,12 +15,22 @@ export interface IFormWidget extends IWidget {
   fields: Array<IFormField | IDropDownField>;
 }
 
+export interface IConfirmWidget extends IWidget {
+  layout: Array<ILayout>;
+}
+
 export interface IFormField {
   id: string;
   label: string;
   type: FormFieldType;
   defaultValue: string | boolean;
   value: string | boolean;
+}
+
+export interface ILayout {
+  key: string;
+  label: string;
+  isCancel?: boolean;
 }
 
 export interface IDropDownField extends IFormField {

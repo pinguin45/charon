@@ -10,6 +10,8 @@ export class DynamicUiWrapper {
   private eventAggregator: EventAggregator;
   @bindable()
   private _currentWidget: IWidget;
+  private declineButtonText: string = 'Abbrechen';
+  private confirmButtonText: string = 'Weiter';
 
   constructor(eventAggregator: EventAggregator, dynamicUiService: IDynamicUiService) {
     this.eventAggregator = eventAggregator;
@@ -17,6 +19,12 @@ export class DynamicUiWrapper {
 
     eventAggregator.subscribe('render-dynamic-ui', (message: any) => {
       this._currentWidget = message;
+      if (this._currentWidget.type === 'confirm') {
+        this.handleConfirmLayout(this._currentWidget);
+      } else {
+        this.confirmButtonText = 'Weiter';
+        this.declineButtonText = 'Abbrechen';
+      }
     });
   }
 
@@ -29,5 +37,26 @@ export class DynamicUiWrapper {
 
   public get currentWidget(): IWidget {
     return this._currentWidget;
+  }
+
+  public handleConfirmLayout(currentWidget: any): void {
+    if (currentWidget.layout.length === 1) {
+      if (currentWidget.layout[0].key === 'decline') {
+        this.declineButtonText = currentWidget.layout[0].label;
+        this.confirmButtonText = null;
+      } else if (currentWidget.layout[0].key === 'confirm') {
+        this.confirmButtonText = currentWidget.layout[0].label;
+        this.declineButtonText = null;
+      }
+    } else {
+      for (const layout of currentWidget.layout) {
+        if (layout.key === 'decline') {
+          this.declineButtonText = layout.label;
+        } else if (layout.key === 'confirm') {
+          this.confirmButtonText = layout.label;
+        }
+      }
+    }
+
   }
 }
