@@ -45,6 +45,12 @@ export class DynamicUiService implements IDynamicUiService {
         messageToken[field.id] = field.value;
       }
     }
+
+    // we don't render confirm-widgets yet, so for now, always confirm
+    if (widget.type === 'confirm') {
+      messageToken.key = 'confirm';
+    }
+
     // TODO: handle other widget types
     return messageToken;
   }
