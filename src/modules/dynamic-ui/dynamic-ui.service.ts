@@ -32,7 +32,7 @@ export class DynamicUiService implements IDynamicUiService {
     const message: any = this.messageBusService.createMessage();
     const messageToken: any = this.getMessageToken(widget);
     message.data = {
-      action: 'proceed',
+      action: action,
       token: messageToken,
     };
     this.messageBusService.sendMessage(`/processengine/node/${widget.taskEntityId}`, message);
