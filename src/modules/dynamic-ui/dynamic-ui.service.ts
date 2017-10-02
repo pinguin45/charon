@@ -123,7 +123,9 @@ export class DynamicUiService implements IDynamicUiService {
       taskEntityId: task.userTaskEntity.id,
       name: task.userTaskEntity.name,
       type: 'confirm',
+      message: task.uiConfig.message,
       layout: layouts,
+      uiData: task.uiData,
     };
 
     return confirmWidget;

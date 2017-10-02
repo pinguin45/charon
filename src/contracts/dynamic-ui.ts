@@ -16,7 +16,9 @@ export interface IFormWidget extends IWidget {
 }
 
 export interface IConfirmWidget extends IWidget {
+  message: string;
   layout: Array<ILayout>;
+  uiData: any;
 }
 
 export interface IFormField {

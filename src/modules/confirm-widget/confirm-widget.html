@@ -1,5 +1,10 @@
 <template>
   <require from="./confirm-widget.css"></require>
-  <label>${widget.name}</label>
+  <label id="target">${widget.message}</label> 
   <br>
+  
+  <script id="template" type="x-tmpl-mustache">
+    ${widget.message}
+  </script>
+
 </template>
