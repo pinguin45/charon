@@ -51,13 +51,6 @@ export class ProcessStart {
   }
 
   public startProcess(): void {
-    this.processEngineService.startProcess(this.process)
-    // .then((resultone: any) => {
-    //   this.processEngineService.getInstances(this.process.id)
-    //   .then((result: any) => {
-    //     console.log(result);
-    // });
-    // });
-
+    this.processEngineService.startProcess(this.process);
   }
 }

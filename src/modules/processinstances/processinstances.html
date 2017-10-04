@@ -1,52 +1,24 @@
 <template>
   <require from="./processinstances.css"></require>
-
-  <div class="container">
-    <table class="table table-striped table-bordered">
-      <tr>
-        <th>Name</th>
-        <th>ID</th>
-        <th>#</th>
-      </tr>
-      <tr repeat.for="instance of instances">
-        <td>${instance.name}</td>
-        <td>${instance.id}</td>
-        <td>
-          <a class="btn btn-primary" href="#/processdetail/${process.id}">Details</a>
-        </td>
-      </tr>
-    </table>
-
-    <nav aria-label="Result navigation">
-      <ul class="pagination">
-        <li class="${currentPage <= 1 ? 'disabled' : ''}">
-          <span if.bind="currentPage <= 1" aria-hidden="true">&laquo;</span>
-          <a if.bind="currentPage > 1" href="#/processinstances/1" aria-label="First">
-            <span aria-hidden="true">&laquo;</span>
-          </a>
-        </li>
-        <li class="${currentPage <= 1 ? 'disabled' : ''}">
-          <span if.bind="currentPage <= 1" aria-hidden="true">&lsaquo;</span>
-          <a if.bind="currentPage > 1" href="#/processinstances/${currentPage - 1}" aria-label="Previous">
-            <span aria-hidden="true">&lsaquo;</span>
-          </a>
-        </li>
-        <li repeat.for="page of maxPages" class="${page + 1 == currentPage ? 'active' : ''}">
-          <a href="#/processinstances/${page + 1}">${page + 1}</a>
-        </li>
-        <li class="${currentPage >= maxPages ? 'disabled' : ''}">
-          <span if.bind="currentPage >= maxPages" aria-hidden="true">&rsaquo;</span>
-          <a if.bind="currentPage < maxPages" href="#/processinstances/${currentPage + 1}" aria-label="Next">
-            <span aria-hidden="true">&rsaquo;</span>
-          </a>
-        </li>
-        <li class="${currentPage >= maxPages ? 'disabled' : ''}">
-          <span if.bind="currentPage >= maxPages" aria-hidden="true">&raquo;</span>
-            <a if.bind="currentPage < maxPages" href="#/processinstances/${maxPages}" aria-label="Last">
-            <span aria-hidden="true">&raquo;</span>
-          </a>
-        </li>
-      </ul>
-    </nav>
+      <div class="container">
+          <div if.bind="instances">
+            <table class="table table-striped table-bordered">
+              <tr>
+                <th>ID</th>
+                <th>Status</th>
+                <th>#</th>
+              </tr>
+              <tr repeat.for="instance of instances">
+                <td>${instance.id}</td>
+                <td>${instance.status}</td>
+                <td>
+                  <a class="btn btn-danger disabled" href="#">Stop</a>
+                </td>
+              </tr>
+            </table>
+        </div>
+        <div if.bind="!instances">
+           <h3>Keine Instanzen gefunden</h3>
+        </div>
   </div>
 </template>

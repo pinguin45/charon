@@ -28,11 +28,10 @@ export class App {
         moduleId: 'modules/processstart/processstart',
       },
       {
-        route: ['processinstances', 'processinstances/:page'],
+        route: 'processinstances/:processId',
         title: 'Processinstances',
         name: 'processinstances',
         moduleId: 'modules/processinstances/processinstances',
-        nav: true,
       },
     ]);
   }

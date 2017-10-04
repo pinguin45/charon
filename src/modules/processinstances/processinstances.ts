@@ -11,7 +11,8 @@ export class Processinstances {
   private eventAggregator: EventAggregator;
 
   private offset: number;
-  private _instances: IPagination<INodeInstanceEntity>;
+  private processId: string;
+  private instances: IPagination<INodeInstanceEntity>;
   private getProcessesIntervalId: number;
   private subscriptions: Array<Subscription>;
 
@@ -21,16 +22,18 @@ export class Processinstances {
   }
 
   public getInstancesfromService(offset: number): void {
-    this.processEngineService.getInstances('6b11329d-870f-4996-b5eb-015897234605')
+    this.processEngineService.getInstances(this.processId)
       .then((result: any) => {
-        this._instances = result;
+        if (result < 1) {
+          this.instances = null;
+        } else {
+          this.instances = result;
+        }
       });
   }
 
-  public activate(routeParameters: {page: number}): void {
-    const page: number = routeParameters.page || 1;
-    this.offset = (page - 1) * environment.processlist.pageLimit;
-    this.getInstancesfromService(this.offset);
+  public activate(routeParameters: {processId: string}): void {
+    this.processId = routeParameters.processId;
   }
 
   public attached(): void {
@@ -55,33 +58,4 @@ export class Processinstances {
     this.getInstancesfromService(this.offset);
   }
 
-  public get limit(): number {
-    if (this._instances === undefined) {
-      return 0;
-    }
-    return this._instances.limit;
-  }
-
-  public get maxPages(): number {
-    if (this._instances === undefined) {
-      return 0;
-    }
-    return Math.ceil(this._instances.count / this._instances.limit);
-  }
-
-  public get currentPage(): number {
-    if (this._instances === undefined) {
-      return 0;
-    }
-    return this.offset / this._instances.limit + 1;
-  }
-
-  public get instances(): Array<INodeInstanceEntity> {
-    if (this._instances === undefined) {
-      return [];
-    }
-    console.log(this._instances);
-    // console.log(this._instances.data);
-    return this._instances.data;
-  }
 }
