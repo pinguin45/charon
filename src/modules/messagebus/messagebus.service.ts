@@ -18,6 +18,11 @@ export class MessageBusService implements IMessageBusService {
   }
 
   private handleIncommingMessage(channel: string, message: any): void {
+    const isAllowedToHandle: boolean = this.isAllowedToHandle(channel);
+    if (!isAllowedToHandle) {
+      return;
+    }
+
     for (const handler of this.messageHandlers) {
       handler(channel, message);
     }
@@ -31,6 +36,21 @@ export class MessageBusService implements IMessageBusService {
       };
     }
     return message;
+  }
+
+  private isAllowedToHandle(channel: string): boolean {
+    let roles: Array<string> = ['guest']; // default roles
+    if (this.authenticationService.getIdentity()) {
+      roles = this.authenticationService.getIdentity().roles;
+    }
+
+    const rolePrefix: string = '/role/';
+    if (!channel.startsWith(rolePrefix)) {
+      return false;
+    }
+
+    const handledRole: string = channel.substr(rolePrefix.length);
+    return roles.includes(handledRole);
   }
 
   public sendMessage(channel: string, message: any): Promise<any> {
