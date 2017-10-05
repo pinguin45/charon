@@ -45,15 +45,12 @@ export class MessageBusService implements IMessageBusService {
     }
 
     const rolePrefix: string = '/role/';
-    if (channel.startsWith(rolePrefix)) {
-      const handledRole: string = channel.substr(rolePrefix.length);
-      for (const role of roles) {
-        if (handledRole === role) {
-          return true;
-        }
-      }
+    if (!channel.startsWith(rolePrefix)) {
+      return false;
     }
-    return false;
+
+    const handledRole: string = channel.substr(rolePrefix.length);
+    return roles.includes(handledRole);
   }
 
   public sendMessage(channel: string, message: any): Promise<any> {
