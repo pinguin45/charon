@@ -110,7 +110,7 @@ export class DynamicUiService implements IDynamicUiService {
     return formWiget;
   }
 
-  private mapConfirmWidget(task: IUserTaskMessageData): IConfirmWidget {
+  private mapConfirmWidget(task: IUserTaskEntity): IConfirmWidget {
     const uiConfig: IConfirmWidget = task.uiConfig;
     const layouts: Array<ILayout> = uiConfig.layout.map((layout: ILayout) => {
       const confirmLayout: ILayout = {
@@ -175,7 +175,9 @@ export class DynamicUiService implements IDynamicUiService {
 
   private getWidetType(task: IUserTaskEntity): WidgetType {
     const extensions: IUserTaskEntityExtensions = task.nodeDef.extensions;
-    const uiNameProp: IUserTaskProperty = extensions.properties.find((x: IUserTaskProperty) => x.name === 'uiName');
+    const uiNameProp: IUserTaskProperty = extensions.properties.find((property: IUserTaskProperty) => {
+      return property.name === 'uiName';
+    });
 
     let result: WidgetType = null;
     if (uiNameProp.value !== undefined && uiNameProp.value !== null) {
