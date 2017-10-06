@@ -111,7 +111,21 @@ export class DynamicUiService implements IDynamicUiService {
   }
 
   private mapConfirmWidget(task: IUserTaskEntity): IConfirmWidget {
-    const uiConfig: IConfirmWidget = task.uiConfig;
+    const extensions: IUserTaskEntityExtensions = task.nodeDef.extensions;
+    const uiConfigProperty: IUserTaskProperty = extensions.properties.find((property: IUserTaskProperty): boolean =>  {
+      return property.name === 'uiConfig';
+    });
+
+    // TODO cleanup
+    let value: string = uiConfigProperty.value;
+    if (value.startsWith('$')) {
+      value = value.substring(1);
+    }
+    if (value.endsWith(';')) {
+      value = value.substring(0, value.length - 1);
+    }
+    const uiConfig: any = JSON.parse(value);
+
     const layouts: Array<ILayout> = uiConfig.layout.map((layout: ILayout) => {
       const confirmLayout: ILayout = {
         key: layout.key,
@@ -123,12 +137,12 @@ export class DynamicUiService implements IDynamicUiService {
     });
 
     const confirmWidget: IConfirmWidget = {
-      taskEntityId: task.userTaskEntity.id,
-      name: task.userTaskEntity.name,
+      taskEntityId: task.id,
+      name: task.name,
       type: 'confirm',
-      message: task.uiConfig.message,
+      message: uiConfig.message,
       layout: layouts,
-      uiData: task.uiData,
+      uiData: task.processToken.data,
     };
 
     return confirmWidget;
