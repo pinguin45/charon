@@ -59,13 +59,14 @@ export class DynamicUiService implements IDynamicUiService {
   }
 
   private handleIncommingMessage(channel: string, message: any): void {
-    if (message.data && message.data.action === 'userTask') {
-      const task: IUserTaskMessageData = message.data.data;
-      const widget: IWidget = this.mapUserTask(task.userTaskEntity);
+    if (!message.data || message.data.action !== 'userTask') {
+      return;
+    }
+    const task: IUserTaskMessageData = message.data.data;
+    const widget: IWidget = this.mapUserTask(task.userTaskEntity);
 
-      if (widget !== null) {
-        this.eventAggregator.publish('render-dynamic-ui', widget);
-      }
+    if (widget !== null) {
+      this.eventAggregator.publish('render-dynamic-ui', widget);
     }
   }
 
@@ -176,6 +177,10 @@ export class DynamicUiService implements IDynamicUiService {
     const extensions: IUserTaskEntityExtensions = task.nodeDef.extensions;
     const uiNameProp: IUserTaskProperty = extensions.properties.find((x: IUserTaskProperty) => x.name === 'uiName');
 
-    return uiNameProp.value ? uiNameProp.value.toLowerCase() as WidgetType : null;
+    let result: WidgetType = null;
+    if (uiNameProp.value !== undefined && uiNameProp.value !== null) {
+      result = uiNameProp.value.toLowerCase() as WidgetType;
+    }
+    return result;
   }
 }

@@ -30,10 +30,6 @@ export class TaskList {
       });
   }
 
-  public activate(): void {
-    // TODO
-  }
-
   public attached(): void {
     this.getUserTasksFromService(0);
     this.getUserTasksIntervalId = window.setInterval(() => {
@@ -60,6 +56,8 @@ export class TaskList {
     if (this.userTasks === undefined) {
       return [];
     }
-    return this.userTasks.data.filter((x: IUserTaskEntity) => x.state === 'wait');
+    return this.userTasks.data.filter((entry: IUserTaskEntity): boolean => {
+      return entry.state === 'wait';
+    });
   }
 }

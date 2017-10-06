@@ -1,7 +1,7 @@
 import {IProcessDefEntity} from '@process-engine-js/process_engine_contracts';
 import {EventAggregator, Subscription} from 'aurelia-event-aggregator';
 import {computedFrom, inject} from 'aurelia-framework';
-import {AuthenticationStateEvent, IProcessEngineService} from '../../contracts/index';
+import {AuthenticationStateEvent, IProcessEngineService, IWidget} from '../../contracts/index';
 import {DynamicUiWrapper} from '../dynamic-ui-wrapper/dynamic-ui-wrapper';
 
 @inject('ProcessEngineService', EventAggregator)
@@ -28,14 +28,16 @@ export class ProcessStart {
     this.subscriptions = [
       this.eventAggregator.subscribe(AuthenticationStateEvent.LOGIN, this.refreshProcess.bind(this)),
       this.eventAggregator.subscribe(AuthenticationStateEvent.LOGOUT, this.refreshProcess.bind(this)),
-      this.eventAggregator.subscribe('render-dynamic-ui', (message: any) => {
+      this.eventAggregator.subscribe('render-dynamic-ui', (message: IWidget) => {
         this.dynamicUiWrapper.currentWidget = message;
       }),
     ];
   }
 
   public detached(): void {
-    this.subscriptions.forEach((x: Subscription) => x.dispose);
+    this.subscriptions.forEach((subscription: Subscription): void => {
+      subscription.dispose();
+    });
   }
 
   private refreshProcess(): void {

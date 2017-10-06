@@ -35,8 +35,6 @@ export class ProcessEngineRepository implements IProcessEngineRepository {
       .fetch(url, {method: 'get'})
       .then((response: Response) => {
         return response.json();
-      }).then((list: IPagination<IProcessDefEntity>) => {
-        return list;
       });
   }
 
@@ -130,8 +128,6 @@ export class ProcessEngineRepository implements IProcessEngineRepository {
       .fetch(url, {method: 'get'})
       .then((response: Response) => {
         return response.json();
-      }).then((processDef: IProcessDefEntity) => {
-        return processDef;
       });
   }
 
@@ -141,8 +137,6 @@ export class ProcessEngineRepository implements IProcessEngineRepository {
       .fetch(url, {method: 'get'})
       .then((response: Response) => {
         return response.json();
-      }).then((pagination: IPagination<IUserTaskEntity>) => {
-        return pagination;
       });
   }
 
@@ -152,8 +146,6 @@ export class ProcessEngineRepository implements IProcessEngineRepository {
       .fetch(url, {method: 'get'})
       .then((response: Response) => {
         return response.json();
-      }).then((userTask: IUserTaskEntity) => {
-        return userTask;
       });
   }
 }

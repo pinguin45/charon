@@ -39,7 +39,9 @@ export class TaskList {
   }
 
   public detached(): void {
-    this.subscriptions.forEach((x: Subscription) => x.dispose());
+    this.subscriptions.forEach((subscription: Subscription): void => {
+      subscription.dispose();
+    });
   }
 
   private finishTask(action: string): void {

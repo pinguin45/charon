@@ -17,13 +17,14 @@ export class DynamicUiWrapper {
   }
 
   public handleButtonClick(action: string): void {
-    if (this._currentWidget) {
-      if (this.onButtonClick) {
-        this.onButtonClick(action);
-      }
-      this.dynamicUiService.sendProceedAction(action, this._currentWidget);
-      this._currentWidget = null;
+    if (!this._currentWidget) {
+      return;
     }
+    if (this.onButtonClick) {
+      this.onButtonClick(action);
+    }
+    this.dynamicUiService.sendProceedAction(action, this._currentWidget);
+    this._currentWidget = null;
   }
 
   public set currentWidget(widget: IWidget) {
