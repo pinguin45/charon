@@ -108,16 +108,15 @@ export class DynamicUiService implements IDynamicUiService {
 
   private mapConfirmWidget(task: IUserTaskMessageData): IConfirmWidget {
     const uiConfig: IConfirmWidget = task.uiConfig;
-    const layouts: Array<ILayout> = [];
-
-    for (const layout of uiConfig.layout) {
+    const layouts: Array<ILayout> = uiConfig.layout.map((layout: ILayout) => {
       const confirmLayout: ILayout = {
         key: layout.key,
         label: layout.label,
         isCancel: layout.isCancel || null,
       };
-      layouts.push(confirmLayout);
-    }
+
+      return confirmLayout;
+    });
 
     const confirmWidget: IConfirmWidget = {
       taskEntityId: task.userTaskEntity.id,
