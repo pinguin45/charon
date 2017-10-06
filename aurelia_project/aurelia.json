@@ -176,6 +176,11 @@
             "resources": [
               "css/font-awesome.min.css"
             ]
+          },
+          {
+            "name": "mustache",
+            "path": "../node_modules/mustache",
+            "main": "mustache.js"
           }
         ]
       }

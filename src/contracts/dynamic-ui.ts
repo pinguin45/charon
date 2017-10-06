@@ -18,12 +18,24 @@ export interface IFormWidget extends IWidget {
   fields: Array<IFormField | IDropDownField>;
 }
 
+export interface IConfirmWidget extends IWidget {
+  message: string;
+  layout: Array<ILayout>;
+  uiData: any;
+}
+
 export interface IFormField {
   id: string;
   label: string;
   type: FormFieldType;
   defaultValue: string | boolean;
   value: string | boolean;
+}
+
+export interface ILayout {
+  key: string;
+  label: string;
+  isCancel?: boolean;
 }
 
 export interface IDropDownField extends IFormField {

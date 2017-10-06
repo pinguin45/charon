@@ -3,11 +3,13 @@ import {EventAggregator} from 'aurelia-event-aggregator';
 import {inject} from 'aurelia-framework';
 import {
   FormFieldType,
+  IConfirmWidget,
   IDropDownField,
   IDropDownFieldValue,
   IDynamicUiService,
   IFormField,
   IFormWidget,
+  ILayout,
   IMessageBusService,
   IUserTaskEntityExtensions,
   IUserTaskFormField,
@@ -33,7 +35,7 @@ export class DynamicUiService implements IDynamicUiService {
     const message: any = this.messageBusService.createMessage();
     const messageToken: any = this.getMessageToken(widget);
     message.data = {
-      action: 'proceed',
+      action: action,
       token: messageToken,
     };
     this.messageBusService.sendMessage(`/processengine/node/${widget.taskEntityId}`, message);
@@ -73,6 +75,8 @@ export class DynamicUiService implements IDynamicUiService {
 
     if (widgetType === 'form') {
       widget = this.mapFormWidget(task);
+    } else if (widgetType === 'confirm') {
+      widget = this.mapConfirmWidget(task);
     } else if (widgetType !== null) {
       widget = {
         taskEntityId: task.id,
@@ -103,6 +107,30 @@ export class DynamicUiService implements IDynamicUiService {
     };
 
     return formWiget;
+  }
+
+  private mapConfirmWidget(task: IUserTaskMessageData): IConfirmWidget {
+    const uiConfig: IConfirmWidget = task.uiConfig;
+    const layouts: Array<ILayout> = uiConfig.layout.map((layout: ILayout) => {
+      const confirmLayout: ILayout = {
+        key: layout.key,
+        label: layout.label,
+        isCancel: layout.isCancel || null,
+      };
+
+      return confirmLayout;
+    });
+
+    const confirmWidget: IConfirmWidget = {
+      taskEntityId: task.userTaskEntity.id,
+      name: task.userTaskEntity.name,
+      type: 'confirm',
+      message: task.uiConfig.message,
+      layout: layouts,
+      uiData: task.uiData,
+    };
+
+    return confirmWidget;
   }
 
   private mapField(field: IUserTaskFormField): IFormField {

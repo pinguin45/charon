@@ -8,6 +8,8 @@ export class DynamicUiWrapper {
   private dynamicUiService: IDynamicUiService;
   @bindable()
   private _currentWidget: IWidget;
+  private declineButtonText: string = 'Abbrechen';
+  private confirmButtonText: string = 'Weiter';
   public onButtonClick: (action: string) => void;
 
   constructor(dynamicUiService: IDynamicUiService) {
@@ -26,9 +28,27 @@ export class DynamicUiWrapper {
 
   public set currentWidget(widget: IWidget) {
     this._currentWidget = widget;
+    if (this._currentWidget.type === 'confirm') {
+      this.handleConfirmLayout(this._currentWidget);
+    } else {
+      this.confirmButtonText = 'Weiter';
+      this.declineButtonText = 'Abbrechen';
+    }
   }
 
   public get currentWidget(): IWidget {
     return this._currentWidget;
+  }
+
+  public handleConfirmLayout(currentWidget: any): void {
+    this.confirmButtonText = null;
+    this.declineButtonText = null;
+    for (const layout of currentWidget.layout) {
+      if (layout.key === 'decline') {
+        this.declineButtonText = layout.label;
+      } else if (layout.key === 'confirm') {
+        this.confirmButtonText = layout.label;
+      }
+    }
   }
 }
