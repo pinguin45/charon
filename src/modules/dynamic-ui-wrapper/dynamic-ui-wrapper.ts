@@ -40,23 +40,14 @@ export class DynamicUiWrapper {
   }
 
   public handleConfirmLayout(currentWidget: any): void {
-    if (currentWidget.layout.length === 1) {
-      if (currentWidget.layout[0].key === 'decline') {
-        this.declineButtonText = currentWidget.layout[0].label;
-        this.confirmButtonText = null;
-      } else if (currentWidget.layout[0].key === 'confirm') {
-        this.confirmButtonText = currentWidget.layout[0].label;
-        this.declineButtonText = null;
-      }
-    } else {
-      for (const layout of currentWidget.layout) {
-        if (layout.key === 'decline') {
-          this.declineButtonText = layout.label;
-        } else if (layout.key === 'confirm') {
-          this.confirmButtonText = layout.label;
-        }
+    this.confirmButtonText = null;
+    this.declineButtonText = null;
+    for (const layout of currentWidget.layout) {
+      if (layout.key === 'decline') {
+        this.declineButtonText = layout.label;
+      } else if (layout.key === 'confirm') {
+        this.confirmButtonText = layout.label;
       }
     }
-
   }
 }
