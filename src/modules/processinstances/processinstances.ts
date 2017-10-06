@@ -1,13 +1,14 @@
 import {INodeInstanceEntity} from '@process-engine-js/process_engine_contracts';
 import {EventAggregator, Subscription} from 'aurelia-event-aggregator';
 import {inject} from 'aurelia-framework';
-import {AuthenticationStateEvent, IPagination, IProcessEngineService} from '../../contracts/index';
+import {AuthenticationStateEvent, IMessageBusService, IPagination, IProcessEngineService} from '../../contracts/index';
 import environment from '../../environment';
 
-@inject('ProcessEngineService', EventAggregator)
+@inject('ProcessEngineService', EventAggregator, 'MessageBusService')
 export class Processinstances {
 
   private processEngineService: IProcessEngineService;
+  private messageBusService: IMessageBusService;
   private eventAggregator: EventAggregator;
 
   private offset: number;
@@ -16,8 +17,9 @@ export class Processinstances {
   private getProcessesIntervalId: number;
   private subscriptions: Array<Subscription>;
 
-  constructor(processEngineService: IProcessEngineService, eventAggregator: EventAggregator) {
+  constructor(processEngineService: IProcessEngineService, eventAggregator: EventAggregator, messageBusService: IMessageBusService) {
     this.processEngineService = processEngineService;
+    this.messageBusService = messageBusService;
     this.eventAggregator = eventAggregator;
   }
 
@@ -56,6 +58,16 @@ export class Processinstances {
 
   private refreshProcesslist(): void {
     this.getInstancesfromService(this.offset);
+  }
+
+  public doCancel(instanceId: string): void {
+    const msg: any = this.messageBusService.createMessage();
+    msg.action = 'event';
+    msg.context = {
+      participantId: instanceId,
+    };
+    msg.eventType = 'cancel';
+    this.messageBusService.sendMessage(`/processengine/node/${this.instances[0].processDef.id}`, msg);
   }
 
 }
