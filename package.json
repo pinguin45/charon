@@ -27,6 +27,7 @@
     "font-awesome": "^4.7.0",
     "jquery": "^2.2.4",
     "nanomsg-browser": "^0.1.4",
+    "mustache": "^2.3.0",
     "requirejs": "^2.3.2",
     "socket.io": "^2.0.3",
     "text": "github:requirejs/text#latest",

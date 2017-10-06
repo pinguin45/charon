@@ -187,6 +187,11 @@
           {
             "name": "socket.io-client",
             "path": "../node_modules/socket.io-client/socket.io.min"
+          },
+          {
+            "name": "mustache",
+            "path": "../node_modules/mustache",
+            "main": "mustache.js"
           }
         ]
       }
