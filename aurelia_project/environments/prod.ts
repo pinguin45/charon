@@ -15,6 +15,7 @@ export default {
       processInstances: `${baseRoute}/datastore/Process`,
       messageBus: `${baseRoute}/mb`,
       getIdentity: `${baseRoute}/iam/getidentity`,
+      userTasks: `${baseRoute}/datastore/UserTask`,
     },
   },
   events: {

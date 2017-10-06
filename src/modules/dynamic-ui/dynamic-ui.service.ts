@@ -1,4 +1,4 @@
-import {IUserTaskMessageData} from '@process-engine-js/process_engine_contracts';
+import {IUserTaskEntity, IUserTaskMessageData} from '@process-engine-js/process_engine_contracts';
 import {EventAggregator} from 'aurelia-event-aggregator';
 import {inject} from 'aurelia-framework';
 import {
@@ -11,6 +11,7 @@ import {
   IMessageBusService,
   IUserTaskEntityExtensions,
   IUserTaskFormField,
+  IUserTaskProperty,
   IWidget,
   WidgetType,
 } from '../../contracts';
@@ -58,33 +59,35 @@ export class DynamicUiService implements IDynamicUiService {
   private handleIncommingMessage(channel: string, message: any): void {
     if (message.data && message.data.action === 'userTask') {
       const task: IUserTaskMessageData = message.data.data;
-      this.handleUserTask(task);
+      const widget: IWidget = this.mapUserTask(task.userTaskEntity);
+
+      if (widget !== null) {
+        this.eventAggregator.publish('render-dynamic-ui', widget);
+      }
     }
   }
 
-  private handleUserTask(task: IUserTaskMessageData): void {
+  public mapUserTask(task: IUserTaskEntity): IWidget {
     const widgetType: WidgetType = this.getWidetType(task);
-    let widget: IWidget;
+    let widget: IWidget = null;
 
     if (widgetType === 'form') {
       widget = this.mapFormWidget(task);
     } else if (widgetType !== null) {
       widget = {
-        taskEntityId: task.userTaskEntity.id,
-        name: task.userTaskEntity.name,
+        taskEntityId: task.id,
+        name: task.name,
         type: widgetType,
       };
     } else {
-      alert(`Unbekannter Widget Typ ${task.uiName}`);
-      console.error('Unbekannter Widget Type: ', task);
-      return;
+      throw new Error(`Unknown widget type ${task}`);
     }
 
-    this.eventAggregator.publish('render-dynamic-ui', widget);
+    return widget;
   }
 
-  private mapFormWidget(task: IUserTaskMessageData): IFormWidget {
-    const extensions: IUserTaskEntityExtensions = task.userTaskEntity.nodeDef.extensions;
+  private mapFormWidget(task: IUserTaskEntity): IFormWidget {
+    const extensions: IUserTaskEntityExtensions = task.nodeDef.extensions;
     const fields: Array<IFormField> = [];
 
     for (const field of extensions.formFields) {
@@ -93,8 +96,8 @@ export class DynamicUiService implements IDynamicUiService {
     }
 
     const formWiget: IFormWidget = {
-      taskEntityId: task.userTaskEntity.id,
-      name: task.userTaskEntity.name,
+      taskEntityId: task.id,
+      name: task.name,
       type: 'form',
       fields: fields,
     };
@@ -141,7 +144,10 @@ export class DynamicUiService implements IDynamicUiService {
     }
   }
 
-  private getWidetType(task: IUserTaskMessageData): WidgetType {
-    return task.uiName ? task.uiName.toLowerCase() as WidgetType : null;
+  private getWidetType(task: IUserTaskEntity): WidgetType {
+    const extensions: IUserTaskEntityExtensions = task.nodeDef.extensions;
+    const uiNameProp: IUserTaskProperty = extensions.properties.find((x: IUserTaskProperty) => x.name === 'uiName');
+
+    return uiNameProp.value ? uiNameProp.value.toLowerCase() as WidgetType : null;
   }
 }

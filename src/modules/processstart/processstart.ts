@@ -28,6 +28,9 @@ export class ProcessStart {
     this.subscriptions = [
       this.eventAggregator.subscribe(AuthenticationStateEvent.LOGIN, this.refreshProcess.bind(this)),
       this.eventAggregator.subscribe(AuthenticationStateEvent.LOGOUT, this.refreshProcess.bind(this)),
+      this.eventAggregator.subscribe('render-dynamic-ui', (message: any) => {
+        this.dynamicUiWrapper.currentWidget = message;
+      }),
     ];
   }
 
@@ -46,6 +49,7 @@ export class ProcessStart {
     });
   }
 
+  @computedFrom('_process')
   public get process(): IProcessDefEntity {
     return this._process;
   }

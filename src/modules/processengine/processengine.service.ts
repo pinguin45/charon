@@ -1,4 +1,4 @@
-import {IProcessDefEntity} from '@process-engine-js/process_engine_contracts';
+import {IProcessDefEntity, IUserTaskEntity} from '@process-engine-js/process_engine_contracts';
 import {inject} from 'aurelia-framework';
 import {IPagination, IProcessEngineRepository, IProcessEngineService} from '../../contracts';
 
@@ -37,5 +37,13 @@ export class ProcessEngineService implements IProcessEngineService {
 
   public getIdentity(): Promise<any> {
     return this.repository.getIdentity();
+  }
+
+  public getUserTasks(limit: number, offset: number): Promise<IPagination<IUserTaskEntity>> {
+    return this.repository.getUserTasks(limit, offset);
+  }
+
+  public getUserTaskById(userTaskId: string): Promise<IUserTaskEntity> {
+    return this.repository.getUserTaskById(userTaskId);
   }
 }
