@@ -19,7 +19,7 @@ export interface ILoginResult {
 export interface IIdentity {
   id: string;
   name: string;
-  roles: Array<String>;
+  roles: Array<string>;
 }
 
 export enum AuthenticationStateEvent {
