@@ -45,7 +45,9 @@ export class TaskList {
 
   public detached(): void {
     clearInterval(this.getUserTasksIntervalId);
-    this.subscriptions.forEach((x: Subscription) => x.dispose());
+    this.subscriptions.forEach((subscription: Subscription): void => {
+      subscription.dispose();
+    });
   }
 
   private refreshUserTaskList(): void {
