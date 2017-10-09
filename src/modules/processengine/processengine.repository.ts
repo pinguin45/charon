@@ -132,7 +132,7 @@ export class ProcessEngineRepository implements IProcessEngineRepository {
   }
 
   public getUserTasks(limit: number, offset: number): Promise<IPagination<IUserTaskEntity>> {
-    const url: string = environment.processengine.routes.userTasks + '?expandCollection=["process.processDef", "nodeDef"]';
+    const url: string = environment.processengine.routes.userTasks + '?expandCollection=["process.processDef", "nodeDef"]&limit="ALL"';
     return this.http
       .fetch(url, {method: 'get'})
       .then((response: Response) => {
