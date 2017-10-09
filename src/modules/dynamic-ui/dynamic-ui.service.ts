@@ -33,15 +33,18 @@ export class DynamicUiService implements IDynamicUiService {
 
   public sendProceedAction(action: string, widget: IWidget): void {
     const message: any = this.messageBusService.createMessage();
-    const messageToken: any = this.getMessageToken(widget);
+    const messageToken: any = this.getMessageToken(widget, action);
     message.data = {
       action: action,
       token: messageToken,
     };
+    if (widget.type === 'confirm') {
+      message.data.action = 'proceed';
+    }
     this.messageBusService.sendMessage(`/processengine/node/${widget.taskEntityId}`, message);
   }
 
-  private getMessageToken(widget: IWidget): any {
+  private getMessageToken(widget: IWidget, action: string): any {
     const messageToken: any = {};
     if (widget.type === 'form') {
       for (const field of (widget as IFormWidget).fields) {
@@ -49,9 +52,12 @@ export class DynamicUiService implements IDynamicUiService {
       }
     }
 
-    // we don't render confirm-widgets yet, so for now, always confirm
     if (widget.type === 'confirm') {
-      messageToken.key = 'confirm';
+      if (action === 'abort') {
+        messageToken.key = 'decline';
+      } else {
+        messageToken.key = 'confirm';
+      }
     }
 
     // TODO: handle other widget types
