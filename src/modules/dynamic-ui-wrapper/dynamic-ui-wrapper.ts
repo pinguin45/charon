@@ -1,37 +1,39 @@
-import {EventAggregator} from 'aurelia-event-aggregator';
 import {bindable, inject} from 'aurelia-framework';
 import {IDynamicUiService, IWidget} from '../../contracts';
 import environment from '../../environment';
 
-@inject(EventAggregator, 'DynamicUiService')
+@inject('DynamicUiService')
 export class DynamicUiWrapper {
 
   private dynamicUiService: IDynamicUiService;
-  private eventAggregator: EventAggregator;
   @bindable()
   private _currentWidget: IWidget;
   private declineButtonText: string = 'Abbrechen';
   private confirmButtonText: string = 'Weiter';
+  public onButtonClick: (action: string) => void;
 
-  constructor(eventAggregator: EventAggregator, dynamicUiService: IDynamicUiService) {
-    this.eventAggregator = eventAggregator;
+  constructor(dynamicUiService: IDynamicUiService) {
     this.dynamicUiService = dynamicUiService;
-
-    eventAggregator.subscribe('render-dynamic-ui', (message: any) => {
-      this._currentWidget = message;
-      if (this._currentWidget.type === 'confirm') {
-        this.handleConfirmLayout(this._currentWidget);
-      } else {
-        this.confirmButtonText = 'Weiter';
-        this.declineButtonText = 'Abbrechen';
-      }
-    });
   }
 
   public handleButtonClick(action: string): void {
-    if (this._currentWidget) {
-      this.dynamicUiService.sendProceedAction(action, this._currentWidget);
-      this._currentWidget = null;
+    if (!this._currentWidget) {
+      return;
+    }
+    if (this.onButtonClick) {
+      this.onButtonClick(action);
+    }
+    this.dynamicUiService.sendProceedAction(action, this._currentWidget);
+    this._currentWidget = null;
+  }
+
+  public set currentWidget(widget: IWidget) {
+    this._currentWidget = widget;
+    if (this._currentWidget.type === 'confirm') {
+      this.handleConfirmLayout(this._currentWidget);
+    } else {
+      this.confirmButtonText = 'Weiter';
+      this.declineButtonText = 'Abbrechen';
     }
   }
 
