@@ -42,6 +42,7 @@ export class AuthenticationService implements IAuthenticationService {
     return this.authenticationRepository.logout()
       .then((result: any) => {
         this.token = null;
+        this.identity = null;
         return result;
       })
       .then((result: any) => {
