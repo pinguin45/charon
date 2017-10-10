@@ -6,7 +6,6 @@
     <div if.bind="process">
       <h3>Prozess starten: ${process.name}</h3>
 
-      <button if.bind="!dynamicUiWrapper.currentWidget" class="btn btn-success" click.delegate="startProcess()">Start</button>
       <dynamic-ui-wrapper view-model.ref="dynamicUiWrapper"></dynamic-ui-wrapper>
     </div>
 
