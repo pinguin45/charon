@@ -1,4 +1,4 @@
-import {IUserTaskEntity, IUserTaskMessageData} from '@process-engine-js/process_engine_contracts';
+import {IUserTaskEntity, IUserTaskMessageData} from '@process-engine/process_engine_contracts';
 import {EventAggregator} from 'aurelia-event-aggregator';
 import {inject} from 'aurelia-framework';
 import {

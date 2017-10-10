@@ -1,4 +1,4 @@
-import {IUserTaskEntity} from '@process-engine-js/process_engine_contracts';
+import {IUserTaskEntity} from '@process-engine/process_engine_contracts';
 import {EventAggregator, Subscription} from 'aurelia-event-aggregator';
 import {computedFrom, inject} from 'aurelia-framework';
 import {Router} from 'aurelia-router';

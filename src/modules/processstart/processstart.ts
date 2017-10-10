@@ -1,10 +1,11 @@
-import {IProcessDefEntity} from '@process-engine-js/process_engine_contracts';
+import {IProcessDefEntity} from '@process-engine/process_engine_contracts';
 import {EventAggregator, Subscription} from 'aurelia-event-aggregator';
 import {computedFrom, inject} from 'aurelia-framework';
+import {Router} from 'aurelia-router';
 import {AuthenticationStateEvent, IProcessEngineService, IWidget} from '../../contracts/index';
 import {DynamicUiWrapper} from '../dynamic-ui-wrapper/dynamic-ui-wrapper';
 
-@inject('ProcessEngineService', EventAggregator)
+@inject('ProcessEngineService', EventAggregator, Router)
 export class ProcessStart {
 
   private processEngineService: IProcessEngineService;
@@ -13,10 +14,12 @@ export class ProcessStart {
   private subscriptions: Array<Subscription>;
   private processId: string;
   private _process: IProcessDefEntity;
+  private router: Router;
 
-  constructor(processEngineService: IProcessEngineService, eventAggregator: EventAggregator) {
+  constructor(processEngineService: IProcessEngineService, eventAggregator: EventAggregator, router: Router) {
     this.processEngineService = processEngineService;
     this.eventAggregator = eventAggregator;
+    this.router = router;
   }
 
   private activate(routeParameters: {processId: string}): void {
@@ -30,6 +33,9 @@ export class ProcessStart {
       this.eventAggregator.subscribe(AuthenticationStateEvent.LOGOUT, this.refreshProcess.bind(this)),
       this.eventAggregator.subscribe('render-dynamic-ui', (message: IWidget) => {
         this.dynamicUiWrapper.currentWidget = message;
+      }),
+      this.eventAggregator.subscribe('closed-process', (message: any) => {
+        this.router.navigateToRoute('processlist', {page: 1});
       }),
     ];
   }
@@ -48,6 +54,7 @@ export class ProcessStart {
         } else {
           this._process = null;
         }
+        this.startProcess();
     });
   }
 

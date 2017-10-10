@@ -1,4 +1,4 @@
-import * as bundle from '@process-engine-js/bpmn-js-custom-bundle';
+import * as bundle from '@process-engine/bpmn-js-custom-bundle';
 import {bindable} from 'aurelia-framework';
 import {IBpmnModeler, IBpmnModelerConstructor} from '../../contracts';
 import environment from '../../environment';

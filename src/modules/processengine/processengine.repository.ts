@@ -1,5 +1,5 @@
-import {IQueryClause} from '@process-engine-js/core_contracts';
-import {IProcessDefEntity, IUserTaskEntity} from '@process-engine-js/process_engine_contracts';
+import {IQueryClause} from '@essential-projects/core_contracts';
+import {IProcessDefEntity, IUserTaskEntity} from '@process-engine/process_engine_contracts';
 import {HttpClient, Interceptor} from 'aurelia-fetch-client';
 import {inject} from 'aurelia-framework';
 import {IAuthenticationService, IPagination, IProcessEngineRepository, IProcessEntity} from '../../contracts';

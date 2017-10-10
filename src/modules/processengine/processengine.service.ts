@@ -1,4 +1,4 @@
-import {IProcessDefEntity, IUserTaskEntity} from '@process-engine-js/process_engine_contracts';
+import {IProcessDefEntity, IUserTaskEntity} from '@process-engine/process_engine_contracts';
 import {inject} from 'aurelia-framework';
 import {IPagination, IProcessEngineRepository, IProcessEngineService, IProcessEntity} from '../../contracts';
 

@@ -1,5 +1,5 @@
-import {IProcessDefEntity, IProcessEntity, IUserTaskEntity} from '@process-engine-js/process_engine_contracts';
-export {IProcessDefEntity, IProcessEntity, IUserTaskEntity} from '@process-engine-js/process_engine_contracts';
+import {IProcessDefEntity, IProcessEntity, IUserTaskEntity} from '@process-engine/process_engine_contracts';
+export {IProcessDefEntity, IProcessEntity, IUserTaskEntity} from '@process-engine/process_engine_contracts';
 
 export interface IProcessEngineRepository {
   getProcesses(limit: number, offset: number): Promise<IPagination<IProcessDefEntity>>;

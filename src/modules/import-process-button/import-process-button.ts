@@ -1,5 +1,5 @@
-import * as bundle from '@process-engine-js/bpmn-js-custom-bundle';
-import {IProcessDefEntity} from '@process-engine-js/process_engine_contracts';
+import * as bundle from '@process-engine/bpmn-js-custom-bundle';
+import {IProcessDefEntity} from '@process-engine/process_engine_contracts';
 import {bindable} from 'aurelia-framework';
 import {IChooseDialogOption} from '../../contracts';
 import environment from '../../environment';

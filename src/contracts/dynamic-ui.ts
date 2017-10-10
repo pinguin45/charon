@@ -1,4 +1,4 @@
-import {IUserTaskEntity} from '@process-engine-js/process_engine_contracts';
+import {IUserTaskEntity} from '@process-engine/process_engine_contracts';
 
 export type WidgetType = 'textbox' | 'checkbox' | 'dropdown' | 'label' | 'form' | 'confirm';
 export type FormFieldType = 'textbox' | 'checkbox' | 'dropdown';
