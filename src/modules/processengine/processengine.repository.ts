@@ -40,7 +40,7 @@ export class ProcessEngineRepository implements IProcessEngineRepository {
 
   public getIdentity(): Promise<any> {
     return this.http
-      .fetch(environment.processengine.routes.getIdentity, {method: 'get'})
+      .fetch(`${environment.processengine.routes.iam}getidentity`, {method: 'get'})
       .then((response: Response) => {
         return response.json();
       })
