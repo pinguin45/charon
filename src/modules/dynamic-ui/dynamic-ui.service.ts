@@ -25,7 +25,7 @@ export class DynamicUiService implements IDynamicUiService {
   private messageBusService: IMessageBusService;
   private eventAggregator: EventAggregator;
 
-  constructor(messageBusService: IMessageBusService, eventAggregator: EventAggregator)  {
+  constructor(messageBusService: IMessageBusService, eventAggregator: EventAggregator) {
     this.messageBusService = messageBusService;
     this.eventAggregator = eventAggregator;
     this.messageBusService.registerMessageHandler(this.handleIncommingMessage.bind(this));

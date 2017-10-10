@@ -9,7 +9,7 @@
 # Ref: https://github.com/github/gitignore/blob/master/Global/macOS.gitignore
 # Ref: https://github.com/github/gitignore/blob/master/Global/Windows.gitignore
 # Ref: https://github.com/github/gitignore/blob/master/Global/Linux.gitignore
-.DS_STORE
+.DS_Store
 Thumbs.db
 
 # Editors

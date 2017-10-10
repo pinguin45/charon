@@ -40,6 +40,12 @@ export class App {
         name: 'processstart',
         moduleId: 'modules/processstart/processstart',
       },
+      {
+        route: 'processinstances/:processId',
+        title: 'Processinstances',
+        name: 'processinstances',
+        moduleId: 'modules/processinstances/processinstances',
+      },
     ]);
   }
 }
