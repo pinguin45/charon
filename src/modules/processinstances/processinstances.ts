@@ -1,7 +1,15 @@
 import {INodeInstanceEntity} from '@process-engine-js/process_engine_contracts';
 import {EventAggregator, Subscription} from 'aurelia-event-aggregator';
 import {inject} from 'aurelia-framework';
-import {AuthenticationStateEvent, IMessageBusService, IPagination, IProcessEngineService} from '../../contracts/index';
+import {
+  AuthenticationStateEvent,
+  IMessage,
+  IMessageBusService,
+  IPagination,
+  IProcessEngineService,
+  MessageAction,
+  MessageEventType,
+} from '../../contracts/index';
 import environment from '../../environment';
 
 @inject('ProcessEngineService', EventAggregator, 'MessageBusService')
@@ -42,7 +50,6 @@ export class Processinstances {
     this.getInstancesfromService(this.offset);
     this.getProcessesIntervalId = window.setInterval(() => {
       this.getInstancesfromService(this.offset);
-      // tslint:disable-next-line
     }, environment.processengine.poolingInterval);
 
     this.subscriptions = [
@@ -53,7 +60,9 @@ export class Processinstances {
 
   public detached(): void {
     clearInterval(this.getProcessesIntervalId);
-    this.subscriptions.forEach((x: Subscription) => x.dispose);
+    for (const subscription of this.subscriptions) {
+      subscription.dispose();
+    }
   }
 
   private refreshProcesslist(): void {
@@ -61,12 +70,13 @@ export class Processinstances {
   }
 
   public doCancel(instanceId: string): void {
-    const msg: any = this.messageBusService.createMessage();
-    msg.action = 'event';
+    const msg: IMessage = this.messageBusService.createMessage();
+    msg.action = MessageAction.event;
     msg.context = {
       participantId: instanceId,
     };
-    msg.eventType = 'cancel';
+    msg.eventType = MessageEventType.cancel;
+
     this.messageBusService.sendMessage(`/processengine/node/${this.instances[0].processDef.id}`, msg);
   }
 

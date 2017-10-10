@@ -62,3 +62,23 @@ export interface IUserTaskFormFieldValue {
   id: string;
   name: string;
 }
+
+export enum MessageAction {
+  event = 'event',
+  abort = 'abort',
+  proceed = 'proceed',
+}
+
+export enum MessageEventType {
+  cancel = 'cancel',
+  proceed = 'proceed',
+  decline = 'decline',
+}
+
+export interface IMessage {
+  action: MessageAction;
+  context: {
+    participantId: string,
+  };
+  eventType: MessageEventType;
+}

@@ -1,24 +1,24 @@
 <template>
   <require from="./processinstances.css"></require>
-      <div class="container">
-          <div if.bind="instances">
-            <table class="table table-striped table-bordered">
-              <tr>
-                <th>ID</th>
-                <th>Status</th>
-                <th>#</th>
-              </tr>
-              <tr repeat.for="instance of instances">
-                <td>${instance.id}</td>
-                <td>${instance.status}</td>
-                <td>
-                  <a class="btn btn-danger" click.delegate="doCancel(instance.id)" disabled>Stop</a>
-                </td>
-              </tr>
-            </table>
-        </div>
-        <div if.bind="!instances">
-           <h3>Keine Instanzen gefunden</h3>
-        </div>
+  <div class="container">
+    <div if.bind="instances">
+      <table class="table table-striped table-bordered">
+        <tr>
+          <th>ID</th>
+          <th>Status</th>
+          <th>#</th>
+        </tr>
+        <tr repeat.for="instance of instances">
+          <td>${instance.id}</td>
+          <td>${instance.status}</td>
+          <td>
+            <a class="btn btn-danger" click.delegate="doCancel(instance.id)" disabled>Stop</a>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div if.bind="!instances">
+        <h3>Keine Instanzen gefunden</h3>
+    </div>
   </div>
 </template>
