@@ -6,9 +6,7 @@ export function configure(aurelia: Aurelia): void {
     .standardConfiguration()
     .feature('modules/dynamic-ui')
     .feature('modules/processengine')
-    .feature('modules/faye-messagebus')
-    // .feature('modules/nanomsg-messagebus')
-    // .feature('modules/socketio-messagebus')
+    .feature('modules/messagebus')
     .feature('modules/authentication')
     .feature('resources');
 

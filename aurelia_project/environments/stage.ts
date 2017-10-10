@@ -14,8 +14,6 @@ export default {
       startProcess: `${baseRoute}/processengine/start`,
       processInstances: `${baseRoute}/datastore/Process`,
       messageBus: `${baseRoute}/mb`,
-      nanomsgBus: `ws://192.168.161.230:1337`,
-      socketIO: `http://127.0.0.1:3000`,
       getIdentity: `${baseRoute}/iam/getidentity`,
     },
   },
