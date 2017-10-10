@@ -154,8 +154,8 @@
           },
           "jquery",
           {
-            "name": "@process-engine-js/bpmn-js-custom-bundle",
-            "path": "../node_modules/@process-engine-js/bpmn-js-custom-bundle/dist",
+            "name": "@process-engine/bpmn-js-custom-bundle",
+            "path": "../node_modules/@process-engine/bpmn-js-custom-bundle/dist",
             "main": "bpmn-modeler-custom.js",
             "resources": [
               "bpmn-modeler-custom.css",

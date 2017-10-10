@@ -1,4 +1,4 @@
-import {INodeInstanceEntity} from '@process-engine-js/process_engine_contracts';
+import {INodeInstanceEntity} from '@process-engine/process_engine_contracts';
 import {EventAggregator, Subscription} from 'aurelia-event-aggregator';
 import {inject} from 'aurelia-framework';
 import {
