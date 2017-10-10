@@ -64,6 +64,9 @@ export class DynamicUiService implements IDynamicUiService {
 
   private handleIncommingMessage(channel: string, message: any): void {
     if (!message.data || message.data.action !== 'userTask') {
+      if (message.data.action === 'endEvent') {
+        this.eventAggregator.publish('closed-process', message);
+      }
       return;
     }
     const task: IUserTaskMessageData = message.data.data;
