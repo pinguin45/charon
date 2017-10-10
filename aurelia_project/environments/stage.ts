@@ -14,7 +14,7 @@ export default {
       startProcess: `${baseRoute}/processengine/start`,
       processInstances: `${baseRoute}/datastore/Process`,
       messageBus: `${baseRoute}/mb`,
-      getIdentity: `${baseRoute}/iam/getidentity`,
+      iam: `${baseRoute}/iam/`,
       userTasks: `${baseRoute}/datastore/UserTask`,
     },
   },

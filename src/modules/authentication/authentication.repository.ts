@@ -1,6 +1,7 @@
 import {HttpClient} from 'aurelia-fetch-client';
 import {inject} from 'aurelia-framework';
 import {IAuthenticationRepository, IIdentity, ILoginResult} from '../../contracts';
+import environment from '../../environment';
 
 const HTTP_CODE_OK: number = 200;
 
@@ -15,7 +16,7 @@ export class AuthenticationRepository implements IAuthenticationRepository {
 
   public login(username: string, password: string): Promise<ILoginResult> {
     return this.http
-      .fetch('http://localhost:8000/iam/login', {
+      .fetch(`${environment.processengine.routes.iam}login`, {
         method: 'post',
         headers: {
           'Content-Type': 'application/json',
@@ -36,7 +37,7 @@ export class AuthenticationRepository implements IAuthenticationRepository {
 
   public logout(): Promise<any> {
     return this.http
-      .fetch('http://localhost:8000/iam/logout', {
+      .fetch(`${environment.processengine.routes.iam}logout`, {
         method: 'get',
       })
       .then((response: Response) => {
