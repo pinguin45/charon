@@ -1,6 +1,6 @@
 import {IProcessDefEntity, IUserTaskEntity} from '@process-engine-js/process_engine_contracts';
 import {inject} from 'aurelia-framework';
-import {IPagination, IProcessEngineRepository, IProcessEngineService} from '../../contracts';
+import {IPagination, IProcessEngineRepository, IProcessEngineService, IProcessEntity} from '../../contracts';
 
 @inject('ProcessEngineRepository')
 export class ProcessEngineService implements IProcessEngineService {
@@ -23,7 +23,7 @@ export class ProcessEngineService implements IProcessEngineService {
     return this.repository.deleteProcessDef(processId);
   }
 
-  public getInstances(processKey: string): Promise<Array<IProcessDefEntity>> {
+  public getInstances(processKey: string): Promise<Array<IProcessEntity>> {
     return this.repository.getInstances(processKey);
   }
 

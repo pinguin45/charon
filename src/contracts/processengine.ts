@@ -1,10 +1,11 @@
-import {IProcessDefEntity, IUserTaskEntity} from '@process-engine-js/process_engine_contracts';
+import {IProcessDefEntity, IProcessEntity, IUserTaskEntity} from '@process-engine-js/process_engine_contracts';
+export {IProcessDefEntity, IProcessEntity, IUserTaskEntity} from '@process-engine-js/process_engine_contracts';
 
 export interface IProcessEngineRepository {
   getProcesses(limit: number, offset: number): Promise<IPagination<IProcessDefEntity>>;
   startProcess(process: IProcessDefEntity): Promise<any>;
   deleteProcessDef(processId: string): Promise<void>;
-  getInstances(processKey: string): Promise<Array<IProcessDefEntity>>;
+  getInstances(processKey: string): Promise<Array<IProcessEntity>>;
   getProcessbyID(processKey: string): Promise<IProcessDefEntity>;
   updateProcessDef(processDef: IProcessDefEntity, xml: string): Promise<any>;
   getIdentity(): Promise<any>;
@@ -16,7 +17,7 @@ export interface IProcessEngineService {
   getProcesses(limit: number, offset: number): Promise<IPagination<IProcessDefEntity>>;
   startProcess(process: IProcessDefEntity): Promise<any>;
   deleteProcessDef(processId: string): Promise<void>;
-  getInstances(processKey: string): Promise<Array<IProcessDefEntity>>;
+  getInstances(processKey: string): Promise<Array<IProcessEntity>>;
   getProcessbyID(processKey: string): Promise<IProcessDefEntity>;
   updateProcessDef(processDef: IProcessDefEntity, xml: string): Promise<any>;
   getIdentity(): Promise<any>;

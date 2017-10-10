@@ -2,7 +2,7 @@ import {IQueryClause} from '@process-engine-js/core_contracts';
 import {IProcessDefEntity, IUserTaskEntity} from '@process-engine-js/process_engine_contracts';
 import {HttpClient, Interceptor} from 'aurelia-fetch-client';
 import {inject} from 'aurelia-framework';
-import {IAuthenticationService, IPagination, IProcessEngineRepository} from '../../contracts';
+import {IAuthenticationService, IPagination, IProcessEngineRepository, IProcessEntity} from '../../contracts';
 import environment from '../../environment';
 
 @inject(HttpClient, 'AuthenticationService')
@@ -106,20 +106,17 @@ export class ProcessEngineRepository implements IProcessEngineRepository {
       });
   }
 
-  public getInstances(processKey: string): Promise<Array<IProcessDefEntity>> {
+  public async getInstances(processKey: string): Promise<Array<IProcessEntity>> {
     const query: IQueryClause = {
       attribute: 'processDef',
       operator: '=',
       value: processKey,
     };
     const url: string = environment.processengine.routes.processInstances + '?query=' + JSON.stringify(query);
-    return this.http
-      .fetch(url, {method: 'get'})
-      .then((response: Response) => {
-        return response.json();
-      }).then((list: IPagination<IProcessDefEntity>) => {
-        return list.data;
-      });
+
+    const response: Response = await this.http.fetch(url, {method: 'get'});
+    const responseBody: IPagination<IProcessEntity> = await response.json();
+    return responseBody.data;
   }
 
   public getProcessbyID(processKey: string): Promise<IProcessDefEntity> {
