@@ -1,4 +1,4 @@
-import {IUserTaskMessageData} from '@process-engine-js/process_engine_contracts';
+import {IUserTaskEntity, IUserTaskMessageData} from '@process-engine-js/process_engine_contracts';
 import {EventAggregator} from 'aurelia-event-aggregator';
 import {inject} from 'aurelia-framework';
 import {
@@ -13,6 +13,7 @@ import {
   IMessageBusService,
   IUserTaskEntityExtensions,
   IUserTaskFormField,
+  IUserTaskProperty,
   IWidget,
   WidgetType,
 } from '../../contracts';
@@ -32,15 +33,16 @@ export class DynamicUiService implements IDynamicUiService {
 
   public sendProceedAction(action: string, widget: IWidget): void {
     const message: any = this.messageBusService.createMessage();
-    const messageToken: any = this.getMessageToken(widget);
+    const messageToken: any = this.getMessageToken(widget, action);
     message.data = {
-      action: action,
+      action: widget.type === 'confirm' ? 'proceed' : action,
       token: messageToken,
     };
+
     this.messageBusService.sendMessage(`/processengine/node/${widget.taskEntityId}`, message);
   }
 
-  private getMessageToken(widget: IWidget): any {
+  private getMessageToken(widget: IWidget, action: string): any {
     const messageToken: any = {};
     if (widget.type === 'form') {
       for (const field of (widget as IFormWidget).fields) {
@@ -48,9 +50,12 @@ export class DynamicUiService implements IDynamicUiService {
       }
     }
 
-    // we don't render confirm-widgets yet, so for now, always confirm
     if (widget.type === 'confirm') {
-      messageToken.key = 'confirm';
+      if (action === 'abort') {
+        messageToken.key = 'decline';
+      } else {
+        messageToken.key = 'confirm';
+      }
     }
 
     // TODO: handle other widget types
@@ -58,15 +63,20 @@ export class DynamicUiService implements IDynamicUiService {
   }
 
   private handleIncommingMessage(channel: string, message: any): void {
-    if (message.data && message.data.action === 'userTask') {
-      const task: IUserTaskMessageData = message.data.data;
-      this.handleUserTask(task);
+    if (!message.data || message.data.action !== 'userTask') {
+      return;
+    }
+    const task: IUserTaskMessageData = message.data.data;
+    const widget: IWidget = this.mapUserTask(task.userTaskEntity);
+
+    if (widget !== null) {
+      this.eventAggregator.publish('render-dynamic-ui', widget);
     }
   }
 
-  private handleUserTask(task: IUserTaskMessageData): void {
+  public mapUserTask(task: IUserTaskEntity): IWidget {
     const widgetType: WidgetType = this.getWidetType(task);
-    let widget: IWidget;
+    let widget: IWidget = null;
 
     if (widgetType === 'form') {
       widget = this.mapFormWidget(task);
@@ -74,21 +84,19 @@ export class DynamicUiService implements IDynamicUiService {
       widget = this.mapConfirmWidget(task);
     } else if (widgetType !== null) {
       widget = {
-        taskEntityId: task.userTaskEntity.id,
-        name: task.userTaskEntity.name,
+        taskEntityId: task.id,
+        name: task.name,
         type: widgetType,
       };
     } else {
-      alert(`Unbekannter Widget Typ ${task.uiName}`);
-      console.error('Unbekannter Widget Type: ', task);
-      return;
+      throw new Error(`Unknown widget type ${task}`);
     }
 
-    this.eventAggregator.publish('render-dynamic-ui', widget);
+    return widget;
   }
 
-  private mapFormWidget(task: IUserTaskMessageData): IFormWidget {
-    const extensions: IUserTaskEntityExtensions = task.userTaskEntity.nodeDef.extensions;
+  private mapFormWidget(task: IUserTaskEntity): IFormWidget {
+    const extensions: IUserTaskEntityExtensions = task.nodeDef.extensions;
     const fields: Array<IFormField> = [];
 
     for (const field of extensions.formFields) {
@@ -97,8 +105,8 @@ export class DynamicUiService implements IDynamicUiService {
     }
 
     const formWiget: IFormWidget = {
-      taskEntityId: task.userTaskEntity.id,
-      name: task.userTaskEntity.name,
+      taskEntityId: task.id,
+      name: task.name,
       type: 'form',
       fields: fields,
     };
@@ -106,8 +114,22 @@ export class DynamicUiService implements IDynamicUiService {
     return formWiget;
   }
 
-  private mapConfirmWidget(task: IUserTaskMessageData): IConfirmWidget {
-    const uiConfig: IConfirmWidget = task.uiConfig;
+  private mapConfirmWidget(task: IUserTaskEntity): IConfirmWidget {
+    const extensions: IUserTaskEntityExtensions = task.nodeDef.extensions;
+    const uiConfigProperty: IUserTaskProperty = extensions.properties.find((property: IUserTaskProperty): boolean =>  {
+      return property.name === 'uiConfig';
+    });
+
+    // TODO cleanup
+    let value: string = uiConfigProperty.value;
+    if (value.startsWith('$')) {
+      value = value.substring(1);
+    }
+    if (value.endsWith(';')) {
+      value = value.substring(0, value.length - 1);
+    }
+    const uiConfig: any = JSON.parse(value);
+
     const layouts: Array<ILayout> = uiConfig.layout.map((layout: ILayout) => {
       const confirmLayout: ILayout = {
         key: layout.key,
@@ -119,12 +141,12 @@ export class DynamicUiService implements IDynamicUiService {
     });
 
     const confirmWidget: IConfirmWidget = {
-      taskEntityId: task.userTaskEntity.id,
-      name: task.userTaskEntity.name,
+      taskEntityId: task.id,
+      name: task.name,
       type: 'confirm',
-      message: task.uiConfig.message,
+      message: uiConfig.message,
       layout: layouts,
-      uiData: task.uiData,
+      uiData: task.processToken.data,
     };
 
     return confirmWidget;
@@ -169,7 +191,16 @@ export class DynamicUiService implements IDynamicUiService {
     }
   }
 
-  private getWidetType(task: IUserTaskMessageData): WidgetType {
-    return task.uiName ? task.uiName.toLowerCase() as WidgetType : null;
+  private getWidetType(task: IUserTaskEntity): WidgetType {
+    const extensions: IUserTaskEntityExtensions = task.nodeDef.extensions;
+    const uiNameProp: IUserTaskProperty = extensions.properties.find((property: IUserTaskProperty) => {
+      return property.name === 'uiName';
+    });
+
+    let result: WidgetType = null;
+    if (uiNameProp.value !== undefined && uiNameProp.value !== null) {
+      result = uiNameProp.value.toLowerCase() as WidgetType;
+    }
+    return result;
   }
 }

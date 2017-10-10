@@ -16,6 +16,19 @@ export class App {
         nav: true,
       },
       {
+        route: ['task'],
+        title: 'Task List',
+        name: 'task-list',
+        moduleId: 'modules/task-list/task-list',
+        nav: true,
+      },
+      {
+        route: ['task/:userTaskId'],
+        title: 'Tasks Detail',
+        name: 'task-detail',
+        moduleId: 'modules/task-detail/task-detail',
+      },
+      {
         route: 'processdetail/:processId',
         title: 'Process Details',
         name: 'processdetail',

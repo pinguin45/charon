@@ -1,5 +1,5 @@
 import {IQueryClause} from '@process-engine-js/core_contracts';
-import {IProcessDefEntity} from '@process-engine-js/process_engine_contracts';
+import {IProcessDefEntity, IUserTaskEntity} from '@process-engine-js/process_engine_contracts';
 import {HttpClient, Interceptor} from 'aurelia-fetch-client';
 import {inject} from 'aurelia-framework';
 import {IAuthenticationService, IPagination, IProcessEngineRepository} from '../../contracts';
@@ -35,8 +35,6 @@ export class ProcessEngineRepository implements IProcessEngineRepository {
       .fetch(url, {method: 'get'})
       .then((response: Response) => {
         return response.json();
-      }).then((list: IPagination<IProcessDefEntity>) => {
-        return list;
       });
   }
 
@@ -130,8 +128,24 @@ export class ProcessEngineRepository implements IProcessEngineRepository {
       .fetch(url, {method: 'get'})
       .then((response: Response) => {
         return response.json();
-      }).then((processDef: IProcessDefEntity) => {
-        return processDef;
+      });
+  }
+
+  public getUserTasks(limit: number, offset: number): Promise<IPagination<IUserTaskEntity>> {
+    const url: string = environment.processengine.routes.userTasks + '?expandCollection=["process.processDef", "nodeDef"]&limit="ALL"';
+    return this.http
+      .fetch(url, {method: 'get'})
+      .then((response: Response) => {
+        return response.json();
+      });
+  }
+
+  public getUserTaskById(userTaskId: string): Promise<IUserTaskEntity> {
+    const url: string = environment.processengine.routes.userTasks + '/' + userTaskId + '?expandEntity=["process.processDef", "nodeDef"]';
+    return this.http
+      .fetch(url, {method: 'get'})
+      .then((response: Response) => {
+        return response.json();
       });
   }
 }

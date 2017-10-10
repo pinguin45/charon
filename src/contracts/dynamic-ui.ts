@@ -1,8 +1,11 @@
+import {IUserTaskEntity} from '@process-engine-js/process_engine_contracts';
+
 export type WidgetType = 'textbox' | 'checkbox' | 'dropdown' | 'label' | 'form' | 'confirm';
 export type FormFieldType = 'textbox' | 'checkbox' | 'dropdown';
 
 export interface IDynamicUiService {
   sendProceedAction(action: string, widget: IWidget): void;
+  mapUserTask(task: IUserTaskEntity): IWidget;
 }
 
 export interface IWidget {

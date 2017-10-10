@@ -1,4 +1,4 @@
-import {IProcessDefEntity} from '@process-engine-js/process_engine_contracts';
+import {IProcessDefEntity, IUserTaskEntity} from '@process-engine-js/process_engine_contracts';
 
 export interface IProcessEngineRepository {
   getProcesses(limit: number, offset: number): Promise<IPagination<IProcessDefEntity>>;
@@ -8,6 +8,8 @@ export interface IProcessEngineRepository {
   getProcessbyID(processKey: string): Promise<IProcessDefEntity>;
   updateProcessDef(processDef: IProcessDefEntity, xml: string): Promise<any>;
   getIdentity(): Promise<any>;
+  getUserTasks(limit: number, offset: number): Promise<IPagination<IUserTaskEntity>>;
+  getUserTaskById(userTaskId: string): Promise<IUserTaskEntity>;
 }
 
 export interface IProcessEngineService {
@@ -18,6 +20,8 @@ export interface IProcessEngineService {
   getProcessbyID(processKey: string): Promise<IProcessDefEntity>;
   updateProcessDef(processDef: IProcessDefEntity, xml: string): Promise<any>;
   getIdentity(): Promise<any>;
+  getUserTasks(limit: number, offset: number): Promise<IPagination<IUserTaskEntity>>;
+  getUserTaskById(userTaskId: string): Promise<IUserTaskEntity>;
 }
 
 export interface IPagination<T> {
@@ -37,6 +41,13 @@ export interface IMessageBusService {
 // process engine does not provide an interface
 export interface IUserTaskEntityExtensions {
   formFields: Array<IUserTaskFormField>;
+  properties: Array<IUserTaskProperty>;
+}
+
+export interface IUserTaskProperty {
+  name: string;
+  $type: string;
+  value: string;
 }
 
 export interface IUserTaskFormField {
