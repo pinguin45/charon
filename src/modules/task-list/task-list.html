@@ -7,14 +7,14 @@
         <th>Process name</th>
         <th>Task name</th>
         <th>State</th>
-        <th>#</th>
+        <th></th>
       </tr>
       <tr repeat.for="task of tasks">
         <td>${task.process.processDef.name}</td>
         <td>${task.name}</td>
         <td>${task.state}</td>
         <td>
-          <a class="btn btn-success" href="#/task/${task.id}">Fortsetzen</a>
+          <a class="btn btn-success" href="#/task/${task.id}">Continue</a>
         </td>
       </tr>
     </table>
