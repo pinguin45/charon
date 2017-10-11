@@ -1,15 +1,15 @@
 <template>
   <require from="./user-login.css"></require>
-  <form if.bind="!isLoggedIn">
+  <form if.bind="!isLoggedIn" submit.delegate="login()" role="form">
     <input class="form-control" type="text" value.bind="username" placeholder="Username"/>
     <input class="form-control" type="password" value.bind="password" placeholder="Password"/>
-    <a class="btn btn-success" click.delegate="login()">Einloggen</a>
+    <button class="btn btn-success" type="submit">Login</button>
   </form>
   <div if.bind="isLoggedIn">
     <span style="color: #9d9d9d;">
       <i class="glyphicon glyphicon-user"></i>
-      Hallo, ${identity.name}
+      Hi, ${identity.name}
     </span>
-    <a class="btn btn-danger" click.delegate="logout()">Ausloggen</a>
+    <a class="btn btn-danger" click.delegate="logout()">Logout</a>
   </div>
 </template>
