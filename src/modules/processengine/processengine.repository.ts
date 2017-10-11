@@ -106,13 +106,21 @@ export class ProcessEngineRepository implements IProcessEngineRepository {
       });
   }
 
-  public async getInstances(processKey: string): Promise<Array<IProcessEntity>> {
+  public async getInstancesbyID(processKey: string): Promise<Array<IProcessEntity>> {
     const query: IQueryClause = {
       attribute: 'processDef',
       operator: '=',
       value: processKey,
     };
     const url: string = environment.processengine.routes.processInstances + '?query=' + JSON.stringify(query);
+
+    const response: Response = await this.http.fetch(url, {method: 'get'});
+    const responseBody: IPagination<IProcessEntity> = await response.json();
+    return responseBody.data;
+  }
+
+  public async getInstances(): Promise<Array<IProcessEntity>> {
+    const url: string = environment.processengine.routes.processInstances;
 
     const response: Response = await this.http.fetch(url, {method: 'get'});
     const responseBody: IPagination<IProcessEntity> = await response.json();
