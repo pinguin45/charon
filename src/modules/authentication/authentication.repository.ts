@@ -1,7 +1,14 @@
 import {HttpClient} from 'aurelia-fetch-client';
 import {inject} from 'aurelia-framework';
-import {IAuthenticationRepository, IIdentity, ILoginResult} from '../../contracts';
+import {
+  IAuthenticationRepository,
+  IErrorResponse,
+  IIdentity,
+  ILoginResult,
+  ILogoutResult,
+} from '../../contracts';
 import environment from '../../environment';
+import {throwOnErrorResponse} from '../../resources/http-repository-tools';
 
 const HTTP_CODE_OK: number = 200;
 
@@ -28,17 +35,14 @@ export class AuthenticationRepository implements IAuthenticationRepository {
 
     const url: string = `${environment.processengine.routes.iam}/login`;
     const response: Response = await this.http.fetch(url, options);
-    const result: any = await response.json();
 
-    if (result.error) {
-      throw new Error(result.error);
-    }
-    return result;
+    return throwOnErrorResponse<ILoginResult>(response);
   }
 
-  public async logout(): Promise<any> {
+  public async logout(): Promise<ILogoutResult> {
     const url: string = `${environment.processengine.routes.iam}/logout`;
     const response: Response = await this.http.fetch(url, { method: 'get' });
-    return response.json();
+
+    return throwOnErrorResponse<ILogoutResult>(response);
   }
 }
