@@ -45,7 +45,9 @@ export class Processdetail {
   }
 
   public detached(): void {
-    this.subscriptions.forEach((x: Subscription) => x.dispose);
+    for (const subscription of this.subscriptions) {
+      subscription.dispose();
+    }
   }
 
   private refreshProcess(): void {
