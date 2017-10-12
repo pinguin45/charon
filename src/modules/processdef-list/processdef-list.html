@@ -1,5 +1,5 @@
 <template>
-  <require from="./processlist.css"></require>
+  <require from="./processdef-list.css"></require>
 
   <div class="container">
     <a class="btn btn-success create-process" href="${createProcess}">Create Process</a>
@@ -13,7 +13,7 @@
         <td>${process.name}</td>
         <td>${process.id}</td>
         <td>
-          <a class="btn btn-primary" href="#/processdetail/${process.id}">Details</a>
+          <a class="btn btn-primary" href="#/processdef/${process.id}/detail">Details</a>
         </td>
       </tr>
     </table>

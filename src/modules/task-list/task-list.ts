@@ -5,6 +5,11 @@ import {AuthenticationStateEvent, IDynamicUiService, IPagination, IProcessEngine
 import environment from '../../environment';
 import {DynamicUiWrapper} from '../dynamic-ui-wrapper/dynamic-ui-wrapper';
 
+interface ITaskListRouteParameters {
+  processDefId?: string;
+  processId?: string;
+}
+
 @inject('ProcessEngineService', EventAggregator, 'DynamicUiService')
 export class TaskList {
 
@@ -16,6 +21,7 @@ export class TaskList {
   private userTasks: IPagination<IUserTaskEntity>;
   private getUserTasksIntervalId: number;
   private dynamicUiWrapper: DynamicUiWrapper;
+  private getUserTasks: () => Promise<IPagination<IUserTaskEntity>>;
 
   constructor(processEngineService: IProcessEngineService, eventAggregator: EventAggregator, dynamicUiService: IDynamicUiService) {
     this.processEngineService = processEngineService;
@@ -23,23 +29,37 @@ export class TaskList {
     this.dynamicUiService = dynamicUiService;
   }
 
-  public async getUserTasksFromService(offset: number): Promise<void> {
-    this.userTasks = await this.processEngineService.getUserTasks(100, offset);
+  private async updateUserTasks(): Promise<void> {
+    this.userTasks = await this.getUserTasks();
+  }
+
+  public activate(routeParameters: ITaskListRouteParameters): void {
+    if (routeParameters.processDefId) {
+      this.getUserTasks = (): Promise<IPagination<IUserTaskEntity>> => {
+        return this.getUserTasksForProcessDef(routeParameters.processDefId);
+      };
+    } else if (routeParameters.processId) {
+      this.getUserTasks = (): Promise<IPagination<IUserTaskEntity>> => {
+        return this.getUserTasksForProcess(routeParameters.processId);
+      };
+    } else {
+      this.getUserTasks = this.getAllUserTasks;
+    }
   }
 
   public attached(): void {
-    this.getUserTasksFromService(0);
+    this.updateUserTasks();
     this.getUserTasksIntervalId = window.setInterval(() => {
-      this.getUserTasksFromService(0);
+      this.updateUserTasks();
       // tslint:disable-next-line
     }, environment.processengine.poolingInterval);
 
     this.subscriptions = [
       this.eventAggregator.subscribe(AuthenticationStateEvent.LOGIN, () => {
-        this.refreshUserTaskList();
+        this.updateUserTasks();
       }),
       this.eventAggregator.subscribe(AuthenticationStateEvent.LOGOUT, () => {
-        this.refreshUserTaskList();
+        this.updateUserTasks();
       }),
     ];
   }
@@ -51,10 +71,6 @@ export class TaskList {
     }
   }
 
-  private refreshUserTaskList(): void {
-    this.getUserTasksFromService(0);
-  }
-
   public get tasks(): Array<IUserTaskEntity> {
     if (this.userTasks === undefined) {
       return [];
@@ -62,5 +78,17 @@ export class TaskList {
     return this.userTasks.data.filter((entry: IUserTaskEntity): boolean => {
       return entry.state === 'wait';
     });
+  }
+
+  private async getAllUserTasks(): Promise<IPagination<IUserTaskEntity>> {
+    return this.processEngineService.getUserTasks(100, 0);
+  }
+
+  private async getUserTasksForProcessDef(processDefId: string): Promise<IPagination<IUserTaskEntity>> {
+    return this.processEngineService.getUserTasksByProcessDefId(processDefId);
+  }
+
+  private async getUserTasksForProcess(processId: string): Promise<IPagination<IUserTaskEntity>> {
+    return this.processEngineService.getUserTasksByProcessId(processId);
   }
 }

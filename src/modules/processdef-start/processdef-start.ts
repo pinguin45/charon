@@ -6,13 +6,13 @@ import {AuthenticationStateEvent, IProcessEngineService, IWidget} from '../../co
 import {DynamicUiWrapper} from '../dynamic-ui-wrapper/dynamic-ui-wrapper';
 
 @inject('ProcessEngineService', EventAggregator, Router)
-export class ProcessStart {
+export class ProcessDefStart {
 
   private processEngineService: IProcessEngineService;
   private eventAggregator: EventAggregator;
   private dynamicUiWrapper: DynamicUiWrapper;
   private subscriptions: Array<Subscription>;
-  private processId: string;
+  private processDefId: string;
   private _process: IProcessDefEntity;
   private router: Router;
 
@@ -22,8 +22,8 @@ export class ProcessStart {
     this.router = router;
   }
 
-  private activate(routeParameters: {processId: string}): void {
-    this.processId = routeParameters.processId;
+  private activate(routeParameters: {processDefId: string}): void {
+    this.processDefId = routeParameters.processDefId;
     this.refreshProcess();
   }
 
@@ -52,7 +52,7 @@ export class ProcessStart {
 
   private async refreshProcess(): Promise<void> {
     try {
-      this._process = await this.processEngineService.getProcessbyID(this.processId);
+      this._process = await this.processEngineService.getProcessDefById(this.processDefId);
       this.startProcess();
     } catch (error) {
       console.error('failed to refresh process');

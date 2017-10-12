@@ -11,8 +11,8 @@ export class ProcessEngineService implements IProcessEngineService {
     this.repository = repository;
   }
 
-  public getProcesses(limit: number, offset: number): Promise<IPagination<IProcessDefEntity>> {
-    return this.repository.getProcesses(limit, offset);
+  public getProcessDefs(limit: number, offset: number): Promise<IPagination<IProcessDefEntity>> {
+    return this.repository.getProcessDefs(limit, offset);
   }
 
   public startProcess(process: IProcessDefEntity): Promise<any> {
@@ -23,16 +23,8 @@ export class ProcessEngineService implements IProcessEngineService {
     return this.repository.deleteProcessDef(processId);
   }
 
-  public getInstancesbyID(processKey: string): Promise<Array<IProcessEntity>> {
-    return this.repository.getInstancesbyID(processKey);
-  }
-
-  public getInstances(): Promise<Array<IProcessEntity>> {
-    return this.repository.getInstances();
-  }
-
-  public getProcessbyID(processKey: string): Promise<IProcessDefEntity> {
-    return this.repository.getProcessbyID(processKey);
+  public getProcessDefById(processDefId: string): Promise<IProcessDefEntity> {
+    return this.repository.getProcessDefById(processDefId);
   }
 
   public updateProcessDef(processDef: IProcessDefEntity, xml: string): Promise<any> {
@@ -49,5 +41,25 @@ export class ProcessEngineService implements IProcessEngineService {
 
   public getUserTaskById(userTaskId: string): Promise<IUserTaskEntity> {
     return this.repository.getUserTaskById(userTaskId);
+  }
+
+  public getUserTasksByProcessDefId(processDefId: string): Promise<IPagination<IUserTaskEntity>> {
+    return this.repository.getUserTasksByProcessDefId(processDefId);
+  }
+
+  public getUserTasksByProcessId(processId: string): Promise<IPagination<IUserTaskEntity>> {
+    return this.repository.getUserTasksByProcessId(processId);
+  }
+
+  public getProcesses(): Promise<IPagination<IProcessEntity>> {
+    return this.repository.getProcesses();
+  }
+
+  public getProcessById(processId: string): Promise<IProcessEntity> {
+    return this.repository.getProcessById(processId);
+  }
+
+  public getProcessesByProcessDefId(processDefId: string): Promise<IPagination<IProcessEntity>> {
+    return this.repository.getProcessesByProcessDefId(processDefId);
   }
 }

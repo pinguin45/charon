@@ -13,19 +13,23 @@ import {
 } from '../../contracts/index';
 import environment from '../../environment';
 
+interface IProcessListRouteParameters {
+  processDefId?: string;
+}
+
 @inject('ProcessEngineService', EventAggregator, 'MessageBusService')
-export class Processinstances {
+export class ProcessList {
 
   private processEngineService: IProcessEngineService;
   private messageBusService: IMessageBusService;
   private eventAggregator: EventAggregator;
-
-  private instances: Array<IProcessEntity>;
-  private getProcessesIntervalId: number;
-  private subscriptions: Array<Subscription>;
-  private status: Array<string> = [];
   private selectedState: HTMLSelectElement;
-  private allInstances: Array<IProcessEntity>;
+  private getProcessesIntervalId: number;
+  private getProcesses: () => Promise<IPagination<IProcessEntity>>;
+  private subscriptions: Array<Subscription>;
+  private processes: IPagination<IProcessEntity>;
+  private instances: Array<IProcessEntity>;
+  private status: Array<string> = [];
 
   constructor(processEngineService: IProcessEngineService, eventAggregator: EventAggregator, messageBusService: IMessageBusService) {
     this.processEngineService = processEngineService;
@@ -33,8 +37,18 @@ export class Processinstances {
     this.eventAggregator = eventAggregator;
   }
 
-  public async getInstancesFromService(): Promise<void> {
-    this.allInstances = await this.processEngineService.getInstances();
+  public activate(routeParameters: IProcessListRouteParameters): void {
+    if (routeParameters.processDefId) {
+      this.getProcesses = (): Promise<IPagination<IProcessEntity>> => {
+        return this.getProcessesForProcessDef(routeParameters.processDefId);
+      };
+     } else {
+      this.getProcesses = this.getAllProcesses;
+    }
+  }
+
+  public async updateProcesses(): Promise<void> {
+    this.processes = await this.getProcesses();
 
     for (const instance of this.allInstances) {
       if (!this.status.includes(instance.status)) {
@@ -58,18 +72,18 @@ export class Processinstances {
   }
 
   public attached(): void {
-    this.getInstancesFromService();
+    this.updateProcesses();
     this.getProcessesIntervalId = window.setInterval(async() => {
-      await this.getInstancesFromService();
+      await this.updateProcesses();
       this.updateList();
     }, environment.processengine.poolingInterval);
 
     this.subscriptions = [
       this.eventAggregator.subscribe(AuthenticationStateEvent.LOGIN, () => {
-        this.refreshProcesslist();
+        this.updateProcesses();
       }),
       this.eventAggregator.subscribe(AuthenticationStateEvent.LOGOUT, () => {
-        this.refreshProcesslist();
+        this.updateProcesses();
       }),
     ];
   }
@@ -81,8 +95,8 @@ export class Processinstances {
     }
   }
 
-  private refreshProcesslist(): void {
-    this.getInstancesFromService();
+  public get allInstances(): Array<IProcessEntity> {
+    return this.processes.data;
   }
 
   public doCancel(instanceId: string): void {
@@ -96,4 +110,11 @@ export class Processinstances {
     this.messageBusService.sendMessage(`/processengine/node/${this.instances[0].processDef.id}`, cancelMessage);
   }
 
+  private async getAllProcesses(): Promise<IPagination<IProcessEntity>> {
+    return this.processEngineService.getProcesses();
+  }
+
+  private async getProcessesForProcessDef(processDefId: string): Promise<IPagination<IProcessEntity>> {
+    return this.processEngineService.getProcessesByProcessDefId(processDefId);
+  }
 }

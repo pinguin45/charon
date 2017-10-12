@@ -33,7 +33,7 @@ export class Processinstances {
   }
 
   public async getInstancesfromService(offset: number): Promise<void> {
-    this.instances = await this.processEngineService.getInstancesbyID(this.processId);
+    this.instances = (await this.processEngineService.getProcessesByProcessDefId(this.processId)).data;
   }
 
   public activate(routeParameters: {processId: string}): void {

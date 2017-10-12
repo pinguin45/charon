@@ -6,11 +6,11 @@ import environment from '../../environment';
 import {BpmnIo} from '../bpmn-io/bpmn-io';
 
 interface RouteParameters {
-  processId: string;
+  processDefId: string;
 }
 
 @inject('ProcessEngineService', EventAggregator)
-export class Processdetail {
+export class ProcessDefDetail {
   private processEngineService: IProcessEngineService;
   private eventAggregator: EventAggregator;
   private subscriptions: Array<Subscription>;
@@ -29,7 +29,7 @@ export class Processdetail {
   }
 
   public activate(routeParameters: RouteParameters): void {
-    this.processId = routeParameters.processId;
+    this.processId = routeParameters.processDefId;
     this.refreshProcess();
   }
 
@@ -51,7 +51,7 @@ export class Processdetail {
   }
 
   private refreshProcess(): void {
-    this.processEngineService.getProcessbyID(this.processId)
+    this.processEngineService.getProcessDefById(this.processId)
       .then((result: any) => {
         if (result && !result.error) {
           this._process = result;
