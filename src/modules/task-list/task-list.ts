@@ -38,8 +38,12 @@ export class TaskList {
     }, environment.processengine.poolingInterval);
 
     this.subscriptions = [
-      this.eventAggregator.subscribe(AuthenticationStateEvent.LOGIN, this.refreshUserTaskList.bind(this)),
-      this.eventAggregator.subscribe(AuthenticationStateEvent.LOGOUT, this.refreshUserTaskList.bind(this)),
+      this.eventAggregator.subscribe(AuthenticationStateEvent.LOGIN, () => {
+        this.refreshUserTaskList();
+      }),
+      this.eventAggregator.subscribe(AuthenticationStateEvent.LOGOUT, () => {
+        this.refreshUserTaskList();
+      }),
     ];
   }
 
