@@ -5,7 +5,8 @@ export interface IProcessEngineRepository {
   getProcesses(limit: number, offset: number): Promise<IPagination<IProcessDefEntity>>;
   startProcess(process: IProcessDefEntity): Promise<string>;
   deleteProcessDef(processId: string): Promise<void>;
-  getInstances(processKey: string): Promise<Array<IProcessEntity>>;
+  getInstancesbyID(processKey: string): Promise<Array<IProcessEntity>>;
+  getInstances(): Promise<Array<IProcessEntity>>;
   getProcessbyID(processKey: string): Promise<IProcessDefEntity>;
   updateProcessDef(processDef: IProcessDefEntity, xml: string): Promise<any>;
   getIdentity(): Promise<any>;
@@ -17,7 +18,8 @@ export interface IProcessEngineService {
   getProcesses(limit: number, offset: number): Promise<IPagination<IProcessDefEntity>>;
   startProcess(process: IProcessDefEntity): Promise<any>;
   deleteProcessDef(processId: string): Promise<void>;
-  getInstances(processKey: string): Promise<Array<IProcessEntity>>;
+  getInstancesbyID(processKey: string): Promise<Array<IProcessEntity>>;
+  getInstances(): Promise<Array<IProcessEntity>>;
   getProcessbyID(processKey: string): Promise<IProcessDefEntity>;
   updateProcessDef(processDef: IProcessDefEntity, xml: string): Promise<any>;
   getIdentity(): Promise<any>;

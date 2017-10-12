@@ -20,11 +20,12 @@ export class Processinstances {
   private messageBusService: IMessageBusService;
   private eventAggregator: EventAggregator;
 
-  private offset: number;
-  private processId: string;
   private instances: Array<IProcessEntity>;
   private getProcessesIntervalId: number;
   private subscriptions: Array<Subscription>;
+  private status: Array<string> = [];
+  private selectedState: HTMLSelectElement;
+  private allInstances: Array<IProcessEntity>;
 
   constructor(processEngineService: IProcessEngineService, eventAggregator: EventAggregator, messageBusService: IMessageBusService) {
     this.processEngineService = processEngineService;
@@ -32,18 +33,35 @@ export class Processinstances {
     this.eventAggregator = eventAggregator;
   }
 
-  public async getInstancesfromService(offset: number): Promise<void> {
-    this.instances = await this.processEngineService.getInstancesbyID(this.processId);
+  public async getInstancesFromService(): Promise<void> {
+    this.allInstances = await this.processEngineService.getInstances();
+
+    for (const instance of this.allInstances) {
+      if (!this.status.includes(instance.status)) {
+        this.status.push(instance.status);
+      }
+    }
+
+    if (!this.instances) {
+      this.instances = this.allInstances;
+    }
   }
 
-  public activate(routeParameters: {processId: string}): void {
-    this.processId = routeParameters.processId;
+  public updateList(): void {
+    if (this.selectedState.value === 'all') {
+      this.instances = this.allInstances;
+      return;
+    }
+    this.instances = this.allInstances.filter((entry: IProcessEntity): boolean => {
+      return entry.status === this.selectedState.value;
+    });
   }
 
   public attached(): void {
-    this.getInstancesfromService(this.offset);
-    this.getProcessesIntervalId = window.setInterval(() => {
-      this.getInstancesfromService(this.offset);
+    this.getInstancesFromService();
+    this.getProcessesIntervalId = window.setInterval(async() => {
+      await this.getInstancesFromService();
+      this.updateList();
     }, environment.processengine.poolingInterval);
 
     this.subscriptions = [
@@ -64,10 +82,10 @@ export class Processinstances {
   }
 
   private refreshProcesslist(): void {
-    this.getInstancesfromService(this.offset);
+    this.getInstancesFromService();
   }
 
-  public doCancel(instanceId: string, processDefId: string): void {
+  public doCancel(instanceId: string): void {
     const cancelMessage: IMessage = this.messageBusService.createMessage();
     cancelMessage.action = MessageAction.event;
     cancelMessage.context = {
@@ -75,7 +93,7 @@ export class Processinstances {
     };
     cancelMessage.eventType = MessageEventType.cancel;
 
-    this.messageBusService.sendMessage(`/processengine/node/${processDefId}`, cancelMessage);
+    this.messageBusService.sendMessage(`/processengine/node/${this.instances[0].processDef.id}`, cancelMessage);
   }
 
 }

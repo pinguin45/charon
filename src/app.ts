@@ -46,6 +46,13 @@ export class App {
         name: 'processinstances',
         moduleId: 'modules/processinstances/processinstances',
       },
+      {
+        route: 'instances',
+        title: 'Instances',
+        name: 'instances',
+        moduleId: 'modules/instanceslist/instanceslist',
+        nav: true,
+      },
     ]);
   }
 }

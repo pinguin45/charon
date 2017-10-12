@@ -6,13 +6,13 @@
         <tr>
           <th>ID</th>
           <th>Status</th>
-          <th>#</th>
+          <th></th>
         </tr>
         <tr repeat.for="instance of instances">
           <td>${instance.id}</td>
           <td>${instance.status}</td>
           <td>
-            <a class="btn btn-danger" click.delegate="doCancel(instance.id)" disabled>Stop</a>
+            <a class="btn btn-danger" click.delegate="doCancel(instance.id, instance.processDef.id)" disabled>Stop</a>
           </td>
         </tr>
       </table>

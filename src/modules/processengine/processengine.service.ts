@@ -23,8 +23,12 @@ export class ProcessEngineService implements IProcessEngineService {
     return this.repository.deleteProcessDef(processId);
   }
 
-  public getInstances(processKey: string): Promise<Array<IProcessEntity>> {
-    return this.repository.getInstances(processKey);
+  public getInstancesbyID(processKey: string): Promise<Array<IProcessEntity>> {
+    return this.repository.getInstancesbyID(processKey);
+  }
+
+  public getInstances(): Promise<Array<IProcessEntity>> {
+    return this.repository.getInstances();
   }
 
   public getProcessbyID(processKey: string): Promise<IProcessDefEntity> {
