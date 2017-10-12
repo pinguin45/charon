@@ -67,7 +67,7 @@ export class Processinstances {
     this.getInstancesfromService(this.offset);
   }
 
-  public doCancel(instanceId: string): void {
+  public doCancel(instanceId: string, processDefId: string): void {
     const cancelMessage: IMessage = this.messageBusService.createMessage();
     cancelMessage.action = MessageAction.event;
     cancelMessage.context = {
@@ -75,7 +75,7 @@ export class Processinstances {
     };
     cancelMessage.eventType = MessageEventType.cancel;
 
-    this.messageBusService.sendMessage(`/processengine/node/${this.instances[0].processDef.id}`, cancelMessage);
+    this.messageBusService.sendMessage(`/processengine/node/${processDefId}`, cancelMessage);
   }
 
 }
