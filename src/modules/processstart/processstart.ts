@@ -35,7 +35,7 @@ export class ProcessStart {
         this.dynamicUiWrapper.currentWidget = message;
       }),
       this.eventAggregator.subscribe('closed-process', (message: any) => {
-        this.router.navigateToRoute('processlist', {page: 1});
+        this.router.navigateToRoute('processlist', { page: 1 });
       }),
     ];
   }
@@ -46,16 +46,15 @@ export class ProcessStart {
     });
   }
 
-  private refreshProcess(): void {
-    this.processEngineService.getProcessbyID(this.processId)
-      .then((result: any) => {
-        if (result && !result.error) {
-          this._process = result;
-        } else {
-          this._process = null;
-        }
-        this.startProcess();
-    });
+  private async refreshProcess(): Promise<void> {
+    const result: any = this.processEngineService.getProcessbyID(this.processId);
+
+    if (result && !result.error) {
+      this._process = result;
+    } else {
+      this._process = null;
+    }
+    this.startProcess();
   }
 
   @computedFrom('_process')

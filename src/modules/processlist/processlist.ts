@@ -21,11 +21,8 @@ export class Processlist {
     this.eventAggregator = eventAggregator;
   }
 
-  public getProcessesFromService(offset: number): void {
-    this.processEngineService.getProcesses(environment.processlist.pageLimit, offset)
-      .then((result: IPagination<IProcessDefEntity>) => {
-        this._processes = result;
-      });
+  public async getProcessesFromService(offset: number): Promise<void> {
+    this._processes = await this.processEngineService.getProcesses(environment.processlist.pageLimit, offset);
   }
 
   public activate(routeParameters: {page: number}): void {
