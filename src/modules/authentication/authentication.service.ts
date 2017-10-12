@@ -28,27 +28,20 @@ export class AuthenticationService implements IAuthenticationService {
     return this.identity;
   }
 
-  public login(username: string, password: string): Promise<IIdentity> {
-    return this.authenticationRepository.login(username, password)
-      .then((result: any) => {
-        this.token = result.token;
-        this.identity = result.identity;
-        this.eventAggregator.publish(AuthenticationStateEvent.LOGIN, result.identity);
-        return result;
-      });
+  public async login(username: string, password: string): Promise<IIdentity> {
+    const result: any = await this.authenticationRepository.login(username, password);
+    this.token = result.token;
+    this.identity = result.identity;
+    this.eventAggregator.publish(AuthenticationStateEvent.LOGIN, result.identity);
+    return result;
   }
 
-  public logout(): Promise<void> {
-    return this.authenticationRepository.logout()
-      .then((result: any) => {
-        this.token = null;
-        this.identity = null;
-        return result;
-      })
-      .then((result: any) => {
-        this.eventAggregator.publish(AuthenticationStateEvent.LOGOUT);
-        return result;
-      });
+  public async logout(): Promise<void> {
+    const result: any =  await this.authenticationRepository.logout();
+    this.token = null;
+    this.identity = null;
+    this.eventAggregator.publish(AuthenticationStateEvent.LOGOUT);
+    return result;
   }
 
   public hasToken(): boolean {
