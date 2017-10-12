@@ -59,8 +59,8 @@ export class Processinstances {
 
   public attached(): void {
     this.getInstancesFromService();
-    this.getProcessesIntervalId = window.setInterval(() => {
-      this.getInstancesFromService();
+    this.getProcessesIntervalId = window.setInterval(async() => {
+      await this.getInstancesFromService();
       this.updateList();
     }, environment.processengine.poolingInterval);
 
