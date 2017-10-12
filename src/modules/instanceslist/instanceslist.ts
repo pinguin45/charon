@@ -33,7 +33,7 @@ export class Processinstances {
     this.eventAggregator = eventAggregator;
   }
 
-  public async getInstancesfromService(): Promise<void> {
+  public async getInstancesFromService(): Promise<void> {
     this.allInstances = await this.processEngineService.getInstances();
 
     for (const instance of this.allInstances) {
@@ -50,25 +50,28 @@ export class Processinstances {
   public updateList(): void {
     if (this.selectedState.value === 'all') {
       this.instances = this.allInstances;
-    } else {
-      this.instances = this.allInstances.filter((entry: IProcessEntity): boolean => {
-        return entry.status === this.selectedState.value;
-      });
+      return;
     }
+    this.instances = this.allInstances.filter((entry: IProcessEntity): boolean => {
+      return entry.status === this.selectedState.value;
+    });
   }
 
   public attached(): void {
-    this.getInstancesfromService();
+    this.getInstancesFromService();
     this.getProcessesIntervalId = window.setInterval(() => {
-      this.getInstancesfromService();
+      this.getInstancesFromService();
       this.updateList();
     }, environment.processengine.poolingInterval);
 
     this.subscriptions = [
-      this.eventAggregator.subscribe(AuthenticationStateEvent.LOGIN, this.refreshProcesslist.bind(this)),
-      this.eventAggregator.subscribe(AuthenticationStateEvent.LOGOUT, this.refreshProcesslist.bind(this)),
+      this.eventAggregator.subscribe(AuthenticationStateEvent.LOGIN, () => {
+        this.refreshProcesslist();
+      }),
+      this.eventAggregator.subscribe(AuthenticationStateEvent.LOGOUT, () => {
+        this.refreshProcesslist();
+      }),
     ];
-
   }
 
   public detached(): void {
@@ -79,7 +82,7 @@ export class Processinstances {
   }
 
   private refreshProcesslist(): void {
-    this.getInstancesfromService();
+    this.getInstancesFromService();
   }
 
   public doCancel(instanceId: string): void {
