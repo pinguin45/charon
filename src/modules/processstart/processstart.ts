@@ -41,9 +41,9 @@ export class ProcessStart {
   }
 
   public detached(): void {
-    this.subscriptions.forEach((subscription: Subscription): void => {
+    for (const subscription of this.subscriptions) {
       subscription.dispose();
-    });
+    }
   }
 
   private refreshProcess(): void {

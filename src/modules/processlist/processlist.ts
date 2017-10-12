@@ -49,7 +49,9 @@ export class Processlist {
 
   public detached(): void {
     clearInterval(this.getProcessesIntervalId);
-    this.subscriptions.forEach((x: Subscription) => x.dispose);
+    for (const subscription of this.subscriptions) {
+      subscription.dispose();
+    }
   }
 
   private refreshProcesslist(): void {
