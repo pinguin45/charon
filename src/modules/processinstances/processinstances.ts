@@ -47,8 +47,12 @@ export class Processinstances {
     }, environment.processengine.poolingInterval);
 
     this.subscriptions = [
-      this.eventAggregator.subscribe(AuthenticationStateEvent.LOGIN, this.refreshProcesslist.bind(this)),
-      this.eventAggregator.subscribe(AuthenticationStateEvent.LOGOUT, this.refreshProcesslist.bind(this)),
+      this.eventAggregator.subscribe(AuthenticationStateEvent.LOGIN, () => {
+        this.refreshProcesslist();
+      }),
+      this.eventAggregator.subscribe(AuthenticationStateEvent.LOGOUT, () => {
+        this.refreshProcesslist();
+      }),
     ];
   }
 

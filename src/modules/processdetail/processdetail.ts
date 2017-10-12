@@ -35,8 +35,12 @@ export class Processdetail {
 
   public attached(): void {
     this.subscriptions = [
-      this.eventAggregator.subscribe(AuthenticationStateEvent.LOGIN, this.refreshProcess.bind(this)),
-      this.eventAggregator.subscribe(AuthenticationStateEvent.LOGOUT, this.refreshProcess.bind(this)),
+      this.eventAggregator.subscribe(AuthenticationStateEvent.LOGIN, () => {
+        this.refreshProcess();
+      }),
+      this.eventAggregator.subscribe(AuthenticationStateEvent.LOGOUT, () => {
+        this.refreshProcess();
+      }),
     ];
   }
 
