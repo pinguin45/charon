@@ -53,7 +53,7 @@ export class ProcessEngineRepository implements IProcessEngineRepository {
   }
 
   public deleteProcessDef(processId: string): Promise<void> {
-    const url: string = environment.processengine.routes.processes + '/' + processId;
+    const url: string = `${environment.processengine.routes.processes}/${processId}`;
     return this.http
       .fetch(url, {
         method: 'delete',
@@ -98,7 +98,7 @@ export class ProcessEngineRepository implements IProcessEngineRepository {
           xml: xml,
       }),
     };
-    const url: string = environment.processengine.routes.processes + '/' + processDef.id + '/updateBpmn';
+    const url: string = `${environment.processengine.routes.processes}/${processDef.id}/updateBpmn`;
     return this.http
       .fetch(url, options)
       .then((response: Response) => {
@@ -112,7 +112,7 @@ export class ProcessEngineRepository implements IProcessEngineRepository {
       operator: '=',
       value: processKey,
     };
-    const url: string = environment.processengine.routes.processInstances + '?query=' + JSON.stringify(query);
+    const url: string = `${environment.processengine.routes.processInstances}?query=${JSON.stringify(query)}`;
 
     const response: Response = await this.http.fetch(url, {method: 'get'});
     const responseBody: IPagination<IProcessEntity> = await response.json();
@@ -128,7 +128,7 @@ export class ProcessEngineRepository implements IProcessEngineRepository {
   }
 
   public getProcessbyID(processKey: string): Promise<IProcessDefEntity> {
-    const url: string = environment.processengine.routes.processes + '/' + processKey;
+    const url: string = `${environment.processengine.routes.processes}/${processKey}`;
     return this.http
       .fetch(url, {method: 'get'})
       .then((response: Response) => {
@@ -137,7 +137,7 @@ export class ProcessEngineRepository implements IProcessEngineRepository {
   }
 
   public getUserTasks(limit: number, offset: number): Promise<IPagination<IUserTaskEntity>> {
-    const url: string = environment.processengine.routes.userTasks + '?expandCollection=["process.processDef", "nodeDef"]&limit="ALL"';
+    const url: string = `${environment.processengine.routes.userTasks}?expandCollection=["process.processDef", "nodeDef"]&limit="ALL"`;
     return this.http
       .fetch(url, {method: 'get'})
       .then((response: Response) => {
@@ -146,7 +146,7 @@ export class ProcessEngineRepository implements IProcessEngineRepository {
   }
 
   public getUserTaskById(userTaskId: string): Promise<IUserTaskEntity> {
-    const url: string = environment.processengine.routes.userTasks + '/' + userTaskId + '?expandEntity=["process.processDef", "nodeDef"]';
+    const url: string = `${environment.processengine.routes.userTasks}/${userTaskId}?expandEntity=["process.processDef", "nodeDef"]`;
     return this.http
       .fetch(url, {method: 'get'})
       .then((response: Response) => {
