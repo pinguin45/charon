@@ -1,7 +1,14 @@
 import {HttpClient} from 'aurelia-fetch-client';
 import {inject} from 'aurelia-framework';
-import {IAuthenticationRepository, IIdentity, ILoginResult} from '../../contracts';
+import {
+  IAuthenticationRepository,
+  IErrorResponse,
+  IIdentity,
+  ILoginResult,
+  ILogoutResult,
+} from '../../contracts';
 import environment from '../../environment';
+import {throwOnErrorResponse} from '../../resources/http-repository-tools';
 
 const HTTP_CODE_OK: number = 200;
 
@@ -14,34 +21,28 @@ export class AuthenticationRepository implements IAuthenticationRepository {
     this.http = http;
   }
 
-  public login(username: string, password: string): Promise<ILoginResult> {
-    return this.http
-      .fetch(`${environment.processengine.routes.iam}login`, {
-        method: 'post',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          username: username,
-          password: password,
-        }),
-      })
-      .then((response: Response): ILoginResult => {
-        const result: any = response.json();
-        if (result.error) {
-          throw new Error(result.error);
-        }
-        return result;
-      });
+  public async login(username: string, password: string): Promise<ILoginResult> {
+    const options: RequestInit = {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        username: username,
+        password: password,
+      }),
+    };
+
+    const url: string = `${environment.processengine.routes.iam}/login`;
+    const response: Response = await this.http.fetch(url, options);
+
+    return throwOnErrorResponse<ILoginResult>(response);
   }
 
-  public logout(): Promise<any> {
-    return this.http
-      .fetch(`${environment.processengine.routes.iam}logout`, {
-        method: 'get',
-      })
-      .then((response: Response) => {
-        return response.json();
-      });
+  public async logout(): Promise<ILogoutResult> {
+    const url: string = `${environment.processengine.routes.iam}/logout`;
+    const response: Response = await this.http.fetch(url, { method: 'get' });
+
+    return throwOnErrorResponse<ILogoutResult>(response);
   }
 }

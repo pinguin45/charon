@@ -3,7 +3,7 @@ export {IProcessDefEntity, IProcessEntity, IUserTaskEntity} from '@process-engin
 
 export interface IProcessEngineRepository {
   getProcesses(limit: number, offset: number): Promise<IPagination<IProcessDefEntity>>;
-  startProcess(process: IProcessDefEntity): Promise<any>;
+  startProcess(process: IProcessDefEntity): Promise<string>;
   deleteProcessDef(processId: string): Promise<void>;
   getInstancesbyID(processKey: string): Promise<Array<IProcessEntity>>;
   getInstances(): Promise<Array<IProcessEntity>>;
@@ -84,4 +84,8 @@ export interface IMessage {
     participantId: string,
   };
   eventType: MessageEventType;
+}
+
+export interface IErrorResponse {
+  error: any;
 }
