@@ -49,11 +49,11 @@ export class TaskList {
   }
 
   private async refreshUserTask(): Promise<void> {
-    const result: any = this.processEngineService.getUserTaskById(this.userTaskId);
-    if (result && !result.error) {
-      this.userTask = result;
-    } else {
-      this.userTask = null;
+    try {
+      this.userTask = await this.processEngineService.getUserTaskById(this.userTaskId);
+    } catch (error) {
+      console.error('cant refresh user task');
+      throw error;
     }
   }
 

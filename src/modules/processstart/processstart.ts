@@ -47,14 +47,13 @@ export class ProcessStart {
   }
 
   private async refreshProcess(): Promise<void> {
-    const result: any = this.processEngineService.getProcessbyID(this.processId);
-
-    if (result && !result.error) {
-      this._process = result;
-    } else {
-      this._process = null;
+    try {
+      this._process = await this.processEngineService.getProcessbyID(this.processId);
+      this.startProcess();
+    } catch (error) {
+      console.error('failed to refresh process');
+      throw error;
     }
-    this.startProcess();
   }
 
   @computedFrom('_process')
