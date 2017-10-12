@@ -13,8 +13,8 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@process-engine/bpmn-js-custom-bundle": "0.1.0",
     "@essential-projects/core_contracts": "^0.1.0",
+    "@process-engine/bpmn-js-custom-bundle": "0.1.0",
     "@process-engine/process_engine_contracts": "^0.1.0",
     "aurelia-animator-css": "^1.0.2",
     "aurelia-bootstrapper": "^2.1.1",
@@ -28,7 +28,8 @@
     "jquery": "^2.2.4",
     "mustache": "^2.3.0",
     "requirejs": "^2.3.2",
-    "text": "github:requirejs/text#latest"
+    "text": "github:requirejs/text#latest",
+    "whatwg-fetch": "^2.0.3"
   },
   "peerDependencies": {},
   "devDependencies": {
