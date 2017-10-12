@@ -39,7 +39,7 @@ export class ProcessStart {
         this.dynamicUiWrapper.currentWidget = message;
       }),
       this.eventAggregator.subscribe('closed-process', (message: any) => {
-        this.router.navigateToRoute('processlist', {page: 1});
+        this.router.navigateToRoute('processlist', { page: 1 });
       }),
     ];
   }
@@ -50,16 +50,14 @@ export class ProcessStart {
     }
   }
 
-  private refreshProcess(): void {
-    this.processEngineService.getProcessbyID(this.processId)
-      .then((result: any) => {
-        if (result && !result.error) {
-          this._process = result;
-        } else {
-          this._process = null;
-        }
-        this.startProcess();
-    });
+  private async refreshProcess(): Promise<void> {
+    try {
+      this._process = await this.processEngineService.getProcessbyID(this.processId);
+      this.startProcess();
+    } catch (error) {
+      console.error('failed to refresh process');
+      throw error;
+    }
   }
 
   @computedFrom('_process')

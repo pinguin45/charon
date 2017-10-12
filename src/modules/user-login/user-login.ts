@@ -20,11 +20,12 @@ export class UserLogin {
     return validUsername && validPassword;
   }
 
-  public login(): void {
-    this.authenticationService.login(this.username, this.password)
-      .catch((error: Error): void => {
-        alert(error.message);
-      });
+  public async login(): Promise<void> {
+    try {
+      await this.authenticationService.login(this.username, this.password);
+    } catch (error) {
+      alert(error.message);
+    }
   }
 
   public logout(): void {
