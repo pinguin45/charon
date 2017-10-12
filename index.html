@@ -8,5 +8,10 @@
 
   <body aurelia-app="main">
     <script src="scripts/vendor-bundle.js" data-main="aurelia-bootstrapper"></script>
+    <script>
+      // this disables a bluebird-memory-leak and drastically improves performance!
+      // see https://github.com/aurelia/framework/issues/755
+      Promise.config({ longStackTraces: false });
+    </script>
   </body>
 </html>
