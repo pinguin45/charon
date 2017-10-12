@@ -32,16 +32,22 @@ export class TaskList {
   public attached(): void {
     this.refreshUserTask();
     this.subscriptions = [
-      this.eventAggregator.subscribe(AuthenticationStateEvent.LOGIN, this.refreshUserTask.bind(this)),
-      this.eventAggregator.subscribe(AuthenticationStateEvent.LOGOUT, this.refreshUserTask.bind(this)),
+      this.eventAggregator.subscribe(AuthenticationStateEvent.LOGIN, () => {
+        this.refreshUserTask();
+      }),
+      this.eventAggregator.subscribe(AuthenticationStateEvent.LOGOUT, () => {
+        this.refreshUserTask();
+      }),
     ];
-    this.dynamicUiWrapper.onButtonClick = this.finishTask.bind(this);
+    this.dynamicUiWrapper.onButtonClick = (action: string): void => {
+      this.finishTask(action);
+    };
   }
 
   public detached(): void {
-    this.subscriptions.forEach((subscription: Subscription): void => {
+    for (const subscription of this.subscriptions) {
       subscription.dispose();
-    });
+    }
   }
 
   private finishTask(action: string): void {

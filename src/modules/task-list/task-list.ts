@@ -38,16 +38,20 @@ export class TaskList {
     }, environment.processengine.poolingInterval);
 
     this.subscriptions = [
-      this.eventAggregator.subscribe(AuthenticationStateEvent.LOGIN, this.refreshUserTaskList.bind(this)),
-      this.eventAggregator.subscribe(AuthenticationStateEvent.LOGOUT, this.refreshUserTaskList.bind(this)),
+      this.eventAggregator.subscribe(AuthenticationStateEvent.LOGIN, () => {
+        this.refreshUserTaskList();
+      }),
+      this.eventAggregator.subscribe(AuthenticationStateEvent.LOGOUT, () => {
+        this.refreshUserTaskList();
+      }),
     ];
   }
 
   public detached(): void {
     clearInterval(this.getUserTasksIntervalId);
-    this.subscriptions.forEach((subscription: Subscription): void => {
+    for (const subscription of this.subscriptions) {
       subscription.dispose();
-    });
+    }
   }
 
   private refreshUserTaskList(): void {

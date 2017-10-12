@@ -29,8 +29,12 @@ export class ProcessStart {
 
   public attached(): void {
     this.subscriptions = [
-      this.eventAggregator.subscribe(AuthenticationStateEvent.LOGIN, this.refreshProcess.bind(this)),
-      this.eventAggregator.subscribe(AuthenticationStateEvent.LOGOUT, this.refreshProcess.bind(this)),
+      this.eventAggregator.subscribe(AuthenticationStateEvent.LOGIN, () => {
+        this.refreshProcess();
+      }),
+      this.eventAggregator.subscribe(AuthenticationStateEvent.LOGOUT, () => {
+        this.refreshProcess();
+      }),
       this.eventAggregator.subscribe('render-dynamic-ui', (message: IWidget) => {
         this.dynamicUiWrapper.currentWidget = message;
       }),
@@ -41,9 +45,9 @@ export class ProcessStart {
   }
 
   public detached(): void {
-    this.subscriptions.forEach((subscription: Subscription): void => {
+    for (const subscription of this.subscriptions) {
       subscription.dispose();
-    });
+    }
   }
 
   private refreshProcess(): void {

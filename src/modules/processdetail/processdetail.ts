@@ -35,13 +35,19 @@ export class Processdetail {
 
   public attached(): void {
     this.subscriptions = [
-      this.eventAggregator.subscribe(AuthenticationStateEvent.LOGIN, this.refreshProcess.bind(this)),
-      this.eventAggregator.subscribe(AuthenticationStateEvent.LOGOUT, this.refreshProcess.bind(this)),
+      this.eventAggregator.subscribe(AuthenticationStateEvent.LOGIN, () => {
+        this.refreshProcess();
+      }),
+      this.eventAggregator.subscribe(AuthenticationStateEvent.LOGOUT, () => {
+        this.refreshProcess();
+      }),
     ];
   }
 
   public detached(): void {
-    this.subscriptions.forEach((x: Subscription) => x.dispose);
+    for (const subscription of this.subscriptions) {
+      subscription.dispose();
+    }
   }
 
   private refreshProcess(): void {
