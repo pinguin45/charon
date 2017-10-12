@@ -23,11 +23,8 @@ export class TaskList {
     this.dynamicUiService = dynamicUiService;
   }
 
-  public getUserTasksFromService(offset: number): void {
-    this.processEngineService.getUserTasks(100, offset)
-      .then((result: IPagination<IUserTaskEntity>) => {
-        this.userTasks = result;
-      });
+  public async getUserTasksFromService(offset: number): Promise<void> {
+    this.userTasks = await this.processEngineService.getUserTasks(100, offset);
   }
 
   public attached(): void {

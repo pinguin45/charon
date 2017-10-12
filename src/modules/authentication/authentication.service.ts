@@ -37,7 +37,7 @@ export class AuthenticationService implements IAuthenticationService {
   }
 
   public async logout(): Promise<void> {
-    const result: any =  await this.authenticationRepository.logout();
+    const result: any = await this.authenticationRepository.logout();
     this.token = null;
     this.identity = null;
     this.eventAggregator.publish(AuthenticationStateEvent.LOGOUT);

@@ -48,15 +48,13 @@ export class TaskList {
     this.router.navigateToRoute('task-list');
   }
 
-  private refreshUserTask(): void {
-    this.processEngineService.getUserTaskById(this.userTaskId)
-      .then((result: any) => {
-        if (result && !result.error) {
-          this.userTask = result;
-        } else {
-          this.userTask = null;
-        }
-    });
+  private async refreshUserTask(): Promise<void> {
+    const result: any = this.processEngineService.getUserTaskById(this.userTaskId);
+    if (result && !result.error) {
+      this.userTask = result;
+    } else {
+      this.userTask = null;
+    }
   }
 
   private set userTask(task: IUserTaskEntity) {
