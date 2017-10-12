@@ -29,46 +29,39 @@ export class ProcessEngineRepository implements IProcessEngineRepository {
     });
   }
 
-  public getProcesses(limit: number, offset: number): Promise<IPagination<IProcessDefEntity>> {
+  public async getProcesses(limit: number, offset: number): Promise<IPagination<IProcessDefEntity>> {
     const url: string = `${environment.processengine.routes.processes}?limit=${limit}&offset=${offset}`;
-    return this.http
-      .fetch(url, {method: 'get'})
-      .then((response: Response) => {
-        return response.json();
-      });
+    const response: Response = await this.http.fetch(url, { method: 'get' });
+    const pagination: IPagination<IProcessDefEntity> = await response.json();
+    return pagination;
   }
 
-  public getIdentity(): Promise<any> {
-    return this.http
-      .fetch(`${environment.processengine.routes.iam}getidentity`, {method: 'get'})
-      .then((response: Response) => {
-        return response.json();
-      })
-      .then((result: any) => {
-        const responseFailed: boolean = result.error || !result.result;
-        if (responseFailed) {
-          throw new Error(result.error);
-        }
-      });
+  public async getIdentity(): Promise<any> {
+    const url: string = `${environment.processengine.routes.iam}/getidentity`;
+    const response: Response = await this.http.fetch(url, { method: 'get' });
+
+    const result: any = response.json();
+    const responseFailed: boolean = result.error || !result.result;
+
+    if (responseFailed) {
+      throw new Error(result.error);
+    }
+    return result;
   }
 
-  public deleteProcessDef(processId: string): Promise<void> {
+  public async deleteProcessDef(processId: string): Promise<void> {
     const url: string = environment.processengine.routes.processes + '/' + processId;
-    return this.http
-      .fetch(url, {
-        method: 'delete',
-      })
-      .then((response: Response) => {
-        return response.json();
-      }).then((result: any) => {
-        const responseFailed: boolean = result.error || !result.result;
-        if (responseFailed) {
-          throw new Error(result.error);
-        }
-      });
+    const response: Response = await this.http.fetch(url, { method: 'delete' });
+
+    const result: any = response.json();
+    const responseFailed: boolean = result.error || !result.result;
+
+    if (responseFailed) {
+      throw new Error(result.error);
+    }
   }
 
-  public startProcess(process: IProcessDefEntity): Promise<any> {
+  public async startProcess(process: IProcessDefEntity): Promise<any> {
     const options: RequestInit = {
       method: 'post',
       headers: {
@@ -81,14 +74,11 @@ export class ProcessEngineRepository implements IProcessEngineRepository {
       }),
     };
 
-    return this.http
-      .fetch(environment.processengine.routes.startProcess, options)
-      .then((response: Response) => {
-        return response.json();
-      });
+    const response: Response = await this.http.fetch(environment.processengine.routes.startProcess, options);
+    return response.json();
   }
 
-  public updateProcessDef(processDef: IProcessDefEntity, xml: string): Promise<any> {
+  public async updateProcessDef(processDef: IProcessDefEntity, xml: string): Promise<any> {
     const options: RequestInit = {
       method: 'post',
       headers: {
@@ -99,11 +89,8 @@ export class ProcessEngineRepository implements IProcessEngineRepository {
       }),
     };
     const url: string = environment.processengine.routes.processes + '/' + processDef.id + '/updateBpmn';
-    return this.http
-      .fetch(url, options)
-      .then((response: Response) => {
-        return response.json();
-      });
+    const response: Response = await this.http.fetch(url, options);
+    return response.json();
   }
 
   public async getInstances(processKey: string): Promise<Array<IProcessEntity>> {
@@ -119,30 +106,24 @@ export class ProcessEngineRepository implements IProcessEngineRepository {
     return responseBody.data;
   }
 
-  public getProcessbyID(processKey: string): Promise<IProcessDefEntity> {
+  public async getProcessbyID(processKey: string): Promise<IProcessDefEntity> {
     const url: string = environment.processengine.routes.processes + '/' + processKey;
-    return this.http
-      .fetch(url, {method: 'get'})
-      .then((response: Response) => {
-        return response.json();
-      });
+    const response: Response = await this.http.fetch(url, {method: 'get'});
+    const processDefEntity: IProcessDefEntity  = await response.json();
+    return processDefEntity;
   }
 
-  public getUserTasks(limit: number, offset: number): Promise<IPagination<IUserTaskEntity>> {
+  public async getUserTasks(limit: number, offset: number): Promise<IPagination<IUserTaskEntity>> {
     const url: string = environment.processengine.routes.userTasks + '?expandCollection=["process.processDef", "nodeDef"]&limit="ALL"';
-    return this.http
-      .fetch(url, {method: 'get'})
-      .then((response: Response) => {
-        return response.json();
-      });
+    const response: Response = await this.http.fetch(url, {method: 'get'});
+    const pagination: IPagination<IUserTaskEntity> = await response.json();
+    return pagination;
   }
 
-  public getUserTaskById(userTaskId: string): Promise<IUserTaskEntity> {
+  public async getUserTaskById(userTaskId: string): Promise<IUserTaskEntity> {
     const url: string = environment.processengine.routes.userTasks + '/' + userTaskId + '?expandEntity=["process.processDef", "nodeDef"]';
-    return this.http
-      .fetch(url, {method: 'get'})
-      .then((response: Response) => {
-        return response.json();
-      });
+    const response: Response = await this.http.fetch(url, {method: 'get'});
+    const userTaskEntity: IUserTaskEntity = await response.json();
+    return userTaskEntity;
   }
 }
