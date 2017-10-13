@@ -39,7 +39,7 @@ export class ProcessDefStart {
         this.dynamicUiWrapper.currentWidget = message;
       }),
       this.eventAggregator.subscribe('closed-process', (message: any) => {
-        this.router.navigateToRoute('processlist', { page: 1 });
+        this.router.navigateToRoute('processdef-list', { page: 1 });
       }),
     ];
   }
