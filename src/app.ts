@@ -6,7 +6,7 @@ export class App {
 
   public configureRouter(config: RouterConfiguration, router: Router): void {
     this.router = router;
-    config.title = 'Aurelia';
+    config.title = 'Charon';
     config.map([
       {
         route: ['', 'processdef', 'processdef/:page'],
