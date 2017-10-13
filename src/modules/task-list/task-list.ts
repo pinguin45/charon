@@ -51,7 +51,6 @@ export class TaskList {
     this.updateUserTasks();
     this.getUserTasksIntervalId = window.setInterval(() => {
       this.updateUserTasks();
-      // tslint:disable-next-line
     }, environment.processengine.poolingInterval);
 
     this.subscriptions = [
