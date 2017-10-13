@@ -7,13 +7,10 @@ export interface IProcessEngineRepository {
   startProcess(process: IProcessDefEntity): Promise<string>;
   updateProcessDef(processDef: IProcessDefEntity, xml: string): Promise<any>;
   deleteProcessDef(processId: string): Promise<void>;
-
   getIdentity(): Promise<any>;
-
   getProcesses(): Promise<IPagination<IProcessEntity>>;
   getProcessesByProcessDefId(processDefId: string): Promise<IPagination<IProcessEntity>>;
   getProcessById(processId: string): Promise<IProcessEntity>;
-
   getUserTasks(limit: number, offset: number): Promise<IPagination<IUserTaskEntity>>;
   getUserTasksByProcessDefId(processDefId: string): Promise<IPagination<IUserTaskEntity>>;
   getUserTasksByProcessId(processId: string): Promise<IPagination<IUserTaskEntity>>;
@@ -26,13 +23,10 @@ export interface IProcessEngineService {
   startProcess(process: IProcessDefEntity): Promise<string>;
   updateProcessDef(processDef: IProcessDefEntity, xml: string): Promise<any>;
   deleteProcessDef(processId: string): Promise<void>;
-
   getIdentity(): Promise<any>;
-
   getProcesses(): Promise<IPagination<IProcessEntity>>;
   getProcessesByProcessDefId(processDefId: string): Promise<IPagination<IProcessEntity>>;
   getProcessById(processId: string): Promise<IProcessEntity>;
-
   getUserTasks(limit: number, offset: number): Promise<IPagination<IUserTaskEntity>>;
   getUserTasksByProcessDefId(processDefId: string): Promise<IPagination<IUserTaskEntity>>;
   getUserTasksByProcessId(processId: string): Promise<IPagination<IUserTaskEntity>>;
