@@ -6,52 +6,46 @@ export class App {
 
   public configureRouter(config: RouterConfiguration, router: Router): void {
     this.router = router;
-    config.title = 'Aurelia';
+    config.title = 'Charon';
     config.map([
       {
-        route: ['', 'processlist', 'processlist/:page'],
-        title: 'Process list',
-        name: 'processlist',
-        moduleId: 'modules/processlist/processlist',
+        route: ['', 'processdef', 'processdef/:page'],
+        title: 'ProcessDef List',
+        name: 'processdef-list',
+        moduleId: 'modules/processdef-list/processdef-list',
         nav: true,
       },
       {
-        route: ['task'],
-        title: 'Task list',
+        route: ['task', 'processdef/:processDefId/task', 'process/:processId/task'],
+        title: 'Task List',
         name: 'task-list',
         moduleId: 'modules/task-list/task-list',
         nav: true,
       },
       {
-        route: ['task/:userTaskId'],
-        title: 'Task details',
-        name: 'task-detail',
-        moduleId: 'modules/task-detail/task-detail',
-      },
-      {
-        route: 'processdetail/:processId',
-        title: 'Process details',
-        name: 'processdetail',
-        moduleId: 'modules/processdetail/processdetail',
-      },
-      {
-        route: 'start/:processId',
-        title: 'Start process',
-        name: 'processstart',
-        moduleId: 'modules/processstart/processstart',
-      },
-      {
-        route: 'processinstances/:processId',
-        title: 'Process instances',
-        name: 'processinstances',
-        moduleId: 'modules/processinstances/processinstances',
-      },
-      {
-        route: 'instances',
-        title: 'Instances',
-        name: 'instances',
-        moduleId: 'modules/instanceslist/instanceslist',
+        route: ['process', 'processdef/:processDefId/process'],
+        title: 'Process List',
+        name: 'process-list',
+        moduleId: 'modules/process-list/process-list',
         nav: true,
+      },
+      {
+        route: ['task/:userTaskId/dynamic-ui'],
+        title: 'Task Dynamic UI',
+        name: 'task-dynamic-ui',
+        moduleId: 'modules/task-dynamic-ui/task-dynamic-ui',
+      },
+      {
+        route: ['processdef/:processDefId/detail'],
+        title: 'ProcessDef Detail',
+        name: 'processdef-detail',
+        moduleId: 'modules/processdef-detail/processdef-detail',
+      },
+      {
+        route: 'processdef/:processDefId/start',
+        title: 'ProcessDef Start',
+        name: 'processdef-start',
+        moduleId: 'modules/processdef-start/processdef-start',
       },
     ]);
   }

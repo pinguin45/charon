@@ -6,7 +6,7 @@ import {AuthenticationStateEvent, IDynamicUiService, IProcessEngineService, IWid
 import {DynamicUiWrapper} from '../dynamic-ui-wrapper/dynamic-ui-wrapper';
 
 @inject('ProcessEngineService', EventAggregator, 'DynamicUiService', Router)
-export class TaskList {
+export class TaskDynamicUi {
 
   private processEngineService: IProcessEngineService;
   private eventAggregator: EventAggregator;

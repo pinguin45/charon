@@ -5,7 +5,7 @@ import {AuthenticationStateEvent, IPagination, IProcessEngineService} from '../.
 import environment from '../../environment';
 
 @inject('ProcessEngineService', EventAggregator)
-export class Processlist {
+export class ProcessDefList {
 
   private processEngineService: IProcessEngineService;
   private eventAggregator: EventAggregator;
@@ -22,7 +22,7 @@ export class Processlist {
   }
 
   public async getProcessesFromService(offset: number): Promise<void> {
-    this._processes = await this.processEngineService.getProcesses(environment.processlist.pageLimit, offset);
+    this._processes = await this.processEngineService.getProcessDefs(environment.processlist.pageLimit, offset);
   }
 
   public activate(routeParameters: {page: number}): void {
