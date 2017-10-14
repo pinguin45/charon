@@ -40,12 +40,11 @@ export class ProcessList {
   public activate(routeParameters: IProcessListRouteParameters): void {
     if (!routeParameters.processDefId) {
       this.getProcesses = this.getAllProcesses;
-      return;
+    } else {
+      this.getProcesses = (): Promise<IPagination<IProcessEntity>> => {
+        return this.getProcessesForProcessDef(routeParameters.processDefId);
+      };
     }
-
-    this.getProcesses = (): Promise<IPagination<IProcessEntity>> => {
-      return this.getProcessesForProcessDef(routeParameters.processDefId);
-    };
     this.updateProcesses();
   }
 
