@@ -45,10 +45,10 @@ export class TaskList {
     } else {
       this.getUserTasks = this.getAllUserTasks;
     }
+    this.updateUserTasks();
   }
 
   public attached(): void {
-    this.updateUserTasks();
     this.getUserTasksIntervalId = window.setInterval(() => {
       this.updateUserTasks();
     }, environment.processengine.poolingInterval);

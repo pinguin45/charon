@@ -46,6 +46,7 @@ export class ProcessList {
     this.getProcesses = (): Promise<IPagination<IProcessEntity>> => {
       return this.getProcessesForProcessDef(routeParameters.processDefId);
     };
+    this.updateProcesses();
   }
 
   public async updateProcesses(): Promise<void> {
@@ -73,7 +74,6 @@ export class ProcessList {
   }
 
   public attached(): void {
-    this.updateProcesses();
     this.getProcessesIntervalId = window.setInterval(async() => {
       await this.updateProcesses();
       this.updateList();

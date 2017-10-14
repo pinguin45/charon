@@ -27,10 +27,10 @@ export class TaskDynamicUi {
 
   private activate(routeParameters: {userTaskId: string}): void {
     this.userTaskId = routeParameters.userTaskId;
+    this.refreshUserTask();
   }
 
   public attached(): void {
-    this.refreshUserTask();
     this.subscriptions = [
       this.eventAggregator.subscribe(AuthenticationStateEvent.LOGIN, () => {
         this.refreshUserTask();
