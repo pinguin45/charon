@@ -40,12 +40,12 @@ export class ProcessList {
   public activate(routeParameters: IProcessListRouteParameters): void {
     if (!routeParameters.processDefId) {
       this.getProcesses = this.getAllProcesses;
-      return;
+    } else {
+      this.getProcesses = (): Promise<IPagination<IProcessEntity>> => {
+        return this.getProcessesForProcessDef(routeParameters.processDefId);
+      };
     }
-
-    this.getProcesses = (): Promise<IPagination<IProcessEntity>> => {
-      return this.getProcessesForProcessDef(routeParameters.processDefId);
-    };
+    this.updateProcesses();
   }
 
   public async updateProcesses(): Promise<void> {
@@ -73,7 +73,6 @@ export class ProcessList {
   }
 
   public attached(): void {
-    this.updateProcesses();
     this.getProcessesIntervalId = window.setInterval(async() => {
       await this.updateProcesses();
       this.updateList();

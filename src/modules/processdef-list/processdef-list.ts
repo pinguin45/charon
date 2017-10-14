@@ -32,7 +32,6 @@ export class ProcessDefList {
   }
 
   public attached(): void {
-    this.getProcessesFromService(this.offset);
     this.getProcessesIntervalId = window.setInterval(() => {
       this.getProcessesFromService(this.offset);
       // tslint:disable-next-line
