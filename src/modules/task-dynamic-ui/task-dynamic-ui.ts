@@ -51,7 +51,7 @@ export class TaskDynamicUi {
   }
 
   private finishTask(action: string): void {
-    this.router.navigate('task-list');
+    this.router.navigate('task');
   }
 
   private async refreshUserTask(): Promise<void> {
