@@ -42,6 +42,7 @@ export class TaskDynamicUi {
     this.dynamicUiWrapper.onButtonClick = (action: string): void => {
       this.finishTask(action);
     };
+    this.trySettingWidget();
   }
 
   public detached(): void {
@@ -63,9 +64,19 @@ export class TaskDynamicUi {
     }
   }
 
+  private async trySettingWidget(): Promise<void> {
+    if (!this.dynamicUiWrapper) {
+      return;
+    }
+    if (!this._userTask) {
+      return;
+    }
+    this.dynamicUiWrapper.currentWidget = this.dynamicUiService.mapUserTask(this._userTask);
+  }
+
   private set userTask(task: IUserTaskEntity) {
     this._userTask = task;
-    this.dynamicUiWrapper.currentWidget = this.dynamicUiService.mapUserTask(this._userTask);
+    this.trySettingWidget();
   }
 
   @computedFrom('_userTask')
