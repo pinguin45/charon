@@ -1,3 +1,4 @@
+import {ConsumerClient} from '@process-engine/consumer_client';
 import {IUserTaskEntity, IUserTaskMessageData} from '@process-engine/process_engine_contracts';
 import {EventAggregator} from 'aurelia-event-aggregator';
 import {inject} from 'aurelia-framework';
@@ -10,7 +11,6 @@ import {
   IFormField,
   IFormWidget,
   ILayout,
-  IMessageBusService,
   IUserTaskEntityExtensions,
   IUserTaskFormField,
   IUserTaskProperty,
@@ -19,21 +19,25 @@ import {
 } from '../../contracts';
 import environment from '../../environment';
 
-@inject('MessageBusService', EventAggregator)
+@inject('ConsumerClient', EventAggregator)
 export class DynamicUiService implements IDynamicUiService {
 
-  private messageBusService: IMessageBusService;
+  private consumerClient: ConsumerClient;
   private eventAggregator: EventAggregator;
 
-  constructor(messageBusService: IMessageBusService, eventAggregator: EventAggregator) {
-    this.messageBusService = messageBusService;
+  constructor(consumerClient: ConsumerClient, eventAggregator: EventAggregator) {
+    console.log('consumerClient', consumerClient);
+    this.consumerClient = consumerClient;
     this.eventAggregator = eventAggregator;
+    /*
     this.messageBusService.registerMessageHandler((channel: string, message: any): void => {
       this.handleIncommingMessage(channel, message);
     });
+    */
   }
 
   public sendProceedAction(action: string, widget: IWidget): void {
+    /*
     const message: any = this.messageBusService.createMessage();
     const messageToken: any = this.getMessageToken(widget, action);
     message.data = {
@@ -42,6 +46,7 @@ export class DynamicUiService implements IDynamicUiService {
     };
 
     this.messageBusService.sendMessage(`/processengine/node/${widget.taskEntityId}`, message);
+    */
   }
 
   private getMessageToken(widget: IWidget, action: string): any {

@@ -8,6 +8,7 @@ export function configure(aurelia: Aurelia): void {
     .feature('modules/processengine')
     .feature('modules/messagebus')
     .feature('modules/authentication')
+    .feature('modules/consumer-client')
     .feature('resources');
 
   if (environment.debug) {

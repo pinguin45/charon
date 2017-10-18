@@ -182,6 +182,39 @@
             "name": "mustache",
             "path": "../node_modules/mustache",
             "main": "mustache.js"
+          },
+          {
+            "name": "@process-engine/consumer_client",
+            "path": "../node_modules/@process-engine/consumer_client/dist/amd",
+            "main": "consumer_client.js",
+            "resources": [
+              "consumer_client.js"
+            ]
+          },
+          {
+            "name": "addict-ioc",
+            "path": "../node_modules/addict-ioc/dist/amd",
+            "main": "index.js"
+          },
+          "node-uuid",
+          {
+            "name": "bluebird",
+            "main": "./js/browser/bluebird",
+            "path": "../node_modules/bluebird",
+            "resources": []
+          },
+          {
+            "name": "debug",
+            "path": "../node_modules/debug",
+            "main": "./src/browser",
+            "resources": []
+          },
+          "ms",
+          {
+            "name": "fetch-ponyfill",
+            "main": "build/fetch-browser",
+            "path": "../node_modules/fetch-ponyfill",
+            "resources": []
           }
         ]
       }
