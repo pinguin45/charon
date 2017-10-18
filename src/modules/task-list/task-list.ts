@@ -6,6 +6,7 @@ import environment from '../../environment';
 import {DynamicUiWrapper} from '../dynamic-ui-wrapper/dynamic-ui-wrapper';
 
 interface ITaskListRouteParameters {
+  page?: number;
   processDefId?: string;
   processId?: string;
 }
@@ -22,6 +23,7 @@ export class TaskList {
   private getUserTasksIntervalId: number;
   private dynamicUiWrapper: DynamicUiWrapper;
   private getUserTasks: () => Promise<IPagination<IUserTaskEntity>>;
+  private offset: number;
 
   constructor(processEngineService: IProcessEngineService, eventAggregator: EventAggregator, dynamicUiService: IDynamicUiService) {
     this.processEngineService = processEngineService;
@@ -34,6 +36,9 @@ export class TaskList {
   }
 
   public activate(routeParameters: ITaskListRouteParameters): void {
+    const page: number = routeParameters.page || 1;
+    this.offset = (page - 1) * environment.processlist.pageLimit;
+
     if (routeParameters.processDefId) {
       this.getUserTasks = (): Promise<IPagination<IUserTaskEntity>> => {
         return this.getUserTasksForProcessDef(routeParameters.processDefId);
@@ -43,7 +48,9 @@ export class TaskList {
         return this.getUserTasksForProcess(routeParameters.processId);
       };
     } else {
-      this.getUserTasks = this.getAllUserTasks;
+      this.getUserTasks = (): Promise<IPagination<IUserTaskEntity>> => {
+        return this.getAllUserTasks(this.offset);
+      };
     }
     this.updateUserTasks();
   }
@@ -79,8 +86,8 @@ export class TaskList {
     });
   }
 
-  private async getAllUserTasks(): Promise<IPagination<IUserTaskEntity>> {
-    return this.processEngineService.getUserTasks(100, 0);
+  private async getAllUserTasks(offset: number): Promise<IPagination<IUserTaskEntity>> {
+    return this.processEngineService.getUserTasks(environment.processlist.pageLimit, offset);
   }
 
   private async getUserTasksForProcessDef(processDefId: string): Promise<IPagination<IUserTaskEntity>> {
@@ -90,4 +97,26 @@ export class TaskList {
   private async getUserTasksForProcess(processId: string): Promise<IPagination<IUserTaskEntity>> {
     return this.processEngineService.getUserTasksByProcessId(processId);
   }
+
+  public get limit(): number {
+    if (this.userTasks === undefined) {
+      return 0;
+    }
+    return this.userTasks.limit;
+  }
+
+  public get maxPages(): number {
+    if (this.userTasks === undefined) {
+      return 0;
+    }
+    return Math.ceil(this.userTasks.count / this.userTasks.limit);
+  }
+
+  public get currentPage(): number {
+    if (this.userTasks === undefined) {
+      return 0;
+    }
+    return this.offset / this.userTasks.limit + 1;
+  }
+
 }

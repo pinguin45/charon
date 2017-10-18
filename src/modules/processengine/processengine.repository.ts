@@ -92,15 +92,14 @@ export class ProcessEngineRepository implements IProcessEngineRepository {
     return throwOnErrorResponse<any>(response);
   }
 
-  public async getInstances(): Promise<IPagination<IProcessEntity>> {
-    const url: string = environment.processengine.routes.processInstances;
-    const response: Response = await this.http.fetch(url, {method: 'get'});
-
-    return throwOnErrorResponse<IPagination<IProcessEntity>>(response);
-  }
-
   public async getUserTasks(limit: number, offset: number): Promise<IPagination<IUserTaskEntity>> {
-    const url: string = `${environment.processengine.routes.userTasks}?expandCollection=["process.processDef", "nodeDef"]&limit="ALL"`;
+    const query: IQueryClause = {
+      attribute: 'state',
+      operator: '=',
+      value: 'wait',
+    };
+    const parameters: string = `expandCollection=["process.processDef", "nodeDef"]&limit=${limit}&offset=${offset}`;
+    const url: string = `${environment.processengine.routes.userTasks}?${parameters}&query=${JSON.stringify(query)}`;
     const response: Response = await this.http.fetch(url, {method: 'get'});
 
     return throwOnErrorResponse<IPagination<IUserTaskEntity>>(response);
@@ -139,8 +138,8 @@ export class ProcessEngineRepository implements IProcessEngineRepository {
     return throwOnErrorResponse<IUserTaskEntity>(response);
   }
 
-  public async getProcesses(): Promise<IPagination<IProcessEntity>> {
-    const url: string = `${environment.processengine.routes.processInstances}`;
+  public async getProcesses(limit: number, offset: number): Promise<IPagination<IProcessEntity>> {
+    const url: string = `${environment.processengine.routes.processInstances}/?limit=${limit}&offset=${offset}`;
     const response: Response = await this.http.fetch(url, {method: 'get'});
 
     return throwOnErrorResponse<IPagination<IProcessEntity>>(response);

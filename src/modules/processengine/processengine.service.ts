@@ -51,8 +51,8 @@ export class ProcessEngineService implements IProcessEngineService {
     return this.repository.getUserTasksByProcessId(processId);
   }
 
-  public getProcesses(): Promise<IPagination<IProcessEntity>> {
-    return this.repository.getProcesses();
+  public getProcesses(limit: number, offset: number): Promise<IPagination<IProcessEntity>> {
+    return this.repository.getProcesses(limit, offset);
   }
 
   public getProcessById(processId: string): Promise<IProcessEntity> {

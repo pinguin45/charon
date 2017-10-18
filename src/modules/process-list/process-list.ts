@@ -14,6 +14,7 @@ import {
 import environment from '../../environment';
 
 interface IProcessListRouteParameters {
+  page?: number;
   processDefId?: string;
 }
 
@@ -30,6 +31,7 @@ export class ProcessList {
   private processes: IPagination<IProcessEntity>;
   private instances: Array<IProcessEntity>;
   private status: Array<string> = [];
+  private offset: number;
 
   constructor(processEngineService: IProcessEngineService, eventAggregator: EventAggregator, messageBusService: IMessageBusService) {
     this.processEngineService = processEngineService;
@@ -38,6 +40,9 @@ export class ProcessList {
   }
 
   public activate(routeParameters: IProcessListRouteParameters): void {
+    const page: number = routeParameters.page || 1;
+    this.offset = (page - 1) * environment.processlist.pageLimit;
+
     if (!routeParameters.processDefId) {
       this.getProcesses = this.getAllProcesses;
     } else {
@@ -60,6 +65,7 @@ export class ProcessList {
     if (!this.instances) {
       this.instances = this.allInstances;
     }
+    // this.updateList();
   }
 
   public updateList(): void {
@@ -111,10 +117,31 @@ export class ProcessList {
   }
 
   private async getAllProcesses(): Promise<IPagination<IProcessEntity>> {
-    return this.processEngineService.getProcesses();
+    return this.processEngineService.getProcesses(environment.processlist.pageLimit, this.offset);
   }
 
   private async getProcessesForProcessDef(processDefId: string): Promise<IPagination<IProcessEntity>> {
     return this.processEngineService.getProcessesByProcessDefId(processDefId);
+  }
+
+  public get limit(): number {
+    if (this.processes === undefined) {
+      return 0;
+    }
+    return this.processes.limit;
+  }
+
+  public get maxPages(): number {
+    if (this.processes === undefined) {
+      return 0;
+    }
+    return Math.ceil(this.processes.count / this.processes.limit);
+  }
+
+  public get currentPage(): number {
+    if (this.processes === undefined) {
+      return 0;
+    }
+    return this.offset / this.processes.limit + 1;
   }
 }
