@@ -6,9 +6,36 @@
   <div if.bind="process">
     <div class="bpmn-toolbar-holder">
       <div class="container bpmn-toolbar">
-        <a class="btn btn-success" href="#/processdef/${process.id}/start">
-          <i class="glyphicon glyphicon-play"></i> Start
-        </a>
+        <div class="action-dropdown ${startedProcessId ? 'action-dropdown-open' : ''}" ref="startButtonDropdown" class>
+          <a class="btn btn-success" ref="startButton" click.delegate="startProcess()">
+            <i class="glyphicon glyphicon-play"></i> Start
+          </a>
+          <div class="action-dropdown-content">
+            <div class="action-dropdown-bar action-dropdown-header">
+              <h5 class="header">Process Instance
+                <a href="#" title="Close" class="pull-right" click.delegate="closeProcessStartDropdown()">&times;</a>
+              </h5>
+              <span class="text-muted">${startedProcessId}</span>
+            </div>
+            <ul>
+              <li>
+                <a href="#/process/${startedProcessId}/">
+                  <i class="glyphicon glyphicon-info-sign"></i> Details
+                </a>
+              </li>
+              <li>
+                <a href="#/process/${startedProcessId}/task">
+                  <i class="glyphicon glyphicon-list-alt"></i> Tasks
+                </a>
+              </li>
+            </ul>
+            <div class="action-dropdown-bar">
+              <a class="btn btn-danger" disabled="disabled">
+                <i class="glyphicon glyphicon-stop"></i> Stop Process
+              </a>
+            </div>
+          </div>
+        </div>
         <a class="btn btn-primary" href="#/processdef/${process.id}/process">
           <i class="glyphicon glyphicon-tasks"></i> Processes
         </a>
