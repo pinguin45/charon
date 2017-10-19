@@ -6,7 +6,7 @@
   <div if.bind="process">
     <div class="bpmn-toolbar-holder">
       <div class="container bpmn-toolbar">
-        <div class="action-dropdown ${startedProcessId ? 'action-dropdown-open' : ''}" ref="startButtonDropdown" class>
+        <div class="action-dropdown ${startedProcessId ? 'action-dropdown-open' : ''}" ref="startButtonDropdown">
           <a class="btn btn-success" ref="startButton" click.delegate="startProcess()">
             <i class="glyphicon glyphicon-play"></i> Start
           </a>
