@@ -11,6 +11,7 @@ import {
   IFormField,
   IFormWidget,
   ILayout,
+  IMessageBusService,
   IUserTaskEntityExtensions,
   IUserTaskFormField,
   IUserTaskProperty,
@@ -19,25 +20,24 @@ import {
 } from '../../contracts';
 import environment from '../../environment';
 
-@inject('ConsumerClient', EventAggregator)
+@inject('MessageBusService', EventAggregator, 'ConsumerClient')
 export class DynamicUiService implements IDynamicUiService {
 
   private consumerClient: ConsumerClient;
   private eventAggregator: EventAggregator;
+  private messageBusService: IMessageBusService;
 
-  constructor(consumerClient: ConsumerClient, eventAggregator: EventAggregator) {
+  constructor(messageBusService: IMessageBusService, eventAggregator: EventAggregator, consumerClient: ConsumerClient) {
     console.log('consumerClient', consumerClient);
+    this.messageBusService = messageBusService;
     this.consumerClient = consumerClient;
     this.eventAggregator = eventAggregator;
-    /*
     this.messageBusService.registerMessageHandler((channel: string, message: any): void => {
       this.handleIncommingMessage(channel, message);
     });
-    */
   }
 
   public sendProceedAction(action: string, widget: IWidget): void {
-    /*
     const message: any = this.messageBusService.createMessage();
     const messageToken: any = this.getMessageToken(widget, action);
     message.data = {
@@ -46,7 +46,6 @@ export class DynamicUiService implements IDynamicUiService {
     };
 
     this.messageBusService.sendMessage(`/processengine/node/${widget.taskEntityId}`, message);
-    */
   }
 
   private getMessageToken(widget: IWidget, action: string): any {
