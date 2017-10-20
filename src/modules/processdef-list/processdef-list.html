@@ -22,28 +22,28 @@
       <ul class="pagination">
         <li class="${currentPage <= 1 ? 'disabled' : ''}">
           <span if.bind="currentPage <= 1" aria-hidden="true">&laquo;</span>
-          <a if.bind="currentPage > 1" href="#/processlist/1" aria-label="First">
+          <a if.bind="currentPage > 1" href="#/processdef/1" aria-label="First">
             <span aria-hidden="true">&laquo;</span>
           </a>
         </li>
         <li class="${currentPage <= 1 ? 'disabled' : ''}">
           <span if.bind="currentPage <= 1" aria-hidden="true">&lsaquo;</span>
-          <a if.bind="currentPage > 1" href="#/processlist/${currentPage - 1}" aria-label="Previous">
+          <a if.bind="currentPage > 1" href="#/processdef/${currentPage - 1}" aria-label="Previous">
             <span aria-hidden="true">&lsaquo;</span>
           </a>
         </li>
         <li repeat.for="page of maxPages" class="${page + 1 == currentPage ? 'active' : ''}">
-          <a href="#/processlist/${page + 1}">${page + 1}</a>
+          <a href="#/processdef/${page + 1}">${page + 1}</a>
         </li>
         <li class="${currentPage >= maxPages ? 'disabled' : ''}">
           <span if.bind="currentPage >= maxPages" aria-hidden="true">&rsaquo;</span>
-          <a if.bind="currentPage < maxPages" href="#/processlist/${currentPage + 1}" aria-label="Next">
+          <a if.bind="currentPage < maxPages" href="#/processdef/${currentPage + 1}" aria-label="Next">
             <span aria-hidden="true">&rsaquo;</span>
           </a>
         </li>
         <li class="${currentPage >= maxPages ? 'disabled' : ''}">
           <span if.bind="currentPage >= maxPages" aria-hidden="true">&raquo;</span>
-            <a if.bind="currentPage < maxPages" href="#/processlist/${maxPages}" aria-label="Last">
+            <a if.bind="currentPage < maxPages" href="#/processdef/${maxPages}" aria-label="Last">
             <span aria-hidden="true">&raquo;</span>
           </a>
         </li>

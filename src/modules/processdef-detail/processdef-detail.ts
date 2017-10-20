@@ -19,9 +19,12 @@ export class ProcessDefDetail {
   private bpmn: BpmnIo;
   private exportButton: HTMLButtonElement;
   private exportSpinner: HTMLElement;
+  private startButtonDropdown: HTMLDivElement;
+  private startButton: HTMLElement;
 
   @bindable() public uri: string;
   @bindable() public name: string;
+  @bindable() public startedProcessId: string;
 
   constructor(processEngineService: IProcessEngineService, eventAggregator: EventAggregator) {
     this.processEngineService = processEngineService;
@@ -59,6 +62,19 @@ export class ProcessDefDetail {
           this._process = null;
         }
     });
+  }
+
+  public async startProcess(): Promise<void> {
+    if (this.startButton.hasAttribute('disabled')) {
+      return;
+    }
+    this.startButton.setAttribute('disabled', 'disabled');
+    this.startedProcessId = await this.processEngineService.startProcess(this.process);
+  }
+
+  public closeProcessStartDropdown(): void {
+    this.startButton.removeAttribute('disabled');
+    this.startedProcessId = undefined;
   }
 
   public deleteProcess(): void {
