@@ -43,12 +43,12 @@ export class ProcessEngineService implements IProcessEngineService {
     return this.repository.getUserTaskById(userTaskId);
   }
 
-  public getUserTasksByProcessDefId(processDefId: string): Promise<IPagination<IUserTaskEntity>> {
-    return this.repository.getUserTasksByProcessDefId(processDefId);
+  public getUserTasksByProcessDefId(processDefId: string, limit: number, offset: number): Promise<IPagination<IUserTaskEntity>> {
+    return this.repository.getUserTasksByProcessDefId(processDefId, limit, offset);
   }
 
-  public getUserTasksByProcessId(processId: string): Promise<IPagination<IUserTaskEntity>> {
-    return this.repository.getUserTasksByProcessId(processId);
+  public getUserTasksByProcessId(processId: string, limit: number, offset: number): Promise<IPagination<IUserTaskEntity>> {
+    return this.repository.getUserTasksByProcessId(processId, limit, offset);
   }
 
   public getProcesses(limit: number, offset: number): Promise<IPagination<IProcessEntity>> {
@@ -59,7 +59,7 @@ export class ProcessEngineService implements IProcessEngineService {
     return this.repository.getProcessById(processId);
   }
 
-  public getProcessesByProcessDefId(processDefId: string): Promise<IPagination<IProcessEntity>> {
-    return this.repository.getProcessesByProcessDefId(processDefId);
+  public getProcessesByProcessDefId(processDefId: string, limit: number, offset: number): Promise<IPagination<IProcessEntity>> {
+    return this.repository.getProcessesByProcessDefId(processDefId, limit, offset);
   }
 }

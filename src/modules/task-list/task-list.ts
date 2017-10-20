@@ -25,6 +25,8 @@ export class TaskList {
   private getUserTasks: () => Promise<IPagination<IUserTaskEntity>>;
   private offset: number;
 
+  private route: string = 'task';
+
   constructor(processEngineService: IProcessEngineService, eventAggregator: EventAggregator, dynamicUiService: IDynamicUiService) {
     this.processEngineService = processEngineService;
     this.eventAggregator = eventAggregator;
@@ -40,14 +42,17 @@ export class TaskList {
     this.offset = (page - 1) * environment.processlist.pageLimit;
 
     if (routeParameters.processDefId) {
+      this.route = `processdef/${routeParameters.processDefId}/task`;
       this.getUserTasks = (): Promise<IPagination<IUserTaskEntity>> => {
-        return this.getUserTasksForProcessDef(routeParameters.processDefId);
+        return this.getUserTasksForProcessDef(routeParameters.processDefId, this.offset);
       };
     } else if (routeParameters.processId) {
+      this.route = `process/${routeParameters.processDefId}/task`;
       this.getUserTasks = (): Promise<IPagination<IUserTaskEntity>> => {
-        return this.getUserTasksForProcess(routeParameters.processId);
+        return this.getUserTasksForProcess(routeParameters.processId, this.offset);
       };
     } else {
+      this.route = 'task';
       this.getUserTasks = (): Promise<IPagination<IUserTaskEntity>> => {
         return this.getAllUserTasks(this.offset);
       };
@@ -90,12 +95,12 @@ export class TaskList {
     return this.processEngineService.getUserTasks(environment.processlist.pageLimit, offset);
   }
 
-  private async getUserTasksForProcessDef(processDefId: string): Promise<IPagination<IUserTaskEntity>> {
-    return this.processEngineService.getUserTasksByProcessDefId(processDefId);
+  private async getUserTasksForProcessDef(processDefId: string, offset: number): Promise<IPagination<IUserTaskEntity>> {
+    return this.processEngineService.getUserTasksByProcessDefId(processDefId, environment.processlist.pageLimit, offset);
   }
 
-  private async getUserTasksForProcess(processId: string): Promise<IPagination<IUserTaskEntity>> {
-    return this.processEngineService.getUserTasksByProcessId(processId);
+  private async getUserTasksForProcess(processId: string, offset: number): Promise<IPagination<IUserTaskEntity>> {
+    return this.processEngineService.getUserTasksByProcessId(processId, environment.processlist.pageLimit, offset);
   }
 
   public get limit(): number {

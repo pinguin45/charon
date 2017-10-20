@@ -22,33 +22,33 @@
     <div if.bind="!tasks || tasks.length === 0">
       <h3>Keine Tasks gefunden!</h3>
     </div>
-    
+
     <nav aria-label="Result navigation">
       <ul class="pagination">
         <li class="${currentPage <= 1 ? 'disabled' : ''}">
           <span if.bind="currentPage <= 1" aria-hidden="true">&laquo;</span>
-          <a if.bind="currentPage > 1" href="#/task/1" aria-label="First">
+          <a if.bind="currentPage > 1" href="#/${route}/1" aria-label="First">
             <span aria-hidden="true">&laquo;</span>
           </a>
         </li>
         <li class="${currentPage <= 1 ? 'disabled' : ''}">
           <span if.bind="currentPage <= 1" aria-hidden="true">&lsaquo;</span>
-          <a if.bind="currentPage > 1" href="#/task/${currentPage - 1}" aria-label="Previous">
+          <a if.bind="currentPage > 1" href="#/${route}/${currentPage - 1}" aria-label="Previous">
             <span aria-hidden="true">&lsaquo;</span>
           </a>
         </li>
         <li repeat.for="page of maxPages" class="${page + 1 == currentPage ? 'active' : ''}">
-          <a href="#/task/${page + 1}">${page + 1}</a>
+          <a href="#/${route}/${page + 1}">${page + 1}</a>
         </li>
         <li class="${currentPage >= maxPages ? 'disabled' : ''}">
           <span if.bind="currentPage >= maxPages" aria-hidden="true">&rsaquo;</span>
-          <a if.bind="currentPage < maxPages" href="#/task/${currentPage + 1}" aria-label="Next">
+          <a if.bind="currentPage < maxPages" href="#/${route}/${currentPage + 1}" aria-label="Next">
             <span aria-hidden="true">&rsaquo;</span>
           </a>
         </li>
         <li class="${currentPage >= maxPages ? 'disabled' : ''}">
           <span if.bind="currentPage >= maxPages" aria-hidden="true">&raquo;</span>
-            <a if.bind="currentPage < maxPages" href="#/task/${maxPages}" aria-label="Last">
+            <a if.bind="currentPage < maxPages" href="#/${route}/${maxPages}" aria-label="Last">
             <span aria-hidden="true">&raquo;</span>
           </a>
         </li>

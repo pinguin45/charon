@@ -105,26 +105,26 @@ export class ProcessEngineRepository implements IProcessEngineRepository {
     return throwOnErrorResponse<IPagination<IUserTaskEntity>>(response);
   }
 
-  public async getUserTasksByProcessDefId(processDefId: string): Promise<IPagination<IUserTaskEntity>> {
+  public async getUserTasksByProcessDefId(processDefId: string, limit: number, offset: number): Promise<IPagination<IUserTaskEntity>> {
     const query: IQueryClause = {
       attribute: 'process.processDef.id',
       operator: '=',
       value: processDefId,
     };
-    const parameters: string = `expandCollection=["process.processDef", "nodeDef"]&limit="ALL"`;
+    const parameters: string = `expandCollection=["process.processDef", "nodeDef"]&limit=${limit}&offset=${offset}`;
     const url: string = `${environment.processengine.routes.userTasks}?${parameters}&query=${JSON.stringify(query)}`;
 
     const response: Response = await this.http.fetch(url, {method: 'get'});
     return throwOnErrorResponse<IPagination<IUserTaskEntity>>(response);
   }
 
-  public async getUserTasksByProcessId(processId: string): Promise<IPagination<IUserTaskEntity>> {
+  public async getUserTasksByProcessId(processId: string, limit: number, offset: number): Promise<IPagination<IUserTaskEntity>> {
     const query: IQueryClause = {
       attribute: 'process.id',
       operator: '=',
       value: processId,
     };
-    const parameters: string = `expandCollection=["process.processDef", "nodeDef"]&limit="ALL"`;
+    const parameters: string = `expandCollection=["process.processDef", "nodeDef"]&limit=${limit}&offset=${offset}`;
     const url: string = `${environment.processengine.routes.userTasks}?${parameters}&query=${JSON.stringify(query)}`;
 
     const response: Response = await this.http.fetch(url, {method: 'get'});
@@ -152,13 +152,13 @@ export class ProcessEngineRepository implements IProcessEngineRepository {
     return throwOnErrorResponse<IProcessEntity>(response);
   }
 
-  public async getProcessesByProcessDefId(processDefId: string): Promise<IPagination<IProcessEntity>> {
+  public async getProcessesByProcessDefId(processDefId: string, limit: number, offset: number): Promise<IPagination<IProcessEntity>> {
     const query: IQueryClause = {
       attribute: 'processDef.id',
       operator: '=',
       value: processDefId,
     };
-    const url: string = `${environment.processengine.routes.processInstances}?query=${JSON.stringify(query)}`;
+    const url: string = `${environment.processengine.routes.processInstances}?query=${JSON.stringify(query)}&limit=${limit}&offset=${offset}`;
 
     const response: Response = await this.http.fetch(url, {method: 'get'});
     return throwOnErrorResponse<IPagination<IProcessEntity>>(response);

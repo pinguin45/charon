@@ -16,14 +16,14 @@ export class App {
         nav: true,
       },
       {
-        route: ['task', 'task/:page', 'processdef/:processDefId/task', 'process/:processId/task'],
+        route: ['task', 'task/:page', 'processdef/:processDefId/task', 'processdef/:processDefId/task/:page', 'process/:processId/task'],
         title: 'Task List',
         name: 'task-list',
         moduleId: 'modules/task-list/task-list',
         nav: true,
       },
       {
-        route: ['process', 'process/:page', 'processdef/:processDefId/process'],
+        route: ['process', 'process/:page', 'processdef/:processDefId/process', 'processdef/:processDefId/process/:page'],
         title: 'Process List',
         name: 'process-list',
         moduleId: 'modules/process-list/process-list',

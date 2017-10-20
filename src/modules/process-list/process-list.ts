@@ -33,6 +33,8 @@ export class ProcessList {
   private status: Array<string> = [];
   private offset: number;
 
+  private route: string = 'process';
+
   constructor(processEngineService: IProcessEngineService, eventAggregator: EventAggregator, messageBusService: IMessageBusService) {
     this.processEngineService = processEngineService;
     this.messageBusService = messageBusService;
@@ -43,12 +45,25 @@ export class ProcessList {
     const page: number = routeParameters.page || 1;
     this.offset = (page - 1) * environment.processlist.pageLimit;
 
-    if (!routeParameters.processDefId) {
-      this.getProcesses = this.getAllProcesses;
-    } else {
+    if (routeParameters.page) {
+      if (routeParameters.processDefId) {
+        this.route = `processdef/${routeParameters.processDefId}/process`;
+        this.getProcesses = (): Promise<IPagination<IProcessEntity>> => {
+          return this.getProcessesForProcessDef(routeParameters.processDefId);
+        };
+      } else {
+        this.route = 'process';
+        this.getProcesses = this.getAllProcesses;
+      }
+      this.status = [];
+    } else if (routeParameters.processDefId) {
+      this.route = `processdef/${routeParameters.processDefId}/process`;
       this.getProcesses = (): Promise<IPagination<IProcessEntity>> => {
         return this.getProcessesForProcessDef(routeParameters.processDefId);
       };
+    } else {
+      this.route = 'process';
+      this.getProcesses = this.getAllProcesses;
     }
     this.updateProcesses();
   }
@@ -65,7 +80,8 @@ export class ProcessList {
     if (!this.instances) {
       this.instances = this.allInstances;
     }
-    // this.updateList();
+
+    this.updateList();
   }
 
   public updateList(): void {
@@ -121,7 +137,7 @@ export class ProcessList {
   }
 
   private async getProcessesForProcessDef(processDefId: string): Promise<IPagination<IProcessEntity>> {
-    return this.processEngineService.getProcessesByProcessDefId(processDefId);
+    return this.processEngineService.getProcessesByProcessDefId(processDefId, environment.processlist.pageLimit, this.offset);
   }
 
   public get limit(): number {
