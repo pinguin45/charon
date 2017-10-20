@@ -182,7 +182,8 @@
             "name": "mustache",
             "path": "../node_modules/mustache",
             "main": "mustache.js"
-          }
+          },
+          "downloadjs"
         ]
       }
     ],
