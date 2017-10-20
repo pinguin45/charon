@@ -119,7 +119,7 @@ export class ProcessDefDetail {
     this.exportButton.setAttribute('disabled', '');
     this.exportSpinner.classList.remove('hidden');
     this.bpmn.getXML().then((xml: any) => {
-      download(xml, 'Diagram.xml', 'application/bpmn20-xml');
+      download(xml, `${this.process.name}.xml`, 'application/bpmn20-xml');
       this.exportButton.removeAttribute('disabled');
       this.exportSpinner.classList.add('hidden');
     });
