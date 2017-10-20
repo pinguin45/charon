@@ -6,7 +6,7 @@ export class UserLogin {
 
   private authenticationService: IAuthenticationService;
   private dropdown: HTMLLIElement;
-  private windowClickListener: (e: MouseEvent) => void;
+  private windowClickListener: (event: MouseEvent) => void;
   @bindable()
   private username: string;
   @bindable()
@@ -16,8 +16,8 @@ export class UserLogin {
 
   constructor(authenticationService: IAuthenticationService) {
     this.authenticationService = authenticationService;
-    this.windowClickListener = (e: MouseEvent): void => {
-      const node: Node = e.target as Node;
+    this.windowClickListener = (event: MouseEvent): void => {
+      const node: Node = event.target as Node;
       if (this.dropdown.contains(node)) {
         return;
       }
