@@ -90,7 +90,6 @@
       {
         "name": "vendor-bundle.js",
         "prepend": [
-          "node_modules/jquery/dist/jquery.min.js",
           "node_modules/bluebird/js/browser/bluebird.core.js",
           "node_modules/aurelia-cli/lib/resources/scripts/configure-bluebird.js",
           "node_modules/requirejs/require.js",
@@ -141,6 +140,7 @@
             "path": "../node_modules/aurelia-fetch-client/dist/amd",
             "resources": []
           },
+          "jquery",
           {
             "name": "bootstrap",
             "path": "../node_modules/bootstrap/dist",
@@ -153,7 +153,6 @@
               "css/bootstrap.css"
             ]
           },
-          "jquery",
           {
             "name": "@process-engine/bpmn-js-custom-bundle",
             "path": "../node_modules/@process-engine/bpmn-js-custom-bundle/dist",
@@ -215,7 +214,8 @@
             "main": "build/fetch-browser",
             "path": "../node_modules/fetch-ponyfill",
             "resources": []
-          }
+          },
+          "downloadjs"
         ]
       }
     ],

@@ -1,15 +1,31 @@
 <template>
   <require from="./user-login.css"></require>
-  <form if.bind="!isLoggedIn" submit.delegate="login()" role="form">
-    <input class="form-control" type="text" value.bind="username" placeholder="Username"/>
-    <input class="form-control" type="password" value.bind="password" placeholder="Password"/>
-    <button class="btn btn-success" type="submit">Login</button>
-  </form>
-  <div if.bind="isLoggedIn">
-    <span style="color: #9d9d9d;">
-      <i class="glyphicon glyphicon-user"></i>
-      Hi, ${identity.name}
-    </span>
-    <a class="btn btn-danger" click.delegate="logout()">Logout</a>
-  </div>
+  <ul class="nav navbar-nav navbar-right">
+    <li ref="dropdown" class="dropdown">
+      <a href="#" class="dropdown-toggle" click.delegate="toggleDropdown()">
+        <span>Hi, ${identity ? identity.name : 'Guest'} </span>
+        <img class="user-profile-image" src="src/resources/images/default-avatar.png">
+        <span class="caret"></span>
+      </a>
+      <ul class="dropdown-menu user-profile-dropdown">
+        <li>
+          <div class="user-profile-dropdown-content clearfix">
+            <form if.bind="!isLoggedIn" submit.delegate="login()" role="form">
+              <div class="form-group">
+                <label for="loginUsername">Username</label>
+                <input id="loginUsername" class="form-control" type="text" value.bind="username" placeholder="Username" />
+              </div>
+              <div class="form-group">
+                <label for="loginPassword">Password</label>
+                <input id="loginPassword" class="form-control" type="password" value.bind="password" placeholder="Password" />
+              </div>
+              <p if.bind="loginError" class="text-danger"><b>Error</b>: ${loginError}</p>
+              <button class="btn btn-success pull-right" type="submit">Login</button>
+            </form>
+            <button if.bind="isLoggedIn" class="btn btn-danger pull-right" click.delegate="logout()">Logout</button>
+          </div>
+        </li>
+      </ul>
+    </li>
+  </ul>
 </template>

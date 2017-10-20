@@ -26,6 +26,7 @@
     "bpmn-js": "^0.21.0",
     "crypto": "^1.0.1",
     "debug": "^3.1.0",
+    "downloadjs": "^1.4.7",
     "faye": "^1.2.4",
     "fetch-ponyfill": "^4.1.0",
     "font-awesome": "^4.7.0",
