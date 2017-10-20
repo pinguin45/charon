@@ -89,19 +89,11 @@ export class TaskList {
     return this.consumerClient.getUserTaskList();
   }
 
-  private async getUserTasksForProcessDef(processDefId: string): Promise<IPagination<IUserTaskEntity>> {
-    const result: IPagination<IUserTaskEntity> = await this.getAllUserTasks();
-    result.data = result.data.filter((x: IUserTaskEntity): boolean => {
-      return x.process.processDef.id === processDefId;
-    });
-    return result;
+  private getUserTasksForProcessDef(processDefId: string): Promise<IPagination<IUserTaskEntity>> {
+    return this.consumerClient.getUserTaskListByProcessDefId(processDefId);
   }
 
-  private async getUserTasksForProcess(processId: string): Promise<IPagination<IUserTaskEntity>> {
-    const result: IPagination<IUserTaskEntity> = await this.getAllUserTasks();
-    result.data = result.data.filter((x: IUserTaskEntity): boolean => {
-      return x.process.id === processId;
-    });
-    return result;
+  private getUserTasksForProcess(processId: string): Promise<IPagination<IUserTaskEntity>> {
+    return this.consumerClient.getUserTaskListByProcessInstanceId(processId);
   }
 }
