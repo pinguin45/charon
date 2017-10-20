@@ -1,6 +1,7 @@
 import {IProcessDefEntity} from '@process-engine/process_engine_contracts';
 import {EventAggregator, Subscription} from 'aurelia-event-aggregator';
 import {bindable, computedFrom, inject} from 'aurelia-framework';
+import * as download from 'downloadjs';
 import {AuthenticationStateEvent, IChooseDialogOption, IProcessEngineService} from '../../contracts/index';
 import environment from '../../environment';
 import {BpmnIo} from '../bpmn-io/bpmn-io';
@@ -118,16 +119,7 @@ export class ProcessDefDetail {
     this.exportButton.setAttribute('disabled', '');
     this.exportSpinner.classList.remove('hidden');
     this.bpmn.getXML().then((xml: any) => {
-      this.uri = 'data:application/bpmn20-xml;charset=UTF-8,' + encodeURI(xml);
-      this.name = 'Diagram.xml';
-      const atag: HTMLAnchorElement = document.createElement('a');
-      atag.setAttribute('href', this.uri);
-      atag.setAttribute('id', 'exportxml');
-      atag.setAttribute('download', this.name);
-      atag.setAttribute('hidden', 'true');
-      const appendedATag: HTMLAnchorElement = document.body.appendChild(atag);
-      appendedATag.click();
-      appendedATag.parentNode.removeChild(appendedATag);
+      download(xml, 'Diagram.xml', 'application/bpmn20-xml');
       this.exportButton.removeAttribute('disabled');
       this.exportSpinner.classList.add('hidden');
     });
