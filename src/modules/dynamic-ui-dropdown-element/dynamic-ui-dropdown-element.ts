@@ -1,11 +1,12 @@
+import {IFormWidgetEnumField} from '@process-engine/consumer_client';
 import {bindable} from 'aurelia-framework';
 
 export class DynamicUiDropdownElement {
 
   @bindable()
-  private model: any;
+  private field: IFormWidgetEnumField;
 
-  private activate(model: any): void {
-    this.model = model;
+  private activate(field: IFormWidgetEnumField): void {
+    this.field = field;
   }
 }

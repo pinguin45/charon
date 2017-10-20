@@ -1,3 +1,11 @@
+import {
+  IConfirmWidgetConfig,
+  IConsumerClient,
+  IUserTaskConfig,
+  UserTaskProceedAction,
+  WidgetConfig,
+  WidgetType,
+} from '@process-engine/consumer_client';
 import {IUserTaskEntity} from '@process-engine/process_engine_contracts';
 import {EventAggregator, Subscription} from 'aurelia-event-aggregator';
 import {bindable, computedFrom, inject} from 'aurelia-framework';
@@ -10,12 +18,11 @@ interface ITaskListRouteParameters {
   processId?: string;
 }
 
-@inject('ProcessEngineService', EventAggregator, 'DynamicUiService')
+@inject(EventAggregator, 'ConsumerClient')
 export class TaskList {
 
-  private processEngineService: IProcessEngineService;
   private eventAggregator: EventAggregator;
-  private dynamicUiService: IDynamicUiService;
+  private consumerClient: IConsumerClient;
 
   private subscriptions: Array<Subscription>;
   private userTasks: IPagination<IUserTaskEntity>;
@@ -23,10 +30,9 @@ export class TaskList {
   private dynamicUiWrapper: DynamicUiWrapper;
   private getUserTasks: () => Promise<IPagination<IUserTaskEntity>>;
 
-  constructor(processEngineService: IProcessEngineService, eventAggregator: EventAggregator, dynamicUiService: IDynamicUiService) {
-    this.processEngineService = processEngineService;
+  constructor(eventAggregator: EventAggregator, consumerClient: IConsumerClient) {
     this.eventAggregator = eventAggregator;
-    this.dynamicUiService = dynamicUiService;
+    this.consumerClient = consumerClient;
   }
 
   private async updateUserTasks(): Promise<void> {
@@ -79,15 +85,23 @@ export class TaskList {
     });
   }
 
-  private async getAllUserTasks(): Promise<IPagination<IUserTaskEntity>> {
-    return this.processEngineService.getUserTasks(100, 0);
+  private getAllUserTasks(): Promise<IPagination<IUserTaskEntity>> {
+    return this.consumerClient.getUserTaskList();
   }
 
   private async getUserTasksForProcessDef(processDefId: string): Promise<IPagination<IUserTaskEntity>> {
-    return this.processEngineService.getUserTasksByProcessDefId(processDefId);
+    const result: IPagination<IUserTaskEntity> = await this.getAllUserTasks();
+    result.data = result.data.filter((x: IUserTaskEntity): boolean => {
+      return x.process.processDef.id === processDefId;
+    });
+    return result;
   }
 
   private async getUserTasksForProcess(processId: string): Promise<IPagination<IUserTaskEntity>> {
-    return this.processEngineService.getUserTasksByProcessId(processId);
+    const result: IPagination<IUserTaskEntity> = await this.getAllUserTasks();
+    result.data = result.data.filter((x: IUserTaskEntity): boolean => {
+      return x.process.id === processId;
+    });
+    return result;
   }
 }

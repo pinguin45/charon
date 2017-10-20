@@ -1,11 +1,12 @@
+import {IFormWidgetStringField} from '@process-engine/consumer_client';
 import {bindable} from 'aurelia-framework';
 
 export class DynamicUiTextboxElement {
 
   @bindable()
-  private model: any;
+  private field: IFormWidgetStringField;
 
-  private activate(model: any): void {
-    this.model = model;
+  private activate(field: IFormWidgetStringField): void {
+    this.field = field;
   }
 }

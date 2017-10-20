@@ -40,58 +40,6 @@ export interface IPagination<T> {
   data: Array<T>;
 }
 
-export interface IMessageBusService {
-  createMessage(): any;
-  sendMessage(channel: string, message: any): Promise<any>;
-  registerMessageHandler(handler: (channel: string, message: any) => void): void;
-  removeMessageHandler(handler: (channel: string, message: any) => void): void;
-}
-
-// process engine does not provide an interface
-export interface IUserTaskEntityExtensions {
-  formFields: Array<IUserTaskFormField>;
-  properties: Array<IUserTaskProperty>;
-}
-
-export interface IUserTaskProperty {
-  name: string;
-  $type: string;
-  value: string;
-}
-
-export interface IUserTaskFormField {
-  id: string;
-  label: string;
-  type: 'long' | 'boolean' | 'date' | 'enum' | 'string' | 'custom_type';
-  defaultValue?: string | boolean;
-  formValues: Array<IUserTaskFormFieldValue>;
-}
-
-export interface IUserTaskFormFieldValue {
-  id: string;
-  name: string;
-}
-
-export enum MessageAction {
-  event = 'event',
-  abort = 'abort',
-  proceed = 'proceed',
-}
-
-export enum MessageEventType {
-  cancel = 'cancel',
-  proceed = 'proceed',
-  decline = 'decline',
-}
-
-export interface IMessage {
-  action: MessageAction;
-  context: {
-    participantId: string,
-  };
-  eventType: MessageEventType;
-}
-
 export interface IErrorResponse {
   error: any;
 }

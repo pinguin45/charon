@@ -1,8 +1,8 @@
-import {IUserTaskEntity} from '@process-engine/process_engine_contracts';
+import {IUserTaskConfig} from '@process-engine/consumer_client';
 import {EventAggregator, Subscription} from 'aurelia-event-aggregator';
 import {computedFrom, inject} from 'aurelia-framework';
 import {Router} from 'aurelia-router';
-import {AuthenticationStateEvent, IDynamicUiService, IProcessEngineService, IWidget} from '../../contracts/index';
+import {AuthenticationStateEvent, IDynamicUiService, IProcessEngineService} from '../../contracts/index';
 import {DynamicUiWrapper} from '../dynamic-ui-wrapper/dynamic-ui-wrapper';
 
 @inject('ProcessEngineService', EventAggregator, 'DynamicUiService', Router)
@@ -16,7 +16,7 @@ export class TaskDynamicUi {
   private subscriptions: Array<Subscription>;
   private userTaskId: string;
   private dynamicUiWrapper: DynamicUiWrapper;
-  private _userTask: IUserTaskEntity;
+  private _userTask: IUserTaskConfig;
 
   constructor(processEngineService: IProcessEngineService, eventAggregator: EventAggregator, dynamicUiService: IDynamicUiService, router: Router) {
     this.processEngineService = processEngineService;
@@ -57,9 +57,9 @@ export class TaskDynamicUi {
 
   private async refreshUserTask(): Promise<void> {
     try {
-      this.userTask = await this.processEngineService.getUserTaskById(this.userTaskId);
+      this.userTask = await this.dynamicUiService.getUserTaskConfig(this.userTaskId);
     } catch (error) {
-      console.error('cant refresh user task');
+      console.error('cant refresh user task', error);
       throw error;
     }
   }
@@ -71,16 +71,16 @@ export class TaskDynamicUi {
     if (!this._userTask) {
       return;
     }
-    this.dynamicUiWrapper.currentWidget = this.dynamicUiService.mapUserTask(this._userTask);
+    this.dynamicUiWrapper.currentConfig = this._userTask;
   }
 
-  private set userTask(task: IUserTaskEntity) {
+  private set userTask(task: IUserTaskConfig) {
     this._userTask = task;
     this.trySettingWidget();
   }
 
   @computedFrom('_userTask')
-  private get userTask(): IUserTaskEntity {
+  private get userTask(): IUserTaskConfig {
     return this._userTask;
   }
 }

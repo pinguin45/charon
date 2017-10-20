@@ -1,8 +1,9 @@
+import {IUserTaskConfig} from '@process-engine/consumer_client';
 import {IProcessDefEntity} from '@process-engine/process_engine_contracts';
 import {EventAggregator, Subscription} from 'aurelia-event-aggregator';
 import {computedFrom, inject} from 'aurelia-framework';
 import {Router} from 'aurelia-router';
-import {AuthenticationStateEvent, IProcessEngineService, IWidget} from '../../contracts/index';
+import {AuthenticationStateEvent, IProcessEngineService} from '../../contracts/index';
 import {DynamicUiWrapper} from '../dynamic-ui-wrapper/dynamic-ui-wrapper';
 
 @inject('ProcessEngineService', EventAggregator, Router)
@@ -35,8 +36,8 @@ export class ProcessDefStart {
       this.eventAggregator.subscribe(AuthenticationStateEvent.LOGOUT, () => {
         this.refreshProcess();
       }),
-      this.eventAggregator.subscribe('render-dynamic-ui', (message: IWidget) => {
-        this.dynamicUiWrapper.currentWidget = message;
+      this.eventAggregator.subscribe('render-dynamic-ui', (message: IUserTaskConfig) => {
+        this.dynamicUiWrapper.currentConfig = message;
       }),
       this.eventAggregator.subscribe('closed-process', (message: any) => {
         this.router.navigateToRoute('processdef-list', { page: 1 });

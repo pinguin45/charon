@@ -1,11 +1,11 @@
-import {ConsumerClient} from '@process-engine/consumer_client';
+import {ConsumerClient, ITokenRepository} from '@process-engine/consumer_client';
 import {FrameworkConfiguration} from 'aurelia-framework';
 
-export async function configure(config: FrameworkConfiguration): Promise<void> {
+export async function configure(config: FrameworkConfiguration, tokenRepository: ITokenRepository): Promise<void> {
 
-  const consumerClient = new ConsumerClient();
+  const consumerClient: ConsumerClient = new ConsumerClient();
   consumerClient.config = config;
-  await consumerClient.initialize();
+  await consumerClient.initialize(tokenRepository);
 
   config.container.registerInstance('ConsumerClient', consumerClient);
 }

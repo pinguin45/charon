@@ -4,10 +4,10 @@
   <require from="../confirm-widget/confirm-widget"></require>
 
   <div>
-    <form-widget if.bind="currentWidget.type === 'form'" widget.bind="currentWidget"></form-widget>
-    <confirm-widget if.bind="currentWidget.type === 'confirm'" widget.bind="currentWidget"></confirm-widget>
+    <form-widget if.bind="currentConfig.widgetType === 'form'" widget.bind="currentConfig.widgetConfig"></form-widget>
+    <confirm-widget if.bind="currentConfig.widgetType === 'confirm'" widget.bind="currentConfig.widgetConfig"></confirm-widget>
 
-    <div if.bind="currentWidget" class="btn-group" role="group">
+    <div if.bind="currentConfig" class="btn-group" role="group">
       <button if.bind="declineButtonText" class="btn btn-danger" click.delegate="handleButtonClick('abort')">${declineButtonText}</button>
       <button if.bind="confirmButtonText" class="btn btn-success" click.delegate="handleButtonClick('proceed')">${confirmButtonText}</button>
     </div>

@@ -185,10 +185,7 @@
           {
             "name": "@process-engine/consumer_client",
             "path": "../node_modules/@process-engine/consumer_client/dist/amd",
-            "main": "consumer_client.js",
-            "resources": [
-              "consumer_client.js"
-            ]
+            "main": "index.js"
           },
           {
             "name": "addict-ioc",
