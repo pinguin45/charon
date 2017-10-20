@@ -14,8 +14,11 @@ export class DynamicUiService implements IDynamicUiService {
   constructor(eventAggregator: EventAggregator, consumerClient: ConsumerClient) {
     this.consumerClient = consumerClient;
     this.eventAggregator = eventAggregator;
-    this.messageBusService.registerMessageHandler((channel: string, message: any): void => {
-      this.handleIncommingMessage(channel, message);
+    this.consumerClient.on('renderUserTask', (userTaskConfig: IUserTaskConfig) => {
+      this.eventAggregator.publish('render-dynamic-ui', userTaskConfig);
+    });
+    this.consumerClient.on('endEvent', (message: any) => {
+      this.eventAggregator.publish('closed-process', message);
     });
   }
 
@@ -25,21 +28,5 @@ export class DynamicUiService implements IDynamicUiService {
 
   public getUserTaskConfig(userTaskId: string): Promise<IUserTaskConfig> {
     return this.consumerClient.getUserTaskConfig(userTaskId);
-  }
-
-  private async handleIncommingMessage(channel: string, message: any): Promise<void> {
-    if (!message.data || message.data.action !== 'userTask') {
-      if (message.data.action === 'endEvent') {
-        this.eventAggregator.publish('closed-process', message);
-      }
-      return;
-    }
-
-    const task: IUserTaskMessageData = message.data.data;
-    const config: IUserTaskConfig = await this.consumerClient.getUserTaskConfig(task.userTaskEntity.id);
-
-    if (config !== null) {
-      this.eventAggregator.publish('render-dynamic-ui', config);
-    }
   }
 }

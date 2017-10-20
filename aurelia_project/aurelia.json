@@ -212,7 +212,8 @@
             "path": "../node_modules/fetch-ponyfill",
             "resources": []
           },
-          "downloadjs"
+          "downloadjs",
+          "eventemitter2"
         ]
       }
     ],
