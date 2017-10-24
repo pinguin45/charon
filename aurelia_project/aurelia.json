@@ -205,13 +205,18 @@
             "main": "./src/browser",
             "resources": []
           },
-          "ms",
           {
             "name": "fetch-ponyfill",
             "main": "build/fetch-browser",
             "path": "../node_modules/fetch-ponyfill",
             "resources": []
           },
+          {
+            "name": "uuid-browser",
+            "path": "../node_modules/uuid-browser",
+            "main": "index.js"
+          },
+          "ms",
           "downloadjs",
           "eventemitter2"
         ]
