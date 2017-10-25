@@ -196,20 +196,17 @@
           {
             "name": "bluebird",
             "main": "./js/browser/bluebird",
-            "path": "../node_modules/bluebird",
-            "resources": []
+            "path": "../node_modules/bluebird"
           },
           {
             "name": "debug",
             "path": "../node_modules/debug",
-            "main": "./src/browser",
-            "resources": []
+            "main": "./src/browser"
           },
           {
             "name": "fetch-ponyfill",
             "main": "build/fetch-browser",
-            "path": "../node_modules/fetch-ponyfill",
-            "resources": []
+            "path": "../node_modules/fetch-ponyfill"
           },
           {
             "name": "uuid-browser",
