@@ -30,13 +30,6 @@ export class ProcessEngineRepository implements IProcessEngineRepository {
     });
   }
 
-  public async getProcessDefs(limit: number, offset: number): Promise<IPagination<IProcessDefEntity>> {
-    const url: string = `${environment.processengine.routes.processes}?limit=${limit}&offset=${offset}`;
-    const response: Response = await this.http.fetch(url, { method: 'get' });
-
-    return throwOnErrorResponse<IPagination<IProcessDefEntity>>(response);
-  }
-
   public async getProcessDefById(processDefId: string): Promise<IProcessDefEntity> {
     const url: string = `${environment.processengine.routes.processes}/${processDefId}`;
     const response: Response = await this.http.fetch(url, {method: 'get'});
@@ -56,24 +49,6 @@ export class ProcessEngineRepository implements IProcessEngineRepository {
     const response: Response = await this.http.fetch(url, { method: 'delete' });
 
     return throwOnErrorResponse<void>(response);
-  }
-
-  public async startProcess(process: IProcessDefEntity): Promise<string> {
-    const options: RequestInit = {
-      method: 'post',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        msg: {
-          key: process.key,
-        },
-      }),
-    };
-
-    const response: Response = await this.http.fetch(environment.processengine.routes.startProcess, options);
-
-    return throwOnErrorResponse<string>(response);
   }
 
   public async updateProcessDef(processDef: IProcessDefEntity, xml: string): Promise<any> {
