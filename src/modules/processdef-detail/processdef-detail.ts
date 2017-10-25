@@ -1,3 +1,4 @@
+import {ConsumerClient} from '@process-engine/consumer_client';
 import {IProcessDefEntity} from '@process-engine/process_engine_contracts';
 import {EventAggregator, Subscription} from 'aurelia-event-aggregator';
 import {bindable, computedFrom, inject} from 'aurelia-framework';
@@ -10,7 +11,7 @@ interface RouteParameters {
   processDefId: string;
 }
 
-@inject('ProcessEngineService', EventAggregator)
+@inject('ProcessEngineService', EventAggregator, 'ConsumerClient')
 export class ProcessDefDetail {
   private processEngineService: IProcessEngineService;
   private eventAggregator: EventAggregator;
@@ -22,14 +23,18 @@ export class ProcessDefDetail {
   private exportSpinner: HTMLElement;
   private startButtonDropdown: HTMLDivElement;
   private startButton: HTMLElement;
+  private consumerClient: ConsumerClient;
 
   @bindable() public uri: string;
   @bindable() public name: string;
   @bindable() public startedProcessId: string;
 
-  constructor(processEngineService: IProcessEngineService, eventAggregator: EventAggregator) {
+  constructor(processEngineService: IProcessEngineService,
+              eventAggregator: EventAggregator,
+              consumerClient: ConsumerClient) {
     this.processEngineService = processEngineService;
     this.eventAggregator = eventAggregator;
+    this.consumerClient = consumerClient;
   }
 
   public activate(routeParameters: RouteParameters): void {
@@ -70,7 +75,7 @@ export class ProcessDefDetail {
       return;
     }
     this.startButton.setAttribute('disabled', 'disabled');
-    this.startedProcessId = await this.processEngineService.startProcess(this.process);
+    this.startedProcessId = await this.consumerClient.startProcessByKey(this.process.key);
   }
 
   public closeProcessStartDropdown(): void {

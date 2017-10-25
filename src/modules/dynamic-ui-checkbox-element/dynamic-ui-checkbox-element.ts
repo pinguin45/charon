@@ -1,11 +1,12 @@
+import {IFormWidgetBooleanField} from '@process-engine/consumer_client';
 import {bindable} from 'aurelia-framework';
 
 export class DynamicUiCheckboxElement {
 
   @bindable()
-  private model: any;
+  private field: IFormWidgetBooleanField;
 
-  private activate(model: any): void {
-    this.model = model;
+  private activate(field: IFormWidgetBooleanField): void {
+    this.field = field;
   }
 }

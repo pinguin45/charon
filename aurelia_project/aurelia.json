@@ -182,7 +182,40 @@
             "path": "../node_modules/mustache",
             "main": "mustache.js"
           },
-          "downloadjs"
+          {
+            "name": "@process-engine/consumer_client",
+            "path": "../node_modules/@process-engine/consumer_client/dist/amd",
+            "main": "index.js"
+          },
+          {
+            "name": "addict-ioc",
+            "path": "../node_modules/addict-ioc/dist/amd",
+            "main": "index.js"
+          },
+          "node-uuid",
+          {
+            "name": "bluebird",
+            "main": "./js/browser/bluebird",
+            "path": "../node_modules/bluebird"
+          },
+          {
+            "name": "debug",
+            "path": "../node_modules/debug",
+            "main": "./src/browser"
+          },
+          {
+            "name": "fetch-ponyfill",
+            "main": "build/fetch-browser",
+            "path": "../node_modules/fetch-ponyfill"
+          },
+          {
+            "name": "uuid-browser",
+            "path": "../node_modules/uuid-browser",
+            "main": "index.js"
+          },
+          "ms",
+          "downloadjs",
+          "eventemitter2"
         ]
       }
     ],

@@ -1,7 +1,7 @@
 <template>
   <require from="./dynamic-ui-dropdown-element.css"></require>
-  <label for="dynamic-${model.id}">${model.label}:</label>
-  <select class="form-control" id="dynamic-${model.id}" value.bind="model.value">
-    <option repeat.for="value of model.values" model.bind="value.id">${value.name}</option>
+  <label for="dynamic-${field.id}">${field.label}:</label>
+  <select class="form-control" id="dynamic-${field.id}" value.bind="field.value">
+    <option repeat.for="value of field.enumValues" model.bind="value.value">${value.label}</option>
   </select>
 </template>
