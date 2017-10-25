@@ -2,7 +2,6 @@ import {IProcessDefEntity, IProcessEntity, IUserTaskEntity} from '@process-engin
 export {IProcessDefEntity, IProcessEntity, IUserTaskEntity} from '@process-engine/process_engine_contracts';
 
 export interface IProcessEngineRepository {
-  getProcessDefs(limit: number, offset: number): Promise<IPagination<IProcessDefEntity>>;
   getProcessDefById(processDefId: string): Promise<IProcessDefEntity>;
   startProcess(process: IProcessDefEntity): Promise<string>;
   updateProcessDef(processDef: IProcessDefEntity, xml: string): Promise<any>;
@@ -18,7 +17,6 @@ export interface IProcessEngineRepository {
 }
 
 export interface IProcessEngineService {
-  getProcessDefs(limit: number, offset: number): Promise<IPagination<IProcessDefEntity>>;
   getProcessDefById(processDefId: string): Promise<IProcessDefEntity>;
   startProcess(process: IProcessDefEntity): Promise<string>;
   updateProcessDef(processDef: IProcessDefEntity, xml: string): Promise<any>;

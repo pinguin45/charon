@@ -1,14 +1,13 @@
-import {ConsumerClient} from '@process-engine/consumer_client';
+import {ConsumerClient, IPagination} from '@process-engine/consumer_client';
 import {IProcessDefEntity} from '@process-engine/process_engine_contracts';
 import {EventAggregator, Subscription} from 'aurelia-event-aggregator';
 import {inject} from 'aurelia-framework';
-import {AuthenticationStateEvent, IPagination, IProcessEngineService} from '../../contracts/index';
+import {AuthenticationStateEvent} from '../../contracts/index';
 import environment from '../../environment';
 
-@inject('ProcessEngineService', EventAggregator, 'ConsumerClient')
+@inject(EventAggregator, 'ConsumerClient')
 export class ProcessDefList {
 
-  private processEngineService: IProcessEngineService;
   private eventAggregator: EventAggregator;
   private consumerClient: ConsumerClient;
 
@@ -18,10 +17,7 @@ export class ProcessDefList {
   private createProcess: string = environment.createProcess;
   private subscriptions: Array<Subscription>;
 
-  constructor(processEngineService: IProcessEngineService,
-              eventAggregator: EventAggregator,
-              consumerClient: ConsumerClient) {
-    this.processEngineService = processEngineService;
+  constructor(eventAggregator: EventAggregator, consumerClient: ConsumerClient) {
     this.eventAggregator = eventAggregator;
     this.consumerClient = consumerClient;
   }

@@ -30,13 +30,6 @@ export class ProcessEngineRepository implements IProcessEngineRepository {
     });
   }
 
-  public async getProcessDefs(limit: number, offset: number): Promise<IPagination<IProcessDefEntity>> {
-    const url: string = `${environment.processengine.routes.processes}?limit=${limit}&offset=${offset}`;
-    const response: Response = await this.http.fetch(url, { method: 'get' });
-
-    return throwOnErrorResponse<IPagination<IProcessDefEntity>>(response);
-  }
-
   public async getProcessDefById(processDefId: string): Promise<IProcessDefEntity> {
     const url: string = `${environment.processengine.routes.processes}/${processDefId}`;
     const response: Response = await this.http.fetch(url, {method: 'get'});

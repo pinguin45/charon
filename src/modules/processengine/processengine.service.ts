@@ -11,10 +11,6 @@ export class ProcessEngineService implements IProcessEngineService {
     this.repository = repository;
   }
 
-  public getProcessDefs(limit: number, offset: number): Promise<IPagination<IProcessDefEntity>> {
-    return this.repository.getProcessDefs(limit, offset);
-  }
-
   public startProcess(process: IProcessDefEntity): Promise<any> {
     return this.repository.startProcess(process);
   }
