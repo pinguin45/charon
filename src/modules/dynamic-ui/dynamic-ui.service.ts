@@ -17,7 +17,7 @@ export class DynamicUiService implements IDynamicUiService {
     this.consumerClient.on('renderUserTask', (userTaskConfig: IUserTaskConfig) => {
       this.eventAggregator.publish('render-dynamic-ui', userTaskConfig);
     });
-    this.consumerClient.on('endEvent', (message: any) => {
+    this.consumerClient.on('processEnd', (message: any) => {
       this.eventAggregator.publish('closed-process', message);
     });
   }
