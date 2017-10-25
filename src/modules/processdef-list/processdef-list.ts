@@ -1,24 +1,48 @@
 import {IProcessDefEntity} from '@process-engine/process_engine_contracts';
+import {IUserTaskEntity} from '@process-engine/process_engine_contracts';
 import {EventAggregator, Subscription} from 'aurelia-event-aggregator';
 import {inject} from 'aurelia-framework';
+<<<<<<< Updated upstream
 import {AuthenticationStateEvent, IPagination, IProcessEngineService} from '../../contracts/index';
 import environment from '../../environment';
 
 @inject('ProcessEngineService', EventAggregator)
+=======
+import {Router} from 'aurelia-router';
+import {AuthenticationStateEvent} from '../../contracts/index';
+import environment from '../../environment';
+
+@inject(EventAggregator, 'ConsumerClient', Router)
+>>>>>>> Stashed changes
 export class ProcessDefList {
 
   private processEngineService: IProcessEngineService;
   private eventAggregator: EventAggregator;
+<<<<<<< Updated upstream
+=======
+  private consumerClient: ConsumerClient;
+  private router: Router;
+>>>>>>> Stashed changes
 
   private offset: number;
   private _processes: IPagination<IProcessDefEntity>;
   private getProcessesIntervalId: number;
-  private createProcess: string = environment.createProcess;
   private subscriptions: Array<Subscription>;
 
+<<<<<<< Updated upstream
   constructor(processEngineService: IProcessEngineService, eventAggregator: EventAggregator) {
     this.processEngineService = processEngineService;
     this.eventAggregator = eventAggregator;
+=======
+  constructor(eventAggregator: EventAggregator, consumerClient: ConsumerClient, router: Router) {
+    this.eventAggregator = eventAggregator;
+    this.consumerClient = consumerClient;
+    this.router = router;
+
+    this.consumerClient.once('renderUserTask', (userTaskConfig: IUserTaskEntity) => {
+      this.router.navigate(`/task/${userTaskConfig.id}/dynamic-ui`);
+    });
+>>>>>>> Stashed changes
   }
 
   public async getProcessesFromService(offset: number): Promise<void> {
@@ -85,4 +109,9 @@ export class ProcessDefList {
     }
     return this._processes.data;
   }
+
+  public createProcess(): void {
+    this.consumerClient.startProcessByKey('CreateProcessDef');
+  }
+
 }
