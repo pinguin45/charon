@@ -51,24 +51,6 @@ export class ProcessEngineRepository implements IProcessEngineRepository {
     return throwOnErrorResponse<void>(response);
   }
 
-  public async startProcess(process: IProcessDefEntity): Promise<string> {
-    const options: RequestInit = {
-      method: 'post',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        msg: {
-          key: process.key,
-        },
-      }),
-    };
-
-    const response: Response = await this.http.fetch(environment.processengine.routes.startProcess, options);
-
-    return throwOnErrorResponse<string>(response);
-  }
-
   public async updateProcessDef(processDef: IProcessDefEntity, xml: string): Promise<any> {
     const options: RequestInit = {
       method: 'post',

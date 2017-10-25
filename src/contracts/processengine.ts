@@ -3,7 +3,6 @@ export {IProcessDefEntity, IProcessEntity, IUserTaskEntity} from '@process-engin
 
 export interface IProcessEngineRepository {
   getProcessDefById(processDefId: string): Promise<IProcessDefEntity>;
-  startProcess(process: IProcessDefEntity): Promise<string>;
   updateProcessDef(processDef: IProcessDefEntity, xml: string): Promise<any>;
   deleteProcessDef(processId: string): Promise<void>;
   getIdentity(): Promise<any>;
@@ -18,7 +17,6 @@ export interface IProcessEngineRepository {
 
 export interface IProcessEngineService {
   getProcessDefById(processDefId: string): Promise<IProcessDefEntity>;
-  startProcess(process: IProcessDefEntity): Promise<string>;
   updateProcessDef(processDef: IProcessDefEntity, xml: string): Promise<any>;
   deleteProcessDef(processId: string): Promise<void>;
   getIdentity(): Promise<any>;

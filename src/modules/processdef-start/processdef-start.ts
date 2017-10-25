@@ -1,4 +1,4 @@
-import {IUserTaskConfig} from '@process-engine/consumer_client';
+import {ConsumerClient, IUserTaskConfig} from '@process-engine/consumer_client';
 import {IProcessDefEntity} from '@process-engine/process_engine_contracts';
 import {EventAggregator, Subscription} from 'aurelia-event-aggregator';
 import {computedFrom, inject} from 'aurelia-framework';
@@ -6,7 +6,7 @@ import {Router} from 'aurelia-router';
 import {AuthenticationStateEvent, IProcessEngineService} from '../../contracts/index';
 import {DynamicUiWrapper} from '../dynamic-ui-wrapper/dynamic-ui-wrapper';
 
-@inject('ProcessEngineService', EventAggregator, Router)
+@inject('ProcessEngineService', EventAggregator, Router, 'ConsumerClient')
 export class ProcessDefStart {
 
   private processEngineService: IProcessEngineService;
@@ -16,11 +16,16 @@ export class ProcessDefStart {
   private processDefId: string;
   private _process: IProcessDefEntity;
   private router: Router;
+  private consumerClient: ConsumerClient;
 
-  constructor(processEngineService: IProcessEngineService, eventAggregator: EventAggregator, router: Router) {
+  constructor(processEngineService: IProcessEngineService,
+              eventAggregator: EventAggregator,
+              router: Router,
+              consumerClient: ConsumerClient) {
     this.processEngineService = processEngineService;
     this.eventAggregator = eventAggregator;
     this.router = router;
+    this.consumerClient = consumerClient;
   }
 
   private activate(routeParameters: {processDefId: string}): void {
@@ -67,6 +72,6 @@ export class ProcessDefStart {
   }
 
   public startProcess(): void {
-    this.processEngineService.startProcess(this.process);
+    this.consumerClient.startProcessByKey(this.process.key);
   }
 }

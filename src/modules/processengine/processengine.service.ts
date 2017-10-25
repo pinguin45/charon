@@ -11,10 +11,6 @@ export class ProcessEngineService implements IProcessEngineService {
     this.repository = repository;
   }
 
-  public startProcess(process: IProcessDefEntity): Promise<any> {
-    return this.repository.startProcess(process);
-  }
-
   public deleteProcessDef(processId: string): Promise<void> {
     return this.repository.deleteProcessDef(processId);
   }
