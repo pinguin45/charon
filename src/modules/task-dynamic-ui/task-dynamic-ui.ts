@@ -2,13 +2,12 @@ import {IUserTaskConfig} from '@process-engine/consumer_client';
 import {EventAggregator, Subscription} from 'aurelia-event-aggregator';
 import {computedFrom, inject} from 'aurelia-framework';
 import {Router} from 'aurelia-router';
-import {AuthenticationStateEvent, IDynamicUiService, IProcessEngineService} from '../../contracts/index';
+import {AuthenticationStateEvent, IDynamicUiService} from '../../contracts/index';
 import {DynamicUiWrapper} from '../dynamic-ui-wrapper/dynamic-ui-wrapper';
 
-@inject('ProcessEngineService', EventAggregator, 'DynamicUiService', Router)
+@inject(EventAggregator, 'DynamicUiService', Router)
 export class TaskDynamicUi {
 
-  private processEngineService: IProcessEngineService;
   private eventAggregator: EventAggregator;
   private dynamicUiService: IDynamicUiService;
   private router: Router;
@@ -18,8 +17,7 @@ export class TaskDynamicUi {
   private dynamicUiWrapper: DynamicUiWrapper;
   private _userTask: IUserTaskConfig;
 
-  constructor(processEngineService: IProcessEngineService, eventAggregator: EventAggregator, dynamicUiService: IDynamicUiService, router: Router) {
-    this.processEngineService = processEngineService;
+  constructor(eventAggregator: EventAggregator, dynamicUiService: IDynamicUiService, router: Router) {
     this.eventAggregator = eventAggregator;
     this.dynamicUiService = dynamicUiService;
     this.router = router;
