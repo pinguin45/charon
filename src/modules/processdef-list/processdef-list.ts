@@ -1,6 +1,5 @@
-import {ConsumerClient, IPagination} from '@process-engine/consumer_client';
+import {ConsumerClient, IPagination, IUserTaskConfig} from '@process-engine/consumer_client';
 import {IProcessDefEntity} from '@process-engine/process_engine_contracts';
-import {IUserTaskEntity} from '@process-engine/process_engine_contracts';
 import {EventAggregator, Subscription} from 'aurelia-event-aggregator';
 import {inject} from 'aurelia-framework';
 import {Router} from 'aurelia-router';
@@ -23,10 +22,6 @@ export class ProcessDefList {
     this.eventAggregator = eventAggregator;
     this.consumerClient = consumerClient;
     this.router = router;
-
-    this.consumerClient.once('renderUserTask', (userTaskConfig: IUserTaskEntity) => {
-      this.router.navigate(`/task/${userTaskConfig.id}/dynamic-ui`);
-    });
   }
 
   public async getProcessesFromService(offset: number): Promise<void> {
@@ -94,8 +89,14 @@ export class ProcessDefList {
     return this._processes.data;
   }
 
-  public createProcess(): void {
-    this.consumerClient.startProcessByKey('CreateProcessDef');
+  public async createProcess(): Promise<void> {
+    const processInstanceId: string = await this.consumerClient.startProcessByKey('CreateProcessDef');
+
+    this.consumerClient.on('renderUserTask', (userTaskConfig: IUserTaskConfig) => {
+      if (userTaskConfig.userTaskEntity.process.id === processInstanceId) {
+        this.router.navigate(`/task/${userTaskConfig.id}/dynamic-ui`);
+      }
+    });
   }
 
 }
