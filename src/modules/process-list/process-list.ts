@@ -29,7 +29,6 @@ export class ProcessList {
   public currentPage: number = 0;
   public pageSize: number = 10;
   public totalItems: number;
-  public shownItems: Array<IProcessEntity>;
 
   constructor(processEngineService: IProcessEngineService, eventAggregator: EventAggregator) {
     this.processEngineService = processEngineService;
@@ -61,7 +60,6 @@ export class ProcessList {
       this.instances = this.allInstances;
     }
     this.totalItems = this.instances.length;
-    this.shownItems = this.instances.slice((this.currentPage - 1) * this.pageSize, this.pageSize * this.currentPage);
   }
 
   public updateList(): void {
@@ -95,6 +93,10 @@ export class ProcessList {
     for (const subscription of this.subscriptions) {
       subscription.dispose();
     }
+  }
+
+  public get shownProcesses(): Array<IProcessEntity> {
+    return this.instances.slice((this.currentPage - 1) * this.pageSize, this.pageSize * this.currentPage);
   }
 
   public get allInstances(): Array<IProcessEntity> {

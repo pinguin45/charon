@@ -17,24 +17,27 @@ export class ProcessDefList {
   private createProcess: string = environment.createProcess;
   private subscriptions: Array<Subscription>;
 
+  public currentPage: number = 0;
+  public pageSize: number = 10;
+  public totalItems: number;
+
   constructor(eventAggregator: EventAggregator, consumerClient: ConsumerClient) {
     this.eventAggregator = eventAggregator;
     this.consumerClient = consumerClient;
   }
 
-  public async getProcessesFromService(offset: number): Promise<void> {
-    this._processes = await this.consumerClient.getProcessDefList(environment.processlist.pageLimit, offset);
+  public async getProcessesFromService(): Promise<void> {
+    this._processes = await this.consumerClient.getProcessDefList();
+    this.totalItems = this._processes.count;
   }
 
   public activate(routeParameters: {page: number}): void {
-    const page: number = routeParameters.page || 1;
-    this.offset = (page - 1) * environment.processlist.pageLimit;
-    this.getProcessesFromService(this.offset);
+    this.getProcessesFromService();
   }
 
   public attached(): void {
     this.getProcessesIntervalId = window.setInterval(() => {
-      this.getProcessesFromService(this.offset);
+      this.getProcessesFromService();
       // tslint:disable-next-line
     }, environment.processengine.poolingInterval);
 
@@ -56,7 +59,11 @@ export class ProcessDefList {
   }
 
   private refreshProcesslist(): void {
-    this.getProcessesFromService(this.offset);
+    this.getProcessesFromService();
+  }
+
+  public get shownProcessDefs(): Array<IProcessDefEntity> {
+    return this.processes.slice((this.currentPage - 1) * this.pageSize, this.pageSize * this.currentPage);
   }
 
   public get limit(): number {
@@ -64,20 +71,6 @@ export class ProcessDefList {
       return 0;
     }
     return this._processes.limit;
-  }
-
-  public get maxPages(): number {
-    if (this._processes === undefined) {
-      return 0;
-    }
-    return Math.ceil(this._processes.count / this._processes.limit);
-  }
-
-  public get currentPage(): number {
-    if (this._processes === undefined) {
-      return 0;
-    }
-    return this.offset / this._processes.limit + 1;
   }
 
   public get processes(): Array<IProcessDefEntity> {

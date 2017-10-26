@@ -33,7 +33,6 @@ export class TaskList {
   public currentPage: number = 0;
   public pageSize: number = 10;
   public totalItems: number;
-  public shownTasks: Array<IUserTaskEntity>;
 
   constructor(eventAggregator: EventAggregator, consumerClient: IConsumerClient) {
     this.eventAggregator = eventAggregator;
@@ -44,7 +43,6 @@ export class TaskList {
     this.userTasks = await this.getUserTasks();
 
     this.totalItems = this.tasks.length;
-    this.shownTasks = this.tasks.slice((this.currentPage - 1) * this.pageSize, this.pageSize * this.currentPage);
   }
 
   public activate(routeParameters: ITaskListRouteParameters): void {
@@ -82,6 +80,10 @@ export class TaskList {
     for (const subscription of this.subscriptions) {
       subscription.dispose();
     }
+  }
+
+  public get shownTasks(): Array<IUserTaskEntity> {
+    return this.tasks.slice((this.currentPage - 1) * this.pageSize, this.pageSize * this.currentPage);
   }
 
   public get tasks(): Array<IUserTaskEntity> {
