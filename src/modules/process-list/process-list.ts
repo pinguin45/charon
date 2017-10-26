@@ -60,9 +60,8 @@ export class ProcessList {
     if (!this.instances) {
       this.instances = this.allInstances;
     }
-    console.log(this.instances);
     this.totalItems = this.instances.length;
-    this.shownItems = this.instances.slice((this.currentPage - 1) * this.pageSize, this.pageSize);
+    this.shownItems = this.instances.slice((this.currentPage - 1) * this.pageSize, this.pageSize * this.currentPage);
   }
 
   public updateList(): void {

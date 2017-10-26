@@ -29,7 +29,9 @@
         <h3>Keine Instanzen gefunden</h3>
     </div>
   </div>
-  ${currentPage}
-  <aubs-pagination page-size.bind="pageSize" total-items.bind="totalItems" current-page.bind="currentPage"
-  boundary-links.bind="true"></aubs-pagination>
+  <div class="col-md-12 pagination">
+    <aubs-pagination page-size.bind="pageSize" total-items.bind="totalItems" current-page.bind="currentPage"
+      boundary-links.bind="true" click.delegate="updateProcesses()">
+    </aubs-pagination>
+  </div>
 </template>
