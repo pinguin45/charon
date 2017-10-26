@@ -28,9 +28,10 @@ export class ProcessDefStart {
     this.consumerClient = consumerClient;
   }
 
-  private activate(routeParameters: {processDefId: string}): void {
+  private async activate(routeParameters: {processDefId: string}): Promise<void> {
     this.processDefId = routeParameters.processDefId;
-    this.refreshProcess();
+    await this.refreshProcess();
+    this.startProcess();
   }
 
   public attached(): void {
@@ -59,7 +60,6 @@ export class ProcessDefStart {
   private async refreshProcess(): Promise<void> {
     try {
       this._process = await this.processEngineService.getProcessDefById(this.processDefId);
-      this.startProcess();
     } catch (error) {
       console.error('failed to refresh process');
       throw error;
