@@ -68,7 +68,7 @@ export class UserLogin {
     window.removeEventListener('click', this.windowClickListener);
   }
 
-  @computedFrom('authenticationService.token')
+  @computedFrom('authenticationService.tokenRepository.token')
   public get isLoggedIn(): boolean {
     return this.authenticationService.hasToken();
   }
