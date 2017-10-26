@@ -1,6 +1,6 @@
 import {INodeInstanceEntity} from '@process-engine/process_engine_contracts';
 import {EventAggregator, Subscription} from 'aurelia-event-aggregator';
-import {inject} from 'aurelia-framework';
+import {BindingEngine, inject} from 'aurelia-framework';
 import {
   AuthenticationStateEvent,
   IPagination,
@@ -13,11 +13,12 @@ interface IProcessListRouteParameters {
   processDefId?: string;
 }
 
-@inject('ProcessEngineService', EventAggregator)
+@inject('ProcessEngineService', EventAggregator, BindingEngine)
 export class ProcessList {
 
   private processEngineService: IProcessEngineService;
   private eventAggregator: EventAggregator;
+  private bindingEngine: BindingEngine;
   private selectedState: HTMLSelectElement;
   private getProcessesIntervalId: number;
   private getProcesses: () => Promise<IPagination<IProcessEntity>>;
@@ -30,9 +31,14 @@ export class ProcessList {
   public pageSize: number = 10;
   public totalItems: number;
 
-  constructor(processEngineService: IProcessEngineService, eventAggregator: EventAggregator) {
+  constructor(processEngineService: IProcessEngineService, eventAggregator: EventAggregator, bindingEngine: BindingEngine) {
     this.processEngineService = processEngineService;
     this.eventAggregator = eventAggregator;
+    this.bindingEngine = bindingEngine;
+
+    this.bindingEngine.propertyObserver(this, 'currentPage').subscribe((newValue: number, oldValue: number) => {
+      this.updateProcesses();
+    });
   }
 
   public activate(routeParameters: IProcessListRouteParameters): void {
