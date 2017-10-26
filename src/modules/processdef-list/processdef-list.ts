@@ -1,11 +1,11 @@
 import {ConsumerClient, IPagination} from '@process-engine/consumer_client';
 import {IProcessDefEntity} from '@process-engine/process_engine_contracts';
 import {EventAggregator, Subscription} from 'aurelia-event-aggregator';
-import {inject} from 'aurelia-framework';
+import {BindingEngine, inject} from 'aurelia-framework';
 import {AuthenticationStateEvent} from '../../contracts/index';
 import environment from '../../environment';
 
-@inject(EventAggregator, 'ConsumerClient')
+@inject(EventAggregator, 'ConsumerClient', BindingEngine)
 export class ProcessDefList {
 
   private eventAggregator: EventAggregator;
@@ -16,23 +16,28 @@ export class ProcessDefList {
   private getProcessesIntervalId: number;
   private createProcess: string = environment.createProcess;
   private subscriptions: Array<Subscription>;
-
-  public currentPage: number = 0;
+  public currentPage: number = 1;
   public pageSize: number = 10;
   public totalItems: number;
 
-  constructor(eventAggregator: EventAggregator, consumerClient: ConsumerClient) {
+  private bindingEngine: BindingEngine;
+
+  constructor(eventAggregator: EventAggregator, consumerClient: ConsumerClient, bindingEngine: BindingEngine) {
     this.eventAggregator = eventAggregator;
     this.consumerClient = consumerClient;
+    this.bindingEngine = bindingEngine;
+
+    this.refreshProcesslist();
+
+    this.bindingEngine.propertyObserver(this, 'currentPage').subscribe((newValue: number, oldValue: number) => {
+      this.refreshProcesslist();
+    });
   }
 
   public async getProcessesFromService(): Promise<void> {
-    this._processes = await this.consumerClient.getProcessDefList();
-    this.totalItems = this._processes.count;
-  }
-
-  public activate(routeParameters: {page: number}): void {
-    this.getProcessesFromService();
+    const processCount: IPagination<IProcessDefEntity> = await this.consumerClient.getProcessDefList(0);
+    this.totalItems = processCount.count;
+    this._processes = await this.consumerClient.getProcessDefList(this.pageSize, this.pageSize * (this.currentPage - 1));
   }
 
   public attached(): void {
@@ -60,17 +65,6 @@ export class ProcessDefList {
 
   private refreshProcesslist(): void {
     this.getProcessesFromService();
-  }
-
-  public get shownProcessDefs(): Array<IProcessDefEntity> {
-    return this.processes.slice((this.currentPage - 1) * this.pageSize, this.pageSize * this.currentPage);
-  }
-
-  public get limit(): number {
-    if (this._processes === undefined) {
-      return 0;
-    }
-    return this._processes.limit;
   }
 
   public get processes(): Array<IProcessDefEntity> {
