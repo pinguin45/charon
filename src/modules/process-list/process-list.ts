@@ -26,6 +26,11 @@ export class ProcessList {
   private instances: Array<IProcessEntity>;
   private status: Array<string> = [];
 
+  public currentPage: number = 0;
+  public pageSize: number = 10;
+  public totalItems: number;
+  public shownItems: Array<IProcessEntity>;
+
   constructor(processEngineService: IProcessEngineService, eventAggregator: EventAggregator) {
     this.processEngineService = processEngineService;
     this.eventAggregator = eventAggregator;
@@ -40,6 +45,7 @@ export class ProcessList {
       };
     }
     this.updateProcesses();
+
   }
 
   public async updateProcesses(): Promise<void> {
@@ -54,6 +60,9 @@ export class ProcessList {
     if (!this.instances) {
       this.instances = this.allInstances;
     }
+    console.log(this.instances);
+    this.totalItems = this.instances.length;
+    this.shownItems = this.instances.slice((this.currentPage - 1) * this.pageSize, this.pageSize);
   }
 
   public updateList(): void {

@@ -4,18 +4,18 @@
     <div if.bind="instances && instances.length > 0">
       <table class="table table-striped table-bordered">
           <tr>
-            <th>Key</th>            
+            <th>Key</th>
             <th>ID</th>
             <th>
               State
-              <select ref="selectedState" change.delegate="updateList()">       
+              <select ref="selectedState" change.delegate="updateList()">
                 <option value="all">all</option>
                 <option repeat.for="state of status" value="${state}">${state}</option>
               </select>
             </th>
             <th></th>
           </tr>
-          <tr repeat.for="instance of instances">
+          <tr repeat.for="instance of shownItems">
             <td>${instance.key}</td>
             <td>${instance.id}</td>
             <td>${instance.status}</td>
@@ -29,4 +29,7 @@
         <h3>Keine Instanzen gefunden</h3>
     </div>
   </div>
+  ${currentPage}
+  <aubs-pagination page-size.bind="pageSize" total-items.bind="totalItems" current-page.bind="currentPage"
+  boundary-links.bind="true"></aubs-pagination>
 </template>
