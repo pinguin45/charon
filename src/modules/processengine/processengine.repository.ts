@@ -21,6 +21,10 @@ export class ProcessEngineRepository implements IProcessEngineRepository {
     this.http = http.configure((config: any): void => {
       config.withInterceptor({
         request(request: Request): Request {
+          // when we want to check if a specific token it valid,
+          // we need to provide the given token in the request manually.
+          // In that case we dont want to override the token. Even
+          // when we authentication service has a token.
           if (authenticationService.hasToken() && !request.headers.has('Authorization')) {
             request.headers.set('Authorization', `Bearer ${authenticationService.getToken()}`);
           }
