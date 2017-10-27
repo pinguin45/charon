@@ -23,7 +23,6 @@ export class AuthenticationService implements IAuthenticationService {
     this.eventAggregator = eventAggregator;
     this.authenticationRepository = authenticationRepository;
     this.tokenRepository = tokenRepository;
-    this.initialize();
   }
 
   public async initialize(): Promise<void> {
