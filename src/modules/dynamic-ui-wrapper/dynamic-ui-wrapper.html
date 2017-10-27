@@ -8,7 +8,7 @@
     <confirm-widget if.bind="currentConfig.widgetType === 'confirm'" widget.bind="currentConfig.widgetConfig"></confirm-widget>
 
     <div if.bind="currentConfig" class="btn-group" role="group">
-      <button if.bind="declineButtonText" class="btn btn-danger" click.delegate="handleButtonClick('abort')">${declineButtonText}</button>
+      <button if.bind="declineButtonText" class="btn btn-danger" click.delegate="handleButtonClick('cancel')">${declineButtonText}</button>
       <button if.bind="confirmButtonText" class="btn btn-success" click.delegate="handleButtonClick('proceed')">${confirmButtonText}</button>
     </div>
 
