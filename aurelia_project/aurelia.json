@@ -215,7 +215,17 @@
           },
           "ms",
           "downloadjs",
-          "eventemitter2"
+          "eventemitter2",
+          "velocity-animate",
+          "tether",
+          {
+            "name": "aurelia-bootstrap",
+            "path": "../node_modules/aurelia-bootstrap/dist/amd",
+            "main": "index",
+            "resources": [
+              "**/*.html"
+            ]
+          }
         ]
       }
     ],

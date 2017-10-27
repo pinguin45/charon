@@ -30,6 +30,10 @@ export class TaskList {
   private dynamicUiWrapper: DynamicUiWrapper;
   private getUserTasks: () => Promise<IPagination<IUserTaskEntity>>;
 
+  public currentPage: number = 0;
+  public pageSize: number = 10;
+  public totalItems: number;
+
   constructor(eventAggregator: EventAggregator, consumerClient: IConsumerClient) {
     this.eventAggregator = eventAggregator;
     this.consumerClient = consumerClient;
@@ -37,6 +41,8 @@ export class TaskList {
 
   private async updateUserTasks(): Promise<void> {
     this.userTasks = await this.getUserTasks();
+
+    this.totalItems = this.tasks.length;
   }
 
   public activate(routeParameters: ITaskListRouteParameters): void {
@@ -74,6 +80,10 @@ export class TaskList {
     for (const subscription of this.subscriptions) {
       subscription.dispose();
     }
+  }
+
+  public get shownTasks(): Array<IUserTaskEntity> {
+    return this.tasks.slice((this.currentPage - 1) * this.pageSize, this.pageSize * this.currentPage);
   }
 
   public get tasks(): Array<IUserTaskEntity> {

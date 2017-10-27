@@ -1,6 +1,6 @@
 import {INodeInstanceEntity} from '@process-engine/process_engine_contracts';
 import {EventAggregator, Subscription} from 'aurelia-event-aggregator';
-import {inject} from 'aurelia-framework';
+import {BindingEngine, inject} from 'aurelia-framework';
 import {
   AuthenticationStateEvent,
   IPagination,
@@ -13,11 +13,12 @@ interface IProcessListRouteParameters {
   processDefId?: string;
 }
 
-@inject('ProcessEngineService', EventAggregator)
+@inject('ProcessEngineService', EventAggregator, BindingEngine)
 export class ProcessList {
 
   private processEngineService: IProcessEngineService;
   private eventAggregator: EventAggregator;
+  private bindingEngine: BindingEngine;
   private selectedState: HTMLSelectElement;
   private getProcessesIntervalId: number;
   private getProcesses: () => Promise<IPagination<IProcessEntity>>;
@@ -26,9 +27,18 @@ export class ProcessList {
   private instances: Array<IProcessEntity>;
   private status: Array<string> = [];
 
-  constructor(processEngineService: IProcessEngineService, eventAggregator: EventAggregator) {
+  public currentPage: number = 0;
+  public pageSize: number = 10;
+  public totalItems: number;
+
+  constructor(processEngineService: IProcessEngineService, eventAggregator: EventAggregator, bindingEngine: BindingEngine) {
     this.processEngineService = processEngineService;
     this.eventAggregator = eventAggregator;
+    this.bindingEngine = bindingEngine;
+
+    this.bindingEngine.propertyObserver(this, 'currentPage').subscribe((newValue: number, oldValue: number) => {
+      this.updateProcesses();
+    });
   }
 
   public activate(routeParameters: IProcessListRouteParameters): void {
@@ -40,6 +50,7 @@ export class ProcessList {
       };
     }
     this.updateProcesses();
+
   }
 
   public async updateProcesses(): Promise<void> {
@@ -54,6 +65,7 @@ export class ProcessList {
     if (!this.instances) {
       this.instances = this.allInstances;
     }
+    this.totalItems = this.instances.length;
   }
 
   public updateList(): void {
@@ -87,6 +99,10 @@ export class ProcessList {
     for (const subscription of this.subscriptions) {
       subscription.dispose();
     }
+  }
+
+  public get shownProcesses(): Array<IProcessEntity> {
+    return this.instances.slice((this.currentPage - 1) * this.pageSize, this.pageSize * this.currentPage);
   }
 
   public get allInstances(): Array<IProcessEntity> {

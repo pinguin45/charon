@@ -13,7 +13,8 @@ export function configure(aurelia: Aurelia): void {
     .feature('modules/processengine')
     .feature('modules/authentication')
     .feature('modules/consumer-client', tokenRepository)
-    .feature('resources');
+    .feature('resources')
+    .plugin('aurelia-bootstrap');
 
   if (environment.debug) {
     aurelia.use.developmentLogging();

@@ -10,7 +10,7 @@
           <th>State</th>
           <th></th>
         </tr>
-        <tr repeat.for="task of tasks">
+        <tr repeat.for="task of shownTasks">
           <td>${task.process.processDef.name}</td>
           <td>${task.name}</td>
           <td>${task.state}</td>
@@ -23,5 +23,10 @@
     <div if.bind="!tasks || tasks.length === 0">
       <h3>Keine Tasks gefunden!</h3>
     </div>
+  </div>
+  <div class="col-md-12 pagination">
+    <aubs-pagination page-size.bind="pageSize" total-items.bind="totalItems" current-page.bind="currentPage"
+      boundary-links.bind="true" click.delegate="updateUserTasks()">
+    </aubs-pagination>
   </div>
 </template>
