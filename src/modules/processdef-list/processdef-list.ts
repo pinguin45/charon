@@ -1,42 +1,50 @@
 import {ConsumerClient, IPagination, IUserTaskConfig} from '@process-engine/consumer_client';
 import {IProcessDefEntity} from '@process-engine/process_engine_contracts';
 import {EventAggregator, Subscription} from 'aurelia-event-aggregator';
-import {inject} from 'aurelia-framework';
+import {BindingEngine, inject} from 'aurelia-framework';
 import {Router} from 'aurelia-router';
 import {AuthenticationStateEvent} from '../../contracts/index';
 import environment from '../../environment';
 
-@inject(EventAggregator, 'ConsumerClient', Router)
+@inject(EventAggregator, 'ConsumerClient', BindingEngine, Router)
 export class ProcessDefList {
 
   private consumerClient: ConsumerClient;
   private eventAggregator: EventAggregator;
   private router: Router;
+  private bindingEngine: BindingEngine;
 
   private offset: number;
   private _processes: IPagination<IProcessDefEntity>;
   private getProcessesIntervalId: number;
   private subscriptions: Array<Subscription>;
 
-  constructor(eventAggregator: EventAggregator, consumerClient: ConsumerClient, router: Router) {
+  public currentPage: number = 1;
+  public pageSize: number = 10;
+  public totalItems: number;
+
+  constructor(eventAggregator: EventAggregator, consumerClient: ConsumerClient, bindingEngine: BindingEngine, router: Router) {
     this.eventAggregator = eventAggregator;
     this.consumerClient = consumerClient;
+    this.bindingEngine = bindingEngine;
     this.router = router;
+
+    this.refreshProcesslist();
+
+    this.bindingEngine.propertyObserver(this, 'currentPage').subscribe((newValue: number, oldValue: number) => {
+      this.refreshProcesslist();
+    });
   }
 
-  public async getProcessesFromService(offset: number): Promise<void> {
-    this._processes = await this.consumerClient.getProcessDefList(environment.processlist.pageLimit, offset);
-  }
-
-  public activate(routeParameters: {page: number}): void {
-    const page: number = routeParameters.page || 1;
-    this.offset = (page - 1) * environment.processlist.pageLimit;
-    this.getProcessesFromService(this.offset);
+  public async getProcessesFromService(): Promise<void> {
+    const processCount: IPagination<IProcessDefEntity> = await this.consumerClient.getProcessDefList(0, 0);
+    this.totalItems = processCount.count;
+    this._processes = await this.consumerClient.getProcessDefList(this.pageSize, this.pageSize * (this.currentPage - 1));
   }
 
   public attached(): void {
     this.getProcessesIntervalId = window.setInterval(() => {
-      this.getProcessesFromService(this.offset);
+      this.getProcessesFromService();
       // tslint:disable-next-line
     }, environment.processengine.poolingInterval);
 
@@ -58,28 +66,7 @@ export class ProcessDefList {
   }
 
   private refreshProcesslist(): void {
-    this.getProcessesFromService(this.offset);
-  }
-
-  public get limit(): number {
-    if (this._processes === undefined) {
-      return 0;
-    }
-    return this._processes.limit;
-  }
-
-  public get maxPages(): number {
-    if (this._processes === undefined) {
-      return 0;
-    }
-    return Math.ceil(this._processes.count / this._processes.limit);
-  }
-
-  public get currentPage(): number {
-    if (this._processes === undefined) {
-      return 0;
-    }
-    return this.offset / this._processes.limit + 1;
+    this.getProcessesFromService();
   }
 
   public get processes(): Array<IProcessDefEntity> {

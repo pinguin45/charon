@@ -17,37 +17,10 @@
         </td>
       </tr>
     </table>
-
-    <nav aria-label="Result navigation">
-      <ul class="pagination">
-        <li class="${currentPage <= 1 ? 'disabled' : ''}">
-          <span if.bind="currentPage <= 1" aria-hidden="true">&laquo;</span>
-          <a if.bind="currentPage > 1" href="#/processdef/1" aria-label="First">
-            <span aria-hidden="true">&laquo;</span>
-          </a>
-        </li>
-        <li class="${currentPage <= 1 ? 'disabled' : ''}">
-          <span if.bind="currentPage <= 1" aria-hidden="true">&lsaquo;</span>
-          <a if.bind="currentPage > 1" href="#/processdef/${currentPage - 1}" aria-label="Previous">
-            <span aria-hidden="true">&lsaquo;</span>
-          </a>
-        </li>
-        <li repeat.for="page of maxPages" class="${page + 1 == currentPage ? 'active' : ''}">
-          <a href="#/processdef/${page + 1}">${page + 1}</a>
-        </li>
-        <li class="${currentPage >= maxPages ? 'disabled' : ''}">
-          <span if.bind="currentPage >= maxPages" aria-hidden="true">&rsaquo;</span>
-          <a if.bind="currentPage < maxPages" href="#/processdef/${currentPage + 1}" aria-label="Next">
-            <span aria-hidden="true">&rsaquo;</span>
-          </a>
-        </li>
-        <li class="${currentPage >= maxPages ? 'disabled' : ''}">
-          <span if.bind="currentPage >= maxPages" aria-hidden="true">&raquo;</span>
-            <a if.bind="currentPage < maxPages" href="#/processdef/${maxPages}" aria-label="Last">
-            <span aria-hidden="true">&raquo;</span>
-          </a>
-        </li>
-      </ul>
-    </nav>
+    <div class="col-md-12 pagination">
+        <aubs-pagination page-size.bind="pageSize" total-items.bind="totalItems" current-page.bind="currentPage"
+          boundary-links.bind="true">
+        </aubs-pagination>
+      </div>
   </div>
 </template>
