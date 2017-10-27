@@ -119,7 +119,7 @@ export class ProcessEngineRepository implements IProcessEngineRepository {
   }
 
   public async getProcesses(): Promise<IPagination<IProcessEntity>> {
-    const url: string = `${environment.processengine.routes.processInstances}`;
+    const url: string = `${environment.processengine.routes.processInstances}?expandCollection=["processDef"]`;
     const response: Response = await this.http.fetch(url, {method: 'get'});
 
     return throwOnErrorResponse<IPagination<IProcessEntity>>(response);
@@ -138,7 +138,7 @@ export class ProcessEngineRepository implements IProcessEngineRepository {
       operator: '=',
       value: processDefId,
     };
-    const url: string = `${environment.processengine.routes.processInstances}?query=${JSON.stringify(query)}`;
+    const url: string = `${environment.processengine.routes.processInstances}?query=${JSON.stringify(query)}&expandCollection=["processDef"]`;
 
     const response: Response = await this.http.fetch(url, {method: 'get'});
     return throwOnErrorResponse<IPagination<IProcessEntity>>(response);
