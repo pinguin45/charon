@@ -4,9 +4,12 @@ import {bindable} from 'aurelia-framework';
 export class DynamicUiTextboxElement {
 
   @bindable()
-  private field: IFormWidgetStringField;
+  public field: IFormWidgetStringField;
 
-  private activate(field: IFormWidgetStringField): void {
+  public activate(field: IFormWidgetStringField): void {
     this.field = field;
+    if (this.field.value === undefined || this.field.value === null || this.field.value === '') {
+      this.field.value = this.field.defaultValue;
+    }
   }
 }

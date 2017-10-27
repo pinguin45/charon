@@ -4,9 +4,12 @@ import {bindable} from 'aurelia-framework';
 export class DynamicUiDropdownElement {
 
   @bindable()
-  private field: IFormWidgetEnumField;
+  public field: IFormWidgetEnumField;
 
-  private activate(field: IFormWidgetEnumField): void {
+  public activate(field: IFormWidgetEnumField): void {
     this.field = field;
+    if (this.field.value === undefined || this.field.value === null || this.field.value === '') {
+      this.field.value = this.field.defaultValue;
+    }
   }
 }
