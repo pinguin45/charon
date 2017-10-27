@@ -10,7 +10,7 @@ export class App {
     config.map([
       {
         route: ['', 'processdef', 'processdef/:page'],
-        title: 'ProcessDef List',
+        title: 'Process Definition List',
         name: 'processdef-list',
         moduleId: 'modules/processdef-list/processdef-list',
         nav: true,
@@ -24,7 +24,7 @@ export class App {
       },
       {
         route: ['process', 'processdef/:processDefId/process'],
-        title: 'Process List',
+        title: 'Process Instance List',
         name: 'process-list',
         moduleId: 'modules/process-list/process-list',
         nav: true,
