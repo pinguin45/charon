@@ -21,7 +21,7 @@ export class ProcessEngineRepository implements IProcessEngineRepository {
     this.http = http.configure((config: any): void => {
       config.withInterceptor({
         request(request: Request): Request {
-          if (authenticationService.hasToken()) {
+          if (authenticationService.hasToken() || !request.headers.has('Authorization')) {
             request.headers.set('Authorization', `Bearer ${authenticationService.getToken()}`);
           }
           return request;
