@@ -45,4 +45,17 @@ export class AuthenticationRepository implements IAuthenticationRepository {
 
     return throwOnErrorResponse<ILogoutResult>(response);
   }
+
+  public async getIdentity(token: string): Promise<any> {
+    const url: string = `${environment.processengine.routes.iam}/getidentity`;
+    const options: RequestInit = {
+      method: 'get',
+      headers: {
+        Authorization: `Barear: ${token}`,
+      },
+    };
+    const response: Response = await this.http.fetch(url, options);
+
+    return throwOnErrorResponse<IIdentity>(response);
+  }
 }
