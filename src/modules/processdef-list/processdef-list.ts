@@ -37,7 +37,7 @@ export class ProcessDefList {
   }
 
   public async getProcessesFromService(): Promise<void> {
-    const processCount: IPagination<IProcessDefEntity> = await this.consumerClient.getProcessDefList(0);
+    const processCount: IPagination<IProcessDefEntity> = await this.consumerClient.getProcessDefList(0, 0);
     this.totalItems = processCount.count;
     this._processes = await this.consumerClient.getProcessDefList(this.pageSize, this.pageSize * (this.currentPage - 1));
   }
