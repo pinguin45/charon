@@ -4,8 +4,9 @@
     <div if.bind="instances && instances.length > 0">
       <table class="table table-striped table-bordered">
           <tr>
-            <th>Key</th>
-            <th>ID</th>
+            <th>ProcessDefinitionName</th>
+            <th>ProcessDefinitionKey</th>
+            <th>ProcessInstanceId</th>
             <th>
               State
               <select ref="selectedState" change.delegate="updateList()">
@@ -16,6 +17,7 @@
             <th></th>
           </tr>
           <tr repeat.for="instance of shownProcesses">
+            <td>${instance.processDef.name}</td>
             <td>${instance.key}</td>
             <td>${instance.id}</td>
             <td>${instance.status}</td>
@@ -26,7 +28,7 @@
         </table>
     </div>
     <div if.bind="!instances || instances.length === 0">
-        <h3>Keine Instanzen gefunden</h3>
+      <h3>No instances found</h3>
     </div>
   </div>
   <div class="col-md-12 pagination">
