@@ -1,6 +1,6 @@
 import {INodeInstanceEntity} from '@process-engine/process_engine_contracts';
 import {EventAggregator, Subscription} from 'aurelia-event-aggregator';
-import {BindingEngine, inject} from 'aurelia-framework';
+import {inject, observable} from 'aurelia-framework';
 import {
   AuthenticationStateEvent,
   IPagination,
@@ -13,12 +13,11 @@ interface IProcessListRouteParameters {
   processDefId?: string;
 }
 
-@inject('ProcessEngineService', EventAggregator, BindingEngine)
+@inject('ProcessEngineService', EventAggregator)
 export class ProcessList {
 
   private processEngineService: IProcessEngineService;
   private eventAggregator: EventAggregator;
-  private bindingEngine: BindingEngine;
   private selectedState: HTMLSelectElement;
   private getProcessesIntervalId: number;
   private getProcesses: () => Promise<IPagination<IProcessEntity>>;
@@ -27,18 +26,19 @@ export class ProcessList {
   private instances: Array<IProcessEntity>;
   private status: Array<string> = [];
 
-  public currentPage: number = 0;
+  @observable public currentPage: number = 0;
   public pageSize: number = 10;
   public totalItems: number;
 
-  constructor(processEngineService: IProcessEngineService, eventAggregator: EventAggregator, bindingEngine: BindingEngine) {
+  constructor(processEngineService: IProcessEngineService, eventAggregator: EventAggregator) {
     this.processEngineService = processEngineService;
     this.eventAggregator = eventAggregator;
-    this.bindingEngine = bindingEngine;
+  }
 
-    this.bindingEngine.propertyObserver(this, 'currentPage').subscribe((newValue: number, oldValue: number) => {
+  public currentPageChanged(newValue: number, oldValue: number): void {
+    if (oldValue !== undefined && oldValue !== null) {
       this.updateProcesses();
-    });
+    }
   }
 
   public activate(routeParameters: IProcessListRouteParameters): void {

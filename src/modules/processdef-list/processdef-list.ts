@@ -1,39 +1,38 @@
 import {ConsumerClient, IPagination, IUserTaskConfig} from '@process-engine/consumer_client';
 import {IProcessDefEntity} from '@process-engine/process_engine_contracts';
 import {EventAggregator, Subscription} from 'aurelia-event-aggregator';
-import {BindingEngine, inject} from 'aurelia-framework';
+import {inject, observable} from 'aurelia-framework';
 import {Router} from 'aurelia-router';
 import {AuthenticationStateEvent} from '../../contracts/index';
 import environment from '../../environment';
 
-@inject(EventAggregator, 'ConsumerClient', BindingEngine, Router)
+@inject(EventAggregator, 'ConsumerClient', Router)
 export class ProcessDefList {
-
   private consumerClient: ConsumerClient;
   private eventAggregator: EventAggregator;
   private router: Router;
-  private bindingEngine: BindingEngine;
 
   private offset: number;
   private _processes: IPagination<IProcessDefEntity>;
   private getProcessesIntervalId: number;
   private subscriptions: Array<Subscription>;
 
-  public currentPage: number = 1;
+  @observable public currentPage: number = 1;
   public pageSize: number = 10;
   public totalItems: number;
 
-  constructor(eventAggregator: EventAggregator, consumerClient: ConsumerClient, bindingEngine: BindingEngine, router: Router) {
+  constructor(eventAggregator: EventAggregator, consumerClient: ConsumerClient, router: Router) {
     this.eventAggregator = eventAggregator;
     this.consumerClient = consumerClient;
-    this.bindingEngine = bindingEngine;
     this.router = router;
 
     this.refreshProcesslist();
+  }
 
-    this.bindingEngine.propertyObserver(this, 'currentPage').subscribe((newValue: number, oldValue: number) => {
+  public currentPageChanged(newValue: number, oldValue: number): void {
+    if (oldValue !== undefined && oldValue !== null) {
       this.refreshProcesslist();
-    });
+    }
   }
 
   public async getProcessesFromService(): Promise<void> {
@@ -79,11 +78,14 @@ export class ProcessDefList {
   public async createProcess(): Promise<void> {
     const processInstanceId: string = await this.consumerClient.startProcessByKey('CreateProcessDef');
 
-    this.consumerClient.on('renderUserTask', (userTaskConfig: IUserTaskConfig) => {
+    const renderUserTaskCallback: any = (userTaskConfig: IUserTaskConfig): void => {
       if (userTaskConfig.userTaskEntity.process.id === processInstanceId) {
         this.router.navigate(`/task/${userTaskConfig.id}/dynamic-ui`);
+        this.consumerClient.off('renderUserTask', renderUserTaskCallback);
       }
-    });
+    };
+
+    this.consumerClient.on('renderUserTask', renderUserTaskCallback);
   }
 
 }
