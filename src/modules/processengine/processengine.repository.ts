@@ -58,9 +58,9 @@ export class ProcessEngineRepository implements IProcessEngineRepository {
   public async updateProcessDefViaDataStore(processDef: any): Promise<IProcessDefEntity> {
     const options: RequestInit = {
       method: 'put',
-      headers: {
+      headers: new Headers({
         'Content-Type': 'application/json',
-      },
+      }),
       body: JSON.stringify(processDef),
     };
     const url: string = `${environment.processengine.routes.processes}/${processDef.id}`;
@@ -83,9 +83,9 @@ export class ProcessEngineRepository implements IProcessEngineRepository {
     try {
       const options: RequestInit = {
         method: 'post',
-        headers: {
+        headers: new Headers({
           'Content-Type': 'application/json',
-        },
+        }),
         body: JSON.stringify({
             xml: xml,
         }),
