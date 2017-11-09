@@ -18,6 +18,7 @@
     "@process-engine/bpmn-js-custom-bundle": "0.1.0",
     "@process-engine/consumer_client": "^1.0.0",
     "@process-engine/process_engine_contracts": "^0.2.0",
+    "addict-ioc": "^2.3.4",
     "aurelia-animator-css": "^1.0.2",
     "aurelia-bootstrap": "^0.1.20",
     "aurelia-bootstrapper": "^2.1.1",
