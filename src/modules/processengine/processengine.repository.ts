@@ -55,20 +55,60 @@ export class ProcessEngineRepository implements IProcessEngineRepository {
     return throwOnErrorResponse<void>(response);
   }
 
-  public async updateProcessDef(processDef: IProcessDefEntity, xml: string): Promise<any> {
+  public async updateProcessDefViaDataStore(processDef: any): Promise<IProcessDefEntity> {
     const options: RequestInit = {
-      method: 'post',
-      headers: {
+      method: 'put',
+      headers: new Headers({
         'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-          xml: xml,
       }),
+      body: JSON.stringify(processDef),
     };
-    const url: string = `${environment.processengine.routes.processes}/${processDef.id}/updateBpmn`;
+    const url: string = `${environment.processengine.routes.processes}/${processDef.id}`;
     const response: Response = await this.http.fetch(url, options);
 
     return throwOnErrorResponse<any>(response);
+  }
+
+  public async updateProcessDef(processDef: IProcessDefEntity, xml: string): Promise<any> {
+    const needToChangeDraftStatus: boolean = !processDef.draft;
+    if (needToChangeDraftStatus) {
+      await this.updateProcessDefViaDataStore({
+        id: processDef.id,
+        draft: true,
+      });
+    }
+
+    let updateError: Error;
+    let result: any;
+    try {
+      const options: RequestInit = {
+        method: 'post',
+        headers: new Headers({
+          'Content-Type': 'application/json',
+        }),
+        body: JSON.stringify({
+            xml: xml,
+        }),
+      };
+      const url: string = `${environment.processengine.routes.processes}/${processDef.id}/updateBpmn`;
+      const response: Response = await this.http.fetch(url, options);
+
+      result = await throwOnErrorResponse<any>(response);
+    } catch (error) {
+      updateError = error;
+    }
+
+    if (needToChangeDraftStatus) {
+      await this.updateProcessDefViaDataStore({
+        id: processDef.id,
+        draft: false,
+      });
+    }
+
+    if (updateError) {
+      throw updateError;
+    }
+    return result;
   }
 
   public async getInstances(): Promise<IPagination<IProcessEntity>> {

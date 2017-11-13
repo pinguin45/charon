@@ -178,11 +178,6 @@
             ]
           },
           {
-            "name": "mustache",
-            "path": "../node_modules/mustache",
-            "main": "mustache.js"
-          },
-          {
             "name": "@process-engine/consumer_client",
             "path": "../node_modules/@process-engine/consumer_client/dist/amd",
             "main": "index.js"

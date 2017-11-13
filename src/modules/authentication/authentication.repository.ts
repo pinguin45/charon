@@ -24,9 +24,9 @@ export class AuthenticationRepository implements IAuthenticationRepository {
   public async login(username: string, password: string): Promise<ILoginResult> {
     const options: RequestInit = {
       method: 'post',
-      headers: {
+      headers: new Headers({
         'Content-Type': 'application/json',
-      },
+      }),
       body: JSON.stringify({
         username: username,
         password: password,
@@ -50,9 +50,9 @@ export class AuthenticationRepository implements IAuthenticationRepository {
     const url: string = `${environment.processengine.routes.iam}/getidentity`;
     const options: RequestInit = {
       method: 'get',
-      headers: {
+      headers: new Headers({
         Authorization: `Barear: ${token}`,
-      },
+      }),
     };
     const response: Response = await this.http.fetch(url, options);
 
