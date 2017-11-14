@@ -12,7 +12,7 @@
           <th></th>
         </tr>
         <tr repeat.for="task of shownTasks">
-          <td>${task.process.processDef.name}</td>
+          <td><a href="#/processdef/${task.process.processDef.id}/detail">${task.process.processDef.name}</a></td>
           <td>${task.name}</td>
           <td>${task.id}</td>
           <td>${task.state}</td>
