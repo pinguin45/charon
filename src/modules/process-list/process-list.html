@@ -17,10 +17,10 @@
             <th></th>
           </tr>
           <tr repeat.for="instance of shownProcesses">
-            <td>${instance.processDef.name}</td>
+            <td><a href="#/processdef/${instance.processDef.id}/detail">${instance.processDef.name}</a></td>
             <td>${instance.key}</td>
             <td>${instance.id}</td>
-            <td>${instance.status}</td>
+            <td><a href="#/process/${instance.id}/task">${instance.status}</a></td>
             <td>
               <a class="btn btn-danger" click.delegate="doCancel(instance.id)" disabled>Stop</a>
             </td>
