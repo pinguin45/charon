@@ -1,7 +1,7 @@
 <template>
   <require from="./form-widget.css"></require>
   <div if.bind="widget">
-    <div repeat.for="field of widget.fields">
+    <div repeat.for="field of widget.userTaskEntity.nodeDef.extensions.formFields">
       <compose view-model="../dynamic-ui-${getFieldControl(field)}-element/dynamic-ui-${getFieldControl(field)}-element" model.bind="field"></compose>
     </div>  
   </div>          

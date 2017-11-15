@@ -4,7 +4,7 @@
   <require from="../confirm-widget/confirm-widget"></require>
 
   <div>
-    <form-widget if.bind="currentConfig.widgetType === 'form'" widget.bind="currentConfig.widgetConfig"></form-widget>
+    <form-widget if.bind="currentConfig.widgetType === 'form'" widget.bind="currentConfig"></form-widget>
     <confirm-widget if.bind="currentConfig.widgetType === 'confirm'" widget.bind="currentConfig.widgetConfig"></confirm-widget>
 
     <div if.bind="currentConfig" class="btn-group" role="group">

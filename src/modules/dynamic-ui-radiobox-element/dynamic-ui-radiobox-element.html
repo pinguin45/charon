@@ -1,0 +1,17 @@
+<template>
+  <require from="./dynamic-ui-radiobox-element.css"></require>
+  <label for="dynamic-${field.id}">${field.label}:</label>
+  <!-- <select class="form-control" id="dynamic-${field.id}" value.bind="field.value">
+    <option repeat.for="value of field.formValues" model.bind="value.id">${value.name}</option>
+  </select> -->
+
+  <fieldset id="dynamic-${field.id}" value.bind="field.value">
+    <input type="radio" id="mc" name="Zahlmethode" value="Mastercard">
+    <label for="mc"> Mastercard</label> 
+    <input type="radio" id="vi" name="Zahlmethode" value="Visa">
+    <label for="vi"> Visa</label>
+    <input type="radio" id="ae" name="Zahlmethode" value="AmericanExpress">
+    <label for="ae"> American Express</label> 
+  </fieldset>
+
+</template>
