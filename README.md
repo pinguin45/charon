@@ -46,6 +46,27 @@ npm run build
 npm start
 ```
 
+**End-to-End-Test**
+
+Start the webserver:
+
+```shell
+npm start
+```
+Open another terminal.
+
+Start the Selenium server:
+
+```shell
+npm run integration-test-init
+```
+
+Finally run your tests:
+
+```shell
+npm run integration-test
+```
+
 ## Was muss ich sonst noch wissen?
 
 Die Konfiguration liegt unter `aurelia_project/environments/dev|stage|prod.ts`.
