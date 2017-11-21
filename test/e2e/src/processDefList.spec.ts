@@ -1,5 +1,6 @@
 import * as path from 'path';
 import {browser} from 'protractor';
+import {ProcessDefListPage} from './pages/processdef-list-page';
 
 describe('processDefList', () => {
 
@@ -9,8 +10,11 @@ describe('processDefList', () => {
   browser.driver.manage().deleteAllCookies();
   browser.get(aureliaUrl);
 
-  it('should work', () => {
-    expect(browser.getCurrentUrl()) .toContain('localhost');
+
+  it('should display process definitions', () => {
+    const processDefListPage: ProcessDefListPage = new ProcessDefListPage();
+    browser.sleep(1000);
+    expect(processDefListPage.processDefs.count()).toBeGreaterThan(0);
   });
 
 });
