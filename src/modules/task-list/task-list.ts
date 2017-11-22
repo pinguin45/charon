@@ -2,11 +2,11 @@ import {
   IConfirmWidgetConfig,
   IConsumerClient,
   IUserTaskConfig,
+  IUserTaskEntity,
   UserTaskProceedAction,
   WidgetConfig,
   WidgetType,
 } from '@process-engine/consumer_client';
-import {IUserTaskEntity} from '@process-engine/process_engine_contracts';
 import {EventAggregator, Subscription} from 'aurelia-event-aggregator';
 import {bindable, computedFrom, inject} from 'aurelia-framework';
 import {AuthenticationStateEvent, IDynamicUiService, IPagination, IProcessEngineService} from '../../contracts/index';
