@@ -53,9 +53,7 @@ Start the webserver:
 ```shell
 npm start
 ```
-Open another terminal.
-
-Start the Selenium server:
+Open another terminal and start the Selenium server:
 
 ```shell
 npm run integration-test-init
