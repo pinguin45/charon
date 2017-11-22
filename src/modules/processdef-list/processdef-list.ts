@@ -1,5 +1,4 @@
-import {ConsumerClient, IPagination, IUserTaskConfig} from '@process-engine/consumer_client';
-import {IProcessDefEntity} from '@process-engine/process_engine_contracts';
+import {ConsumerClient, IPagination, IProcessDefEntity, IUserTaskConfig} from '@process-engine/consumer_client';
 import {EventAggregator, Subscription} from 'aurelia-event-aggregator';
 import {inject, observable} from 'aurelia-framework';
 import {Router} from 'aurelia-router';
