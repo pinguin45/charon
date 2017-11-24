@@ -5,7 +5,9 @@
   "scripts": {
     "start": "au run --watch",
     "build": "au build --prod",
-    "deploy": "npm run build && npm publish"
+    "deploy": "npm run build && npm publish",
+    "integration-test-init": "webdriver-manager update && webdriver-manager start",
+    "integration-test": "au e2e"
   },
   "repository": {
     "type": "???",
@@ -23,6 +25,7 @@
     "aurelia-bootstrap": "^0.1.20",
     "aurelia-bootstrapper": "^2.1.1",
     "aurelia-fetch-client": "^1.1.2",
+    "aurelia-protractor-plugin": "^1.0.6",
     "aurelia-templating-resources": "1.4.0",
     "bluebird": "^3.5.1",
     "bootstrap": "^3.3.7",
@@ -36,6 +39,7 @@
     "jquery": "^2.2.4",
     "ms": "^2.0.0",
     "node-uuid": "^1.4.8",
+    "protractor": "^5.2.0",
     "requirejs": "^2.3.2",
     "tether": "^1.4.0",
     "text": "github:requirejs/text#latest",
@@ -59,6 +63,7 @@
     "gulp-changed-in-place": "^2.0.3",
     "gulp-notify": "^2.2.0",
     "gulp-plumber": "^1.1.0",
+    "gulp-protractor": "^4.1.0",
     "gulp-rename": "^1.2.2",
     "gulp-sass": "^2.3.2",
     "gulp-sourcemaps": "^2.0.0-alpha",
@@ -76,6 +81,7 @@
     "tslint-config-5minds": "^1.0.6",
     "typescript": ">=1.9.0-dev || ^2.0.0",
     "uglify-js": "^2.6.3",
-    "vinyl-fs": "^2.4.3"
+    "vinyl-fs": "^2.4.3",
+    "webdriver-manager": "^12.0.6"
   }
 }
